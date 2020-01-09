@@ -1,91 +1,17 @@
-<form style="width:550px" [formGroup]="registrationForm">
-<div class="form-group">
-    <div class="row">
-        <div class="col">
-            <label>Ime</label>
-          <input type="text" class="form-control">
-        </div>
-        <div class="col">
-            <label>Prezime</label>
-          <input type="text" class="form-control">
-        </div>
-    </div>
-</div>
-<div class="form-group">
-    <div class="row">
-        <div class="col">
-            <label>Korisnicko ime</label>
-          <input type="text" class="form-control">
-        </div>
-        <div class="col">
-            <label>Sifra</label>
-          <input type="text" class="form-control">
-        </div>
-    </div>
-</div>
-<div class="form-group">
-    <div class="row">
-        <div class="col">
-            <label>Grad</label>
-          <input type="text" class="form-control">
-        </div>
-        <div class="col">
-            <label>Drzava</label>
-          <input type="text" class="form-control">
-        </div>
-    </div>
-</div>
-<div class="form-group">
-    <div class="row">
-        <div class="col">
-            <label>Email</label>
-          <input type="email" class="form-control">
-        </div>
-        <div class="col">
-            <label>Broj naucnih oblasti</label>
-          <input type="number" class="form-control">
-        </div>
-    </div>
-</div>
-<div class="form-group">
-    <div class="row">
-        <div class="col">
-            <label>Email</label>
-          <input type="email" class="form-control">
-        </div>
-        <div class="col">
-            <label>Broj naucnih oblasti</label>
-          <input type="number" class="form-control">
-        </div>
-    </div>
-</div>
-<div class="form-group">
-    <div class="row">
-        <div class="col">
-        <label>Naucne oblasti</label>
-        <select multiple class="form-control">
-            <option>United Kingdom</option>
-            <option>United States</option>
-            <option>France</option>
-            <option>Germany</option>
-            <option>Italy</option>
-        </select>  
-    </div>
-    </div>
-</div>
-<div class="form-group">
-    <div class="form-check">
-        <div class="col">
-          <input type="checkbox" class="form-check-input">
-          <label class="form-check-label">
-            Recenzent?
-          </label>
-        </div>
-    </div>
-</div>
+<div class="d-flex justify-content-center">
+<form style="width: 550px;" #f="ngForm" (ngSubmit)="onSubmit(f.value, f)" ngNativateValidate> 
 
- 
+  <div *ngFor="let field of formFields" class="form-group">
+      
+      <label for={{field.id}}> {{field.label}} </label>
+      
+      <input type="text" name={{field.id}} *ngIf="field.type.name == 'string'" class="form-control" ngModel>
+      <input type="checkbox" name={{field.id}} *ngIf="field.type.name== 'booelan'" class="form-control" ngModel>
+      <!-- <select multiple name="field.id" *ngIf="field.type.name == 'enum'" class="form-control"></select> -->
+    </div>
+
 
 <button type="submit" class="btn btn-primary">Submit</button>
 
 </form>
+</div>
