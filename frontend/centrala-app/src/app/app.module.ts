@@ -7,12 +7,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegistrationSuccessComponent } from './registration/registration-success/registration-success.component';
+import { HomepageComponent } from './homepage/homepage.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegistrationComponent,
-    RegistrationSuccessComponent
+    RegistrationSuccessComponent,
+    HomepageComponent
   ],
   imports: [
     BrowserModule,
