@@ -53,8 +53,8 @@ public class RegistrationHandler implements ExecutionListener {
            put("matematika", "Matematika");
            put("informatika", "Informatika");
         }};
-        //ObjectValue values = Variables.objectValue(fields).serializationDataFormat(Variables.SerializationDataFormats.JSON).create();
-        String vals = new ObjectMapper().writeValueAsString(fields);
+        ObjectValue vals = Variables.objectValue(fields).serializationDataFormat(Variables.SerializationDataFormats.JAVA).create();
+        // String vals = new ObjectMapper().writeValueAsString(fields);
         delegateExecution.setVariable("scienceFields", vals);
     }
 }

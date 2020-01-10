@@ -2,16 +2,22 @@ package com.upp.naucnacentrala.controller;
 
 import com.upp.naucnacentrala.dto.FormFieldsDto;
 import com.upp.naucnacentrala.dto.FormSubmissionDto;
+import com.upp.naucnacentrala.dto.RegistrationResponseDTO;
+import com.upp.naucnacentrala.model.User;
+import com.upp.naucnacentrala.service.UserService;
 import org.camunda.bpm.engine.*;
 import org.camunda.bpm.engine.form.FormField;
 import org.camunda.bpm.engine.form.TaskFormData;
+import org.camunda.bpm.engine.runtime.Execution;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
 import org.camunda.bpm.engine.task.Task;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +42,8 @@ public class UserController {
     @Autowired
     FormService formService;
 
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value = "/form", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<FormFieldsDto> getFormFields(){
@@ -45,22 +53,74 @@ public class UserController {
 
         TaskFormData tfd = formService.getTaskFormData(task.getId());
         List<FormField> properties = tfd.getFormFields();
-
         return new ResponseEntity<>(new FormFieldsDto(task.getId(), pi.getId(), properties), HttpStatus.OK);
     }
 
 
     @RequestMapping(value = "/register/{taskId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> register(@RequestBody List<FormSubmissionDto> dto, @PathVariable("taskId") String taskId){
-        HashMap<String, Object> map = mapListToDto(dto);
+    public ResponseEntity<RegistrationResponseDTO> register(@RequestBody List<FormSubmissionDto> registrationData, @PathVariable("taskId") String taskId){
+        HashMap<String, Object> map = mapListToDto(registrationData);
 
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
         String processInstanceId = task.getProcessInstanceId();
-        runtimeService.setVariable(processInstanceId, "registrationData", dto);
-        formService.submitTaskForm(taskId, map);
+        //runtimeService.setVariable(processInstanceId, "registrationData", dto);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        FormSubmissionDto userNameDto = null;
+        for(FormSubmissionDto dto : registrationData){
+            if(dto.getFieldId().equals("korisnicko_ime")){
+                userNameDto = dto;
+            }
+        }
+
+        User user = userService.findOneByUsername(userNameDto.getFieldValue());
+        if(user != null){
+            runtimeService.setVariable(processInstanceId, "dataValid", false);
+            return new ResponseEntity<>(new RegistrationResponseDTO("Korisnik sa navedenim korisnickim imenom vec postoji."), HttpStatus.OK);
+        }
+
+        try{
+            userService.validateData(registrationData);
+        }catch(Exception e){
+            runtimeService.setVariable(processInstanceId, "dataValid", false);
+            return new ResponseEntity<>(new RegistrationResponseDTO(e.getMessage()), HttpStatus.OK);
+        }
+
+        // ako  su dobri podaci treba sacuvati korisnika u bazu i staviti mu da nije aktivan
+        user = new User();
+        user = userService.save(user,registrationData);
+
+        if(user.isReviewer()){
+            runtimeService.setVariable(processInstanceId, "isReviewer", true);
+        }else{
+            runtimeService.setVariable(processInstanceId, "isReviewer", true);
+        }
+
+        runtimeService.setVariable(processInstanceId, "userId", user.getUsername());
+        formService.submitTaskForm(taskId, map);
+        runtimeService.setVariable(processInstanceId, "dataValid", true);
+        return new ResponseEntity<>(new RegistrationResponseDTO("Uspesno ste se registrovali!"),HttpStatus.CREATED);
     }
+
+    @RequestMapping(value = "/verify/{username}/{processId}", method = RequestMethod.GET)
+    public RedirectView verify(@PathVariable("username") String username, @PathVariable("processId") String processId){
+        RedirectView rv = new RedirectView();
+        String hashedValue = (String) runtimeService.getVariable(processId, "hashedValue");
+        boolean isValid = BCrypt.checkpw(username, hashedValue);
+
+//        if(!isValid){
+//
+//        }
+
+        runtimeService.setVariable(processId, "isVerified", true);
+
+        User user = userService.findOneByUsername(username);
+        user.setActive(true);
+        user = userService.save(user);
+
+        rv.setUrl("http://localhost:4200/registration-success");
+        return rv;
+    }
+
 
     private HashMap<String, Object> mapListToDto(List<FormSubmissionDto> list)
     {

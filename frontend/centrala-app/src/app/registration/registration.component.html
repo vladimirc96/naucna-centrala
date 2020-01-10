@@ -1,13 +1,17 @@
 <div class="d-flex justify-content-center">
-<form style="width: 550px;" #f="ngForm" (ngSubmit)="onSubmit(f.value, f)" ngNativateValidate> 
+<form style="width: 550px" #f="ngForm" (ngSubmit)="onSubmit(f.value, f)" ngNativateValidate> 
 
   <div *ngFor="let field of formFields" class="form-group">
       
       <label for={{field.id}}> {{field.label}} </label>
       
       <input type="text" name={{field.id}} *ngIf="field.type.name == 'string'" class="form-control" ngModel>
-      <input type="checkbox" name={{field.id}} *ngIf="field.type.name== 'booelan'" class="form-control" ngModel>
-      <!-- <select multiple name="field.id" *ngIf="field.type.name == 'enum'" class="form-control"></select> -->
+      <input type="checkbox" name={{field.id}} *ngIf="field.type.name== 'boolean'" ngModel style="margin-left:10px">
+      <select multiple name="field.id" *ngIf="field.type.name == 'enum'" class="form-control">
+        <option *ngFor="let val of enumValues" value={{val}}>
+          {{field.type.values[val]}}
+        </option>
+      </select>
     </div>
 
 

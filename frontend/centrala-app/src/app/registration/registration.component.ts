@@ -23,11 +23,11 @@ export class RegistrationComponent implements OnInit {
       (result: any) => {
         this.formFieldsDto = result;
         this.formFields = result.formFields;
-        // this.formFields.forEach((field) => {
-        //   if(field.type.name=='enum'){
-        //     this.enumValues = Object.keys(field.type.values);
-        //   }
-        // })
+        this.formFields.forEach((field) => {
+          if(field.type.name=='enum'){
+            this.enumValues = Object.keys(field.type.values);
+          }
+        })
       }
 
 
@@ -50,17 +50,14 @@ export class RegistrationComponent implements OnInit {
 
     this.userService.registerUser(dto, this.formFieldsDto.taskId).subscribe(
 
-      (success) => {
-        alert(success);
+      (response: any) => {
+        alert(response.message);
+        form.reset()
       },
-      (error) => {
-        alert(error);
+      (error: any) => {
+        alert(error.message);
       }
-
-
     )
-
-
 
   }
 
