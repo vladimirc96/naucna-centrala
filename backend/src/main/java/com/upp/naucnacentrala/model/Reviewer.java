@@ -1,0 +1,32 @@
+package com.upp.naucnacentrala.model;
+
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@DiscriminatorValue("REVIEWER")
+public class Reviewer extends User{
+
+    @Column(name = "title")
+    private String title;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "magazine_reviewers")
+    private List<Magazine> magazines;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public List<Magazine> getMagazines() {
+        return magazines;
+    }
+
+    public void setMagazines(List<Magazine> magazines) {
+        this.magazines = magazines;
+    }
+}

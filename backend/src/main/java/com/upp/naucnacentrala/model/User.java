@@ -9,6 +9,8 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
+@Inheritance(strategy= InheritanceType.SINGLE_TABLE) //ovom anotacijom se naglasava tip mapiranja "jedna tabela po hijerarhiji"
+@DiscriminatorColumn(name="type", discriminatorType= DiscriminatorType.STRING) //ovom anotacijom se navodi diskriminatorska kolona
 public class User implements UserDetails {
 
     @Id
@@ -18,10 +20,10 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "firstName")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "lastName")
+    @Column(name = "last_name")
     private String lastName;
 
     @Column(name = "city")
@@ -33,10 +35,10 @@ public class User implements UserDetails {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "isReviewer")
-    private boolean isReviewer;
+    @Column(name = "is_reviewer")
+    private boolean isReviewer = false;
 
-    @Column(name = "isActive")
+    @Column(name = "is_active")
     private boolean isActive = false;
 
     @ManyToMany(cascade =  {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)

@@ -3,6 +3,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import * as $ from 'jquery';
 import { RepositoryService } from '../services/repository.service';
 import { UserService } from '../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -16,7 +17,7 @@ export class RegistrationComponent implements OnInit {
   formFields = [];
   enumValues = [];
   
-  constructor(private repositoryService: RepositoryService, private userService: UserService) {
+  constructor(private repositoryService: RepositoryService, private userService: UserService, private router: Router) {
     
     repositoryService.startProcess().subscribe(
 
@@ -52,7 +53,8 @@ export class RegistrationComponent implements OnInit {
 
       (response: any) => {
         alert(response.message);
-        form.reset()
+        form.reset();
+        this.router.navigate(['/homepage']);
       },
       (error: any) => {
         alert(error.message);

@@ -1,4 +1,52 @@
 package com.upp.naucnacentrala.model;
 
+import org.hibernate.annotations.Generated;
+
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
 public class ScienceField {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Column(name = "name")
+    private String name;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "sciencefield_magazine")
+    private List<Magazine> magazines;
+
+    public ScienceField() {
+    }
+
+    public ScienceField(String name){
+        this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Magazine> getMagazines() {
+        return magazines;
+    }
+
+    public void setMagazines(List<Magazine> magazines) {
+        this.magazines = magazines;
+    }
 }

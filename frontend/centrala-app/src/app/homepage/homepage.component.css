@@ -1,0 +1,25 @@
+.nav-link{
+    color:#FDF2E1;
+}
+
+a.nav-link:hover{
+    background-color: #FF995C
+}
+
+.container {
+   height: 100%;
+   border: 1px solid black; 
+}
+
+button.btn{
+    color: #FDFDFD;
+    background-color: #707274;
+    border-radius: 0px;
+    margin-right: 10px;
+    border-radius: 10px;
+}
+
+button.btn:hover{
+    background-color: #FF995C;
+    color: #FDFDFD
+}

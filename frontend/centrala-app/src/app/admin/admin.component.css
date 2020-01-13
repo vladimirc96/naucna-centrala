@@ -1,0 +1,12 @@
+.nav-link{
+    color:#FDF2E1;
+}
+
+a.nav-link:hover{
+    background-color: #FF995C
+}
+
+.container {
+   height: 100%;
+   border: 1px solid black; 
+}

@@ -15,7 +15,11 @@ export class RepositoryService {
   }
 
   startProcess(){
-    return this.httpClient.get('http://localhost:8440/users/form');
+    return this.httpClient.get('/api/users/form');
+  }
+
+  getTasksReviewer(){
+    return this.httpClient.get('/api/admin/get/tasks/reviewer');
   }
 
 }

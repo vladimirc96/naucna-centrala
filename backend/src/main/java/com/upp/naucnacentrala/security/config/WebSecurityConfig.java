@@ -78,6 +78,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 				
 				.authorizeRequests()
 					.antMatchers("/users/**").permitAll()
+					.antMatchers("/auth/**").permitAll()
+					.antMatchers("/admin/**").permitAll()
 					// svaki zahtev mora biti autorizovan
 					.anyRequest().authenticated().and()
 				// presretni svaki zahtev filterom
@@ -93,6 +95,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 			// TokenAuthenticationFilter ce ignorisati sve ispod navedene putanje
 			web.ignoring().antMatchers(HttpMethod.POST, "/auth/login");
 			web.ignoring().antMatchers(HttpMethod.POST, "/auth/logout");
+			// nije potrebna autentifikacija za obicne user metode
 			web.ignoring().antMatchers(HttpMethod.POST, "/users/**");
 			web.ignoring().antMatchers(HttpMethod.GET, "/users/**");
 			web.ignoring().antMatchers(HttpMethod.PUT, "/users/**");

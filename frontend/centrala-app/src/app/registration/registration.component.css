@@ -1,0 +1,23 @@
+.wrapper{
+    height: 100%;
+    width:100%;
+    background-color: #23344B;
+}
+
+label {
+    color: #CBCFD4
+}
+
+
+button{
+    margin-top: 20px;
+    outline: 1px solid #FDF2E1 !important;
+    color: #FDFDFD;
+    background-color: #707274;
+    border-radius: 0px;
+}
+
+button:hover{
+    background-color: #FF995C;
+    color: #FDFDFD
+}
