@@ -1,7 +1,11 @@
 package com.upp.naucnacentrala.service;
 
 import com.upp.naucnacentrala.dto.FormSubmissionDto;
+import com.upp.naucnacentrala.model.Reviewer;
+import com.upp.naucnacentrala.model.Role;
+import com.upp.naucnacentrala.model.ScienceField;
 import com.upp.naucnacentrala.model.User;
+import com.upp.naucnacentrala.repository.ScienceFieldRepository;
 import com.upp.naucnacentrala.repository.UserRepository;
 import org.camunda.bpm.engine.RuntimeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,13 +36,20 @@ public class UserService {
     private Environment env;
 
     @Autowired
+    private ScienceFieldService scienceFieldService;
+
+    @Autowired
     private UserRepository userRepo;
+
+    @Autowired
+    private RoleService roleService;
 
     public User save(User user){
         return userRepo.save(user);
     }
 
     public User save(User user, List<FormSubmissionDto> registrationData){
+        List<ScienceField> fields = new ArrayList<>();
         for(FormSubmissionDto dto : registrationData){
 
             if(dto.getFieldId().equals("ime")){
@@ -62,17 +75,50 @@ public class UserService {
                     if (dto.getFieldValue().equals("true")) {
                         user.setReviewer(true);
                     }else{
-                        user.setReviewer(true);
+                        user.setReviewer(false);
                     }
                 }else{
                     user.setReviewer(false);
                 }
+            }else if(dto.getFieldId().equals("naucne_oblasti")){
+                ScienceField field = scienceFieldService.findOneByName(dto.getFieldValue());
+                fields.add(field);
             }
 
         }
+        user.setScienceFields(fields);
         user.setActive(false);
+        Role role = roleService.findOneByName("ROLE_USER");
+        List<Role> roles = Arrays.asList(role);
+        user.setRoles(roles);
         return userRepo.save(user);
     }
+
+    public User saveAsReviewer(List<FormSubmissionDto> reviewer){
+        FormSubmissionDto firstName = null;
+        FormSubmissionDto lastName = null;
+        FormSubmissionDto choice = null;
+        for(FormSubmissionDto dto: reviewer){
+            if(dto.getFieldId().equals("ime_potvrda")) firstName = dto;
+            if(dto.getFieldId().equals("prezime_potvrda")) lastName = dto;
+            if(dto.getFieldId().equals("potvrda")) choice = dto;
+        }
+
+        User user = userRepo.findOneByFirstNameAndLastName(firstName.getFieldValue(),lastName.getFieldValue());
+        if(choice.getFieldValue().equals("da")) {
+            List<ScienceField> fields = user.getScienceFields();
+            userRepo.delete(user);
+            user = new Reviewer(user);
+            Role role = roleService.findOneByName("ROLE_REVIEWER");
+            List<Role> roles = Arrays.asList(role);
+            user.setRoles(roles);
+            user.setScienceFields(fields);
+            System.out.println("****************************** SIZE:" + fields.size());
+            user = userRepo.save(user);
+        }
+        return user;
+    }
+
 
     public void validateData(List<FormSubmissionDto> registrationData) throws Exception {
         for(FormSubmissionDto dto : registrationData){
@@ -89,6 +135,11 @@ public class UserService {
     public User findOneByUsername(String username){
         return userRepo.findOneByUsername(username);
     }
+
+    public User findOneByFirstNameAndLastName(String firstname, String lastname){
+        return userRepo.findOneByFirstNameAndLastName(firstname, lastname);
+    }
+
 
     public List<User> findAll(){
         return userRepo.findAll();

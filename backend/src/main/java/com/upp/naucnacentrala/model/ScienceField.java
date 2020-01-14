@@ -3,6 +3,7 @@ package com.upp.naucnacentrala.model;
 import org.hibernate.annotations.Generated;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -18,6 +19,9 @@ public class ScienceField {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "sciencefield_magazine")
     private List<Magazine> magazines;
+
+    @ManyToMany(mappedBy = "scienceFields", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<User> users;
 
     public ScienceField() {
     }
@@ -48,5 +52,13 @@ public class ScienceField {
 
     public void setMagazines(List<Magazine> magazines) {
         this.magazines = magazines;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }

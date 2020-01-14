@@ -46,7 +46,16 @@ export class RegistrationComponent implements OnInit {
     let dto = new Array();
 
     for(var property in value){
-      dto.push({fieldId: property, fieldValue: value[property]});
+      if(property === 'naucne_oblasti'){
+        var oblasti = value[property];
+        for(let i=0; i<oblasti.length; i++){
+          console.log(property + " : " + oblasti[i]);
+          dto.push({fieldId: property, fieldValue: oblasti[i]});
+        }
+      }else{
+        console.log(property + " : " + value[property]);
+        dto.push({fieldId: property, fieldValue: value[property]});
+      }
     }
 
     this.userService.registerUser(dto, this.formFieldsDto.taskId).subscribe(

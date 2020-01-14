@@ -50,17 +50,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/form", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<FormFieldsDto> getFormFields(){
-        ProcessInstance pi = runtimeService.startProcessInstanceByKey("Registracija");
-
-        Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).list().get(0);
-
-        TaskFormData tfd = formService.getTaskFormData(task.getId());
-        List<FormField> properties = tfd.getFormFields();
-        return new ResponseEntity<>(new FormFieldsDto(task.getId(), pi.getId(), properties), HttpStatus.OK);
-    }
-
     @RequestMapping(value = "/register/{taskId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RegistrationResponseDTO> register(@RequestBody List<FormSubmissionDto> registrationData, @PathVariable("taskId") String taskId){
         HashMap<String, Object> map = mapListToDto(registrationData);
@@ -103,6 +92,17 @@ public class UserController {
         formService.submitTaskForm(taskId, map);
         runtimeService.setVariable(processInstanceId, "dataValid", true);
         return new ResponseEntity<>(new RegistrationResponseDTO("Uspesno ste se registrovali! Proverite email kako bi verifikovali svoj profil."),HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/form", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<FormFieldsDto> getFormFields(){
+        ProcessInstance pi = runtimeService.startProcessInstanceByKey("Registracija");
+
+        Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).list().get(0);
+
+        TaskFormData tfd = formService.getTaskFormData(task.getId());
+        List<FormField> properties = tfd.getFormFields();
+        return new ResponseEntity<>(new FormFieldsDto(task.getId(), pi.getId(), properties), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/verify/{username}/{processId}", method = RequestMethod.GET)

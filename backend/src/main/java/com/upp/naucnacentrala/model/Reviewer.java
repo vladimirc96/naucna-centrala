@@ -14,6 +14,14 @@ public class Reviewer extends User{
     @JoinTable(name = "magazine_reviewers")
     private List<Magazine> magazines;
 
+    public Reviewer() {
+        super();
+    }
+
+    public Reviewer(User user){
+        super(user);
+    }
+
     public String getTitle() {
         return title;
     }
@@ -29,4 +37,6 @@ public class Reviewer extends User{
     public void setMagazines(List<Magazine> magazines) {
         this.magazines = magazines;
     }
+
+
 }

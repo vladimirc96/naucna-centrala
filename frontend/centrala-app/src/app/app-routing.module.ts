@@ -6,6 +6,7 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { LoginComponent } from './login/login.component';
 import { AdminComponent } from './admin/admin.component';
 import { ReviewerComponent } from './admin/reviewer/reviewer.component';
+import { ReviewerFormComponent } from './admin/reviewer-form/reviewer-form.component';
 
 const appRoutes: Routes = [
 	{ path: '', redirectTo: 'homepage', pathMatch: 'full'},
@@ -14,7 +15,8 @@ const appRoutes: Routes = [
 	{ path: 'registration', component: RegistrationComponent},
 	{ path: 'registration-success', component: RegistrationSuccessComponent },
 	{ path: 'admin', component: AdminComponent, children: [
-		{ path: 'reviewer', component: ReviewerComponent }
+		{ path: 'reviewer', component: ReviewerComponent },
+		{ path: ':id', component: ReviewerFormComponent}
 	]},
 	]
 

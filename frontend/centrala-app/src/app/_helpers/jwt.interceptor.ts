@@ -25,7 +25,7 @@ export class JwtInterceptor implements HttpInterceptor {
             if(isExpired){
                 alert("Session is expired")
                 localStorage.removeItem('currentUser');
-                this.router.navigate(['/login']);
+                this.router.navigate(['/homepage']);
             }else{
                 if (currentUser && currentUser.accessToken) {
                     request = request.clone({

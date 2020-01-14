@@ -15,27 +15,15 @@ export class HomepageComponent implements OnInit {
   isLoggedIn: boolean = false;
 
   ngOnInit() {
-
     let user = this.authService.getLoggedUser();
     if(user != null){
       this.isLoggedIn = true; 
     } 
-
-    this.userService.getUser().subscribe(
-      (user: any) => {
-        if(user.role === 'ADMIN'){
-          console.log("ADMIN");
-          this.isAdmin = true;
-        }
-      }
-    )
-
   }
 
   logOut(){
     this.authService.logout();
     this.isLoggedIn = false;
-    this.isAdmin = false;
   }
 
 }

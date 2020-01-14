@@ -41,6 +41,12 @@ public class User implements UserDetails {
     @Column(name = "is_active")
     private boolean isActive = false;
 
+    @ManyToMany(cascade =  {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JoinTable(name = "user_sciencefields",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "username"),
+            inverseJoinColumns = @JoinColumn(name = "sciencefield_id", referencedColumnName = "id"))
+    protected List<ScienceField> scienceFields;
+
     @ManyToMany(cascade =  {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "username"),
@@ -49,6 +55,22 @@ public class User implements UserDetails {
 
     public User() {
         super();
+    }
+
+    public User(String username, String password, String firstName, String lastName, String email,
+                String city, String country){
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.city = city;
+        this.country = country;
+    }
+
+    public User(User user){
+        this(user.getUsername(), user.getPassword(), user.getFirstName(), user.getLastName(),
+                user.getEmail(), user.getCity(), user.getCountry());
     }
 
     public void setUsername(String username) {
@@ -121,6 +143,14 @@ public class User implements UserDetails {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public List<ScienceField> getScienceFields() {
+        return scienceFields;
+    }
+
+    public void setScienceFields(List<ScienceField> scienceFields) {
+        this.scienceFields = scienceFields;
     }
 
     @Override

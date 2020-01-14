@@ -14,3 +14,7 @@ insert into privilege values (1, 'SET_REVIEWER_TASK');
 insert into roles_privileges values (2,1);
 
 insert into user_roles values ('dovla',2);
+
+insert into science_field values (1, 'Matematika');
+insert into science_field values (2, 'Informatika');
+insert into science_field values (3, 'Automatika');

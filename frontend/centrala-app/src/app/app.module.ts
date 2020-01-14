@@ -13,6 +13,7 @@ import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { AdminComponent } from './admin/admin.component';
 import { ReviewerComponent } from './admin/reviewer/reviewer.component';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { ReviewerFormComponent } from './admin/reviewer-form/reviewer-form.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +22,8 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
     HomepageComponent,
     LoginComponent,
     AdminComponent,
-    ReviewerComponent
+    ReviewerComponent,
+    ReviewerFormComponent
   ],
   imports: [
     BrowserModule,
