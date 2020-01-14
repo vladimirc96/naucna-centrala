@@ -3,7 +3,8 @@ import { FormGroup, FormControl } from '@angular/forms';
 import * as $ from 'jquery';
 import { RepositoryService } from '../services/repository.service';
 import { UserService } from '../services/user.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-registration',
@@ -17,7 +18,7 @@ export class RegistrationComponent implements OnInit {
   formFields = [];
   enumValues = [];
   
-  constructor(private repositoryService: RepositoryService, private userService: UserService, private router: Router) {
+  constructor(private repositoryService: RepositoryService, private userService: UserService, private router: Router, private spinner: NgxSpinnerService) {
     
     repositoryService.startProcess().subscribe(
 
@@ -49,18 +50,18 @@ export class RegistrationComponent implements OnInit {
       if(property === 'naucne_oblasti'){
         var oblasti = value[property];
         for(let i=0; i<oblasti.length; i++){
-          console.log(property + " : " + oblasti[i]);
           dto.push({fieldId: property, fieldValue: oblasti[i]});
         }
       }else{
-        console.log(property + " : " + value[property]);
         dto.push({fieldId: property, fieldValue: value[property]});
       }
     }
 
+    this.spinner.show();
     this.userService.registerUser(dto, this.formFieldsDto.taskId).subscribe(
 
       (response: any) => {
+        this.spinner.hide();
         alert(response.message);
         form.reset();
         this.router.navigate(['/homepage']);

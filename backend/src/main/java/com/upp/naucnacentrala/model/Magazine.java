@@ -1,6 +1,5 @@
 package com.upp.naucnacentrala.model;
 
-import com.sun.javafx.beans.IDProperty;
 
 import javax.persistence.*;
 import java.util.List;
@@ -16,20 +15,39 @@ public class Magazine {
     private String name;
 
     @Column(name = "issn")
-    private int issn;
+    private String issn;
+
+    @Column(name = "billing_type")
+    @Enumerated(EnumType.STRING)
+    private BillingType billingType;
+
+    @Column(name = "is_active")
+    private boolean isActive = false;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "sciencefield_magazine")
+    @JoinTable(name = "magazine_sciencefield",
+            joinColumns = @JoinColumn(name = "magazine_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "sciencefield_id", referencedColumnName = "id"))
     private List<ScienceField> scienceFields;
-
-    // uredjivacki odbor
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "magazine")
-    private EditorialBoard editorialBoard;
+//
+//    // uredjivacki odbor
+//    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "magazine")
+//    private EditorialBoard editorialBoard;
 
     // recenzenti
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "magazine_reviewers")
+    @JoinTable(name = "magazine_reviewers",
+            joinColumns = @JoinColumn(name = "magazines_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "reviewer_username", referencedColumnName = "username"))
     private List<Reviewer> reviewers;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "editor_id")
+    private Editor chiefEditor;
+
+    // urednik je angazovan samo za jedan casopis, zato one to many
+    @OneToMany(mappedBy = "magazine", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Editor> scienceFieldEditors;
 
     public Magazine() {
     }
@@ -58,21 +76,37 @@ public class Magazine {
         this.name = name;
     }
 
-    public int getIssn() {
+    public String getIssn() {
         return issn;
     }
 
-    public void setIssn(int issn) {
+    public void setIssn(String issn) {
         this.issn = issn;
     }
 
-    public EditorialBoard getEditorialBoard() {
-        return editorialBoard;
+    public Editor getChiefEditor() {
+        return chiefEditor;
     }
 
-    public void setEditorialBoard(EditorialBoard editorialBoard) {
-        this.editorialBoard = editorialBoard;
+    public void setChiefEditor(Editor chiefEditor) {
+        this.chiefEditor = chiefEditor;
     }
+
+    public List<Editor> getScienceFieldEditors() {
+        return scienceFieldEditors;
+    }
+
+    public void setScienceFieldEditors(List<Editor> scienceFieldEditors) {
+        this.scienceFieldEditors = scienceFieldEditors;
+    }
+
+//    public EditorialBoard getEditorialBoard() {
+//        return editorialBoard;
+//    }
+//
+//    public void setEditorialBoard(EditorialBoard editorialBoard) {
+//        this.editorialBoard = editorialBoard;
+//    }
 
     public List<Reviewer> getReviewers() {
         return reviewers;
@@ -80,5 +114,21 @@ public class Magazine {
 
     public void setReviewers(List<Reviewer> reviewers) {
         this.reviewers = reviewers;
+    }
+
+    public BillingType getBillingType() {
+        return billingType;
+    }
+
+    public void setBillingType(BillingType billingType) {
+        this.billingType = billingType;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

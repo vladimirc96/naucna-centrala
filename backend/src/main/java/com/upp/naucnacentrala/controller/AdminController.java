@@ -1,5 +1,6 @@
 package com.upp.naucnacentrala.controller;
 
+import com.upp.naucnacentrala.Utils;
 import com.upp.naucnacentrala.dto.FormFieldsDto;
 import com.upp.naucnacentrala.dto.FormSubmissionDto;
 import com.upp.naucnacentrala.dto.TaskDto;
@@ -76,7 +77,7 @@ public class AdminController {
     @RequestMapping(value = "/tasks/claim/{taskId}", method = RequestMethod.POST,produces = "application/json")
     public ResponseEntity claim(@PathVariable String taskId, HttpServletRequest request) {
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
-        String user = getUsernameFromRequest(request);
+        String user = Utils.getUsernameFromRequest(request, tokenUtils);
         taskService.claim(taskId, user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -92,7 +93,7 @@ public class AdminController {
 
     @RequestMapping(value= "/set-reviewer/{taskId}", method = RequestMethod.PUT, produces = "application/json")
     public ResponseEntity<?> setReviewer(@RequestBody List<FormSubmissionDto> reviewer, @PathVariable("taskId") String taskId){
-        HashMap<String, Object> map = mapListToDto(reviewer);
+        HashMap<String, Object> map = Utils.mapListToDto(reviewer);
 
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
         String processInstanceId = task.getProcessInstanceId();
@@ -114,23 +115,5 @@ public class AdminController {
     }
 
 
-    private String getUsernameFromRequest(HttpServletRequest request) {
-        String authToken = tokenUtils.getToken(request);
-        if (authToken == null) {
-            return null;
-        }
-        String username = tokenUtils.getUsernameFromToken(authToken);
-        return username;
-    }
-
-    private HashMap<String, Object> mapListToDto(List<FormSubmissionDto> list)
-    {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        for(FormSubmissionDto temp : list){
-            map.put(temp.getFieldId(), temp.getFieldValue());
-        }
-
-        return map;
-    }
 
 }

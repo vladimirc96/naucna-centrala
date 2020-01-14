@@ -1,13 +1,15 @@
 package com.upp.naucnacentrala.controller;
 
+import com.upp.naucnacentrala.Utils;
 import com.upp.naucnacentrala.dto.*;
-import com.upp.naucnacentrala.model.Admin;
-import com.upp.naucnacentrala.model.User;
+import com.upp.naucnacentrala.model.*;
 import com.upp.naucnacentrala.security.TokenUtils;
+import com.upp.naucnacentrala.service.ScienceFieldService;
 import com.upp.naucnacentrala.service.UserService;
 import org.camunda.bpm.engine.*;
 import org.camunda.bpm.engine.form.FormField;
 import org.camunda.bpm.engine.form.TaskFormData;
+import org.camunda.bpm.engine.impl.form.type.EnumFormType;
 import org.camunda.bpm.engine.runtime.Execution;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,9 +52,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ScienceFieldService scienceFieldService;
+
     @RequestMapping(value = "/register/{taskId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RegistrationResponseDTO> register(@RequestBody List<FormSubmissionDto> registrationData, @PathVariable("taskId") String taskId){
-        HashMap<String, Object> map = mapListToDto(registrationData);
+        HashMap<String, Object> map = Utils.mapListToDto(registrationData);
 
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
         String processInstanceId = task.getProcessInstanceId();
@@ -102,6 +107,18 @@ public class UserController {
 
         TaskFormData tfd = formService.getTaskFormData(task.getId());
         List<FormField> properties = tfd.getFormFields();
+
+        List<ScienceField> scienceFields = scienceFieldService.findAll();
+        for(FormField field : properties){
+            if(field.getId().equals("naucne_oblasti")){
+                EnumFormType enumType = (EnumFormType) field.getType();
+                for(ScienceField scienceField: scienceFields){
+                    enumType.getValues().put(scienceField.getName(), scienceField.getName());
+                }
+                break;
+            }
+        }
+
         return new ResponseEntity<>(new FormFieldsDto(task.getId(), pi.getId(), properties), HttpStatus.OK);
     }
 
@@ -120,38 +137,25 @@ public class UserController {
 
     @RequestMapping(value = "/get-user", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserInfoDTO> getUser(HttpServletRequest request){
-        String username = getUsernameFromRequest(request);
+        String username = Utils.getUsernameFromRequest(request, tokenUtils);
         UserInfoDTO ui = new UserInfoDTO();
         if(username != "" && username != null) {
             User u = (User) userService.findOneByUsername(username);
             if(u instanceof Admin){
                 u = (Admin) u;
                 ui.setRole("ADMIN");
+            }else if(u instanceof Reviewer){
+                u = (Reviewer) u;
+                ui.setRole("REVIEWER");
+            }else if(u instanceof Editor){
+                u = (Editor) u;
+                ui.setRole("EDITOR");
             }
             ui.setUsername(u.getUsername());
             return new ResponseEntity<UserInfoDTO>(ui, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-    }
-
-    private HashMap<String, Object> mapListToDto(List<FormSubmissionDto> list)
-    {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        for(FormSubmissionDto temp : list){
-            map.put(temp.getFieldId(), temp.getFieldValue());
-        }
-
-        return map;
-    }
-
-    private String getUsernameFromRequest(HttpServletRequest request) {
-        String authToken = tokenUtils.getToken(request);
-        if (authToken == null) {
-            return null;
-        }
-        String username = tokenUtils.getUsernameFromToken(authToken);
-        return username;
     }
 
 }

@@ -3,11 +3,12 @@ package com.upp.naucnacentrala.model;
 import org.hibernate.annotations.Generated;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
 @Entity
-public class ScienceField {
+public class ScienceField implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

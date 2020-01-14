@@ -10,8 +10,11 @@ public class Editor extends User {
     @Column(name = "title")
     private String title;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private EditorialBoard editorialBoard;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Magazine magazine;
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    private EditorialBoard editorialBoard;
 
     public String getTitle() {
         return title;
@@ -21,11 +24,19 @@ public class Editor extends User {
         this.title = title;
     }
 
-    public EditorialBoard getEditorialBoard() {
-        return editorialBoard;
+//    public EditorialBoard getEditorialBoard() {
+//        return editorialBoard;
+//    }
+//
+//    public void setEditorialBoard(EditorialBoard editorialBoard) {
+//        this.editorialBoard = editorialBoard;
+//    }
+
+    public Magazine getMagazine() {
+        return magazine;
     }
 
-    public void setEditorialBoard(EditorialBoard editorialBoard) {
-        this.editorialBoard = editorialBoard;
+    public void setMagazine(Magazine magazine) {
+        this.magazine = magazine;
     }
 }

@@ -1,7 +1,16 @@
 <nav class="navbar navbar-expand" style="background-color:#23344B">
   <a class="navbar-brand" [routerLink]="['/homepage']" style="color: white">Naucna centrala</a>
-    <ul class="navbar-nav mr-auto">
-    </ul>
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item" *ngIf="isAdmin">
+          <a class="nav-link">Urednici</a>
+        </li>
+        <li class="nav-item" *ngIf="isAdmin">
+          <a class="nav-link" [routerLink]="['/admin/reviewer']" >Recenzenti</a>
+        </li>
+        <li class="nav-item" *ngIf="isEditor">
+          <a class="nav-link" [routerLink]="['/homepage/editor']" >Casopisi</a>
+        </li>
+      </ul>
   <div class="d-flex flex-row-reverse">
     <button class="btn" [routerLink]="['/registration']" *ngIf="!isLoggedIn">Register</button>
     <button class="btn" [routerLink]="['/login']" *ngIf="!isLoggedIn">Login</button>
@@ -11,5 +20,6 @@
   
   <div class="container">
 
+    <router-outlet></router-outlet>
 
   </div>

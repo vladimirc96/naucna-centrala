@@ -46,11 +46,7 @@
             </camunda:validation>
           </camunda:formField>
           <camunda:formField id="recenzent" label="Recenzent?" type="boolean" defaultValue="false" />
-          <camunda:formField id="naucne_oblasti" label="Naucne oblasti" type="enum">
-            <camunda:value id="matematika" name="Matematika" />
-            <camunda:value id="informatika" name="Informatika" />
-            <camunda:value id="automatika" name="Automatika" />
-          </camunda:formField>
+          <camunda:formField id="naucne_oblasti" label="Naucne oblasti" type="enum" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1m6wsoa</bpmn:incoming>

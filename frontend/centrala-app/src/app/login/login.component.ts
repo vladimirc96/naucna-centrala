@@ -30,14 +30,6 @@ export class LoginComponent implements OnInit {
 
   this.authService.login(userDTO).subscribe(
     (success) => {
-      alert("succes");
-      this.userService.getUser().subscribe(
-        (user: any) => {
-          if(user.role == "ADMIN"){
-            this.router.navigate(["/admin"]);
-          }
-        }
-      )
       this.router.navigate(["/homepage"]);
     }, 
     (error) => {

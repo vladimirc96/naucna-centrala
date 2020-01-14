@@ -19,7 +19,7 @@ export class AdminService {
   }
 
   setReviewer(dto, taskId){
-    return this.httpClient.put('/api/admin/set-reviewer/' + taskId, dto);
+    return this.httpClient.put('/api/admin/set-reviewer/' + taskId, dto, {responseType: 'text'});
   }
 
 }

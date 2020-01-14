@@ -10,10 +10,15 @@ import { RegistrationSuccessComponent } from './registration/registration-succes
 import { HomepageComponent } from './homepage/homepage.component';
 import { LoginComponent } from './login/login.component';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
-import { AdminComponent } from './admin/admin.component';
-import { ReviewerComponent } from './admin/reviewer/reviewer.component';
+import { AdminComponent } from './homepage/admin/admin.component';
+import { ReviewerComponent } from './homepage/admin/reviewer/reviewer.component';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
-import { ReviewerFormComponent } from './admin/reviewer-form/reviewer-form.component';
+import { ReviewerFormComponent } from './homepage/admin/reviewer-form/reviewer-form.component';
+import { EditorComponent } from './homepage/editor/editor.component';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { MagazineFormComponent } from './homepage/editor/magazine-form/magazine-form.component';
+import { EditorialBoardFormComponent } from './homepage/editor/editorial-board-form/editorial-board-form.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,7 +28,10 @@ import { ReviewerFormComponent } from './admin/reviewer-form/reviewer-form.compo
     LoginComponent,
     AdminComponent,
     ReviewerComponent,
-    ReviewerFormComponent
+    ReviewerFormComponent,
+    EditorComponent,
+    MagazineFormComponent,
+    EditorialBoardFormComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +39,8 @@ import { ReviewerFormComponent } from './admin/reviewer-form/reviewer-form.compo
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    AngularFontAwesomeModule
+    AngularFontAwesomeModule,
+    NgxSpinnerModule
   ],
   providers: [ { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }, ],
   bootstrap: [AppComponent]

@@ -1,32 +1,31 @@
 package com.upp.naucnacentrala.handlers;
 
-import org.camunda.bpm.engine.*;
+import com.upp.naucnacentrala.model.ScienceField;
+import com.upp.naucnacentrala.service.ScienceFieldService;
+import org.camunda.bpm.engine.IdentityService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.ExecutionListener;
 import org.camunda.bpm.engine.identity.Group;
 import org.camunda.bpm.engine.identity.User;
+import org.camunda.bpm.engine.runtime.Execution;
+import org.camunda.spin.Spin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import spinjar.com.minidev.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
-public class RegistrationHandler implements ExecutionListener {
+public class MagazineHandler implements ExecutionListener {
 
     @Autowired
     IdentityService identityService;
 
     @Autowired
-    private RuntimeService runtimeService;
-
-    @Autowired
-    private RepositoryService repositoryService;
-
-    @Autowired
-    TaskService taskService;
-
-    @Autowired
-    FormService formService;
+    private ScienceFieldService scienceFieldService;
 
     @Override
     public void notify(DelegateExecution delegateExecution) throws Exception {
@@ -58,5 +57,18 @@ public class RegistrationHandler implements ExecutionListener {
             identityService.saveUser(user);
             identityService.createMembership(user.getId(), "admin");
         }
+
+        User temp1 = identityService.createUserQuery().userId("vukasin").singleResult();
+        if(temp1 == null){
+            User user = identityService.newUser("vukasin");
+            user.setEmail("vukasin@gmail.com");
+            user.setPassword("vukasin96");
+            user.setFirstName("Vukasin");
+            user.setLastName("Jovic");
+            user.setId("vukasin");
+            identityService.saveUser(user);
+            identityService.createMembership(user.getId(), "recenzenti");
+        }
+
     }
 }

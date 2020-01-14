@@ -1,13 +1,11 @@
 package com.upp.naucnacentrala.service;
 
 import com.upp.naucnacentrala.dto.FormSubmissionDto;
-import com.upp.naucnacentrala.model.Reviewer;
-import com.upp.naucnacentrala.model.Role;
-import com.upp.naucnacentrala.model.ScienceField;
-import com.upp.naucnacentrala.model.User;
+import com.upp.naucnacentrala.model.*;
 import com.upp.naucnacentrala.repository.ScienceFieldRepository;
 import com.upp.naucnacentrala.repository.UserRepository;
 import org.camunda.bpm.engine.RuntimeService;
+import org.joda.time.ReadableInstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.MailException;
@@ -169,6 +167,68 @@ public class UserService {
         javaMailSender.send(mail);
     }
 
+//    public List<Reviewer> findAllByMagazineScienceFields(List<ScienceField> scienceFields){
+//        List<Reviewer> reviewers = findAllReviewers();
+//        List<Reviewer> reviewerList = new ArrayList<>();
+//
+//        for(ScienceField field: scienceFields){
+//            for(Reviewer reviewer: reviewers){
+//                if(reviewerList.contains(reviewer)) continue;
+//                for(ScienceField scienceField: reviewer.getScienceFields()){
+//                    if(field.getName().equals(scienceField.getName())){
+//                        reviewerList.add(reviewer);
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+//        return reviewerList;
+//    }
+
+    public List<User> findAllByMagazineScienceFields(List<ScienceField> scienceFields, String type){
+        List<User> users = new ArrayList<>();
+        if(type.equals("REVIEWER")){
+            users = findAllReviewers();
+        }else{
+            users = findAllEditors();
+        }
+
+        List<User> userList = new ArrayList<>();
+        for(ScienceField field: scienceFields){
+            for(User user: users){
+                if(userList.contains(user)) continue;
+                for(ScienceField scienceField: user.getScienceFields()){
+                    if(field.getName().equals(scienceField.getName())){
+                        userList.add(user);
+                        break;
+                    }
+                }
+            }
+        }
+        return userList;
+    }
+
+    public List<User> findAllReviewers(){
+        List<User> reviewers = new ArrayList<>();
+        List<User> users = userRepo.findAll();
+        for(User user: users){
+            if(user instanceof Reviewer){
+                reviewers.add((Reviewer) user);
+            }
+        }
+        return reviewers;
+    }
+
+    public List<User> findAllEditors(){
+        List<User> editors = new ArrayList<>();
+        List<User> users = userRepo.findAll();
+        for(User user: users){
+            if(user instanceof Editor){
+                editors.add((Editor) user);
+            }
+        }
+        return editors;
+    }
 
     // * * * UTILS * * *
 
