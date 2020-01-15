@@ -84,5 +84,24 @@ public class MagazineService {
         magazineRepo.delete(magazine);
     }
 
+    public Magazine magazineCorrection(List<FormSubmissionDto> magazineCorrectionData, Magazine magazine){
+        for(FormSubmissionDto dto: magazineCorrectionData){
+            if(dto.getFieldId().equals("naziv_stari")){
+                magazine.setName(dto.getFieldValue());
+            }else if(dto.getFieldId().equals("issn_stari")){
+                magazine.setIssn(dto.getFieldValue());
+            }else if(dto.getFieldId().equals("nacin_naplacivanja_stari")){
+                if(dto.getFieldValue().equals("Autorima")){
+                    magazine.setBillingType(BillingType.AUTHORS);
+                }else{
+                    magazine.setBillingType(BillingType.READERS);
+                }
+            }
+        }
+
+        magazine = magazineRepo.save(magazine);
+        return magazine;
+    }
+
 
 }

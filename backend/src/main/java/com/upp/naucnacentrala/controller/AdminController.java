@@ -4,17 +4,20 @@ import com.upp.naucnacentrala.Utils;
 import com.upp.naucnacentrala.dto.FormFieldsDto;
 import com.upp.naucnacentrala.dto.FormSubmissionDto;
 import com.upp.naucnacentrala.dto.TaskDto;
-import com.upp.naucnacentrala.model.Reviewer;
-import com.upp.naucnacentrala.model.Role;
-import com.upp.naucnacentrala.model.User;
+import com.upp.naucnacentrala.model.*;
 import com.upp.naucnacentrala.security.TokenUtils;
+import com.upp.naucnacentrala.service.MagazineService;
 import com.upp.naucnacentrala.service.RoleService;
 import com.upp.naucnacentrala.service.UserService;
 import org.camunda.bpm.engine.*;
 import org.camunda.bpm.engine.form.FormField;
 import org.camunda.bpm.engine.form.TaskFormData;
+import org.camunda.bpm.engine.impl.form.type.EnumFormType;
+import org.camunda.bpm.engine.impl.form.type.StringFormType;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
+import org.camunda.bpm.engine.variable.value.TypedValue;
+import org.camunda.bpm.engine.variable.value.builder.TypedValueBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -60,8 +63,10 @@ public class AdminController {
     @Autowired
     private RoleService roleService;
 
-    @RequestMapping(value= "/get/tasks/reviewer", method = RequestMethod.GET, produces = "application/json")
-    @PreAuthorize("hasAuthority('SET_REVIEWER_TASK')")
+    @Autowired
+    private MagazineService magazineService;
+
+    @RequestMapping(value= "/tasks/reviewer", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<List<TaskDto>> getTasksReviewer(){
         List<Task> tasks = taskService.createTaskQuery().taskCandidateGroup("admin").list();
         List<TaskDto> tasksDto = new ArrayList<>();
@@ -72,23 +77,6 @@ public class AdminController {
             }
         }
         return new ResponseEntity<>(tasksDto, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/tasks/claim/{taskId}", method = RequestMethod.POST,produces = "application/json")
-    public ResponseEntity claim(@PathVariable String taskId, HttpServletRequest request) {
-        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
-        String user = Utils.getUsernameFromRequest(request, tokenUtils);
-        taskService.claim(taskId, user);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/reviewer/form/{taskId}", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<FormFieldsDto> getFormFields(@PathVariable("taskId") String taskId){
-        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
-        String processInstanceId = task.getProcessInstanceId();
-        TaskFormData tfd = formService.getTaskFormData(task.getId());
-        List<FormField> properties = tfd.getFormFields();
-        return new ResponseEntity<>(new FormFieldsDto(task.getId(), processInstanceId, properties), HttpStatus.OK);
     }
 
     @RequestMapping(value= "/set-reviewer/{taskId}", method = RequestMethod.PUT, produces = "application/json")
@@ -111,6 +99,69 @@ public class AdminController {
         }
 
         formService.submitTaskForm(taskId, map);
+        return new ResponseEntity<>("Task obavljen!", HttpStatus.OK);
+    }
+
+    @RequestMapping(value= "/tasks/check-magazine-data", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<List<TaskDto>> getTasksCheckMagazineData(){
+        List<Task> tasks = taskService.createTaskQuery().taskCandidateGroup("admin").list();
+        List<TaskDto> tasksDto = new ArrayList<>();
+        for(Task task: tasks){
+            if(task.getName().equals("Provera podataka casopisa")) {
+                TaskDto t = new TaskDto(task.getId(), task.getName(), task.getAssignee());
+                tasksDto.add(t);
+            }
+        }
+        return new ResponseEntity<>(tasksDto, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/form/check-magazine-data/{taskId}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<FormFieldsDto> getCheckMagazineDataForm(@PathVariable("taskId") String taskId){
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
+
+        TaskFormData tfd = formService.getTaskFormData(task.getId());
+        List<FormField> properties = tfd.getFormFields();
+        Long magazineId = (Long) runtimeService.getVariable(task.getProcessInstanceId(), "magazineId");
+        Magazine magazine = magazineService.findOneById(magazineId);
+
+        for(FormField field : properties){
+            if(field.getId().equals("naucne_oblasti_provera")){
+                EnumFormType enumType = (EnumFormType) field.getType();
+                for(ScienceField scienceField: magazine.getScienceFields()){
+                    enumType.getValues().put(scienceField.getName(), scienceField.getName());
+                }
+            }
+        }
+
+        return new ResponseEntity<>(new FormFieldsDto(task.getId(), pi.getId(), properties), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/check-magazine-data/{taskId}", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<?> checkMagazineDataSubmit(@RequestBody List<FormSubmissionDto> checkMagazineData,@PathVariable("taskId") String taskId){
+        HashMap<String, Object> map = Utils.mapListToDto(checkMagazineData);
+
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        String processInstanceId = task.getProcessInstanceId();
+
+        for(FormSubmissionDto formDto: checkMagazineData){
+            if(formDto.getFieldId().equals("ispravka")){
+                if(formDto.getFieldValue().equals("true")){
+                    runtimeService.setVariable(processInstanceId, "magazineCorrection", true);
+                }else{
+                    runtimeService.setVariable(processInstanceId, "magazineCorrection", false);
+                    formService.submitTaskForm(taskId, map);
+                    return new ResponseEntity<>("Task obavljen!", HttpStatus.OK);
+                }
+            }
+        }
+        formService.submitTaskForm(taskId, map);
+
+        Magazine magazine = magazineService.findOneById((Long) runtimeService.getVariable(processInstanceId, "magazineId"));
+        Task correctionTask = taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
+        correctionTask.setAssignee(magazine.getChiefEditor().getUsername());
+        taskService.saveTask(correctionTask);
+
         return new ResponseEntity<>("Task obavljen!", HttpStatus.OK);
     }
 

@@ -23,7 +23,12 @@ export class RepositoryService {
   }
 
   claimTask(taskId){
-    return this.httpClient.post('/api/admin/tasks/claim/' + taskId, null);
+    return this.httpClient.post('/api/repository/tasks/claim/' + taskId, null);
   }
 
+  getForm(taskId){
+    return this.httpClient.get('/api/repository/get/form/' + taskId);
+  }
+
+  
 }

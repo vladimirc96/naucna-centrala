@@ -19,7 +19,7 @@ export class ReviewerFormComponent implements OnInit {
   naziv: string;
   prezime: string;
   controls: any = [];
-  constructor(private adminService: AdminService, private route: ActivatedRoute, private router: Router) {
+  constructor(private repoService: RepositoryService,private adminService: AdminService, private route: ActivatedRoute, private router: Router) {
 
     this.route.params.subscribe(
       (params: Params) => {
@@ -27,8 +27,7 @@ export class ReviewerFormComponent implements OnInit {
       }
     )
 
-
-    this.adminService.getForm(this.taskId).subscribe(
+    this.repoService.getForm(this.taskId).subscribe(
       (response: any) => {
           this.formFieldsDto = response;
           this.formFields = response.formFields;

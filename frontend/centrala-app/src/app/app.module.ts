@@ -18,6 +18,10 @@ import { EditorComponent } from './homepage/editor/editor.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { MagazineFormComponent } from './homepage/editor/magazine-form/magazine-form.component';
 import { EditorialBoardFormComponent } from './homepage/editor/editorial-board-form/editorial-board-form.component';
+import { MagazinesComponent } from './homepage/admin/magazines/magazines.component';
+import { CheckMagazineDataComponent } from './homepage/admin/check-magazine-data/check-magazine-data.component';
+import { EditorTasksComponent } from './homepage/editor/editor-tasks/editor-tasks.component';
+import { MagazineCorrectionComponent } from './homepage/editor/magazine-correction/magazine-correction.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +35,11 @@ import { EditorialBoardFormComponent } from './homepage/editor/editorial-board-f
     ReviewerFormComponent,
     EditorComponent,
     MagazineFormComponent,
-    EditorialBoardFormComponent
+    EditorialBoardFormComponent,
+    MagazinesComponent,
+    CheckMagazineDataComponent,
+    EditorTasksComponent,
+    MagazineCorrectionComponent
   ],
   imports: [
     BrowserModule,

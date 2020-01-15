@@ -10,17 +10,25 @@ import { ReviewerFormComponent } from './homepage/admin/reviewer-form/reviewer-f
 import { EditorComponent } from './homepage/editor/editor.component';
 import { MagazineFormComponent } from './homepage/editor/magazine-form/magazine-form.component';
 import { EditorialBoardFormComponent } from './homepage/editor/editorial-board-form/editorial-board-form.component';
+import { MagazinesComponent } from './homepage/admin/magazines/magazines.component';
+import { CheckMagazineDataComponent } from './homepage/admin/check-magazine-data/check-magazine-data.component';
+import { EditorTasksComponent } from './homepage/editor/editor-tasks/editor-tasks.component';
+import { MagazineCorrectionComponent } from './homepage/editor/magazine-correction/magazine-correction.component';
 
 const appRoutes: Routes = [
 	{ path: '', redirectTo: 'homepage', pathMatch: 'full'},
 	{ path: 'homepage', component: HomepageComponent, children: [
 		{ path: 'admin', component: AdminComponent, children: [
 			{ path: 'reviewer', component: ReviewerComponent },
-			{ path: ':id', component: ReviewerFormComponent}
+			{ path: 'check-reviewer-data/:id', component: ReviewerFormComponent},
+			{ path: 'magazines', component: MagazinesComponent},
+			{ path: 'check-magazine-data/:id', component: CheckMagazineDataComponent}
 		]},
 		{ path: 'editor', component: EditorComponent, children: [
-			{path: 'magazines', component: MagazineFormComponent},
-			{path: 'editorial-board/:id', component: EditorialBoardFormComponent}
+			{ path: '', component: EditorTasksComponent },
+			{ path: 'magazines', component: MagazineFormComponent},
+			{ path: 'editorial-board/:id', component: EditorialBoardFormComponent },
+			{ path: 'magazine-correction/:id', component: MagazineCorrectionComponent }
 		]}
 	] },
 	{ path: 'login', component: LoginComponent },

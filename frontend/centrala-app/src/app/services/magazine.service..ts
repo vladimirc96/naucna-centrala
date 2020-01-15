@@ -15,7 +15,7 @@ export class MagazineService {
   }
 
   getEditorialBoardForm(processInstanceId){
-    return this.httpClient.get('/api/magazines/editorial-board-form/' + processInstanceId);
+    return this.httpClient.get('/api/magazines/form/editorial-board/' + processInstanceId);
   }
 
   newMagazine(taskId, magazine){
@@ -24,6 +24,18 @@ export class MagazineService {
 
   saveEditorialBoard(taskId, board){
     return this.httpClient.post('/api/magazines/editorial-board/' + taskId, board, {responseType: 'text'});
+  }
+
+  getMagazineCorrectionTasks(){
+    return this.httpClient.get('/api/magazines/tasks/magazine-correction');
+  }
+
+  getMagazineCorrectionForm(taskId){
+    return this.httpClient.get('/api/magazines/form/magazine-correction/' + taskId);
+  }
+
+  magazineCorrection(dto, taskId){
+    return this.httpClient.put('/api/magazines/magazine-correction/'+ taskId, dto, {responseType: 'text'});
   }
 
 }

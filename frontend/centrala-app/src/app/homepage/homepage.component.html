@@ -1,15 +1,26 @@
 <nav class="navbar navbar-expand" style="background-color:#23344B">
   <a class="navbar-brand" [routerLink]="['/homepage']" style="color: white">Naucna centrala</a>
       <ul class="navbar-nav mr-auto">
+
+        <!-- ADMIN -->
+      
         <li class="nav-item" *ngIf="isAdmin">
           <a class="nav-link">Urednici</a>
         </li>
         <li class="nav-item" *ngIf="isAdmin">
-          <a class="nav-link" [routerLink]="['/admin/reviewer']" >Recenzenti</a>
+          <a class="nav-link" [routerLink]="['/homepage/admin/reviewer']" >Recenzenti</a>
         </li>
-        <li class="nav-item" *ngIf="isEditor">
-          <a class="nav-link" [routerLink]="['/homepage/editor']" >Casopisi</a>
+        <li class="nav-item" *ngIf="isAdmin">
+          <a class="nav-link" [routerLink]="['/homepage/admin/magazines']" >Casopisi</a>
         </li>
+      
+        <!-- ADMIN -->
+
+      <li class="nav-item active" *ngIf="isEditor">
+          <a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink='/homepage/editor'>Casopisi</a>
+      </li>
+
+
       </ul>
   <div class="d-flex flex-row-reverse">
     <button class="btn" [routerLink]="['/registration']" *ngIf="!isLoggedIn">Register</button>

@@ -3,6 +3,7 @@ package com.upp.naucnacentrala.controller;
 import com.upp.naucnacentrala.Utils;
 import com.upp.naucnacentrala.dto.FormFieldsDto;
 import com.upp.naucnacentrala.dto.FormSubmissionDto;
+import com.upp.naucnacentrala.dto.TaskDto;
 import com.upp.naucnacentrala.model.Magazine;
 import com.upp.naucnacentrala.model.Reviewer;
 import com.upp.naucnacentrala.model.ScienceField;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import spinjar.com.fasterxml.jackson.databind.ser.std.EnumSerializer;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -98,10 +100,10 @@ public class MagazineController {
         return new ResponseEntity<>("Casopis uspesno kreiran!", HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/editorial-board-form/{processInstanceId}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/form/editorial-board/{processInstanceId}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<FormFieldsDto> getEditorialBoardForm(@PathVariable("processInstanceId") String processInstanceId){
         ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
-        // ovde puca za data
+
         Task task = taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
         TaskFormData tfd = formService.getTaskFormData(task.getId());
         List<FormField> properties = tfd.getFormFields();
@@ -144,6 +146,61 @@ public class MagazineController {
         formService.submitTaskForm(taskId, map);
         return new ResponseEntity<>("Urednici i rececenzenti uspesno postavljeni!", HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/tasks/magazine-correction", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<List<TaskDto>> getMagazineCorrectionTasks(HttpServletRequest request){
+        String username = Utils.getUsernameFromRequest(request, tokenUtils);
+        List<Task> tasks = taskService.createTaskQuery().taskName("Ispravka podataka casopisa").taskAssignee(username).list();
+
+        List<TaskDto> tasksDto = new ArrayList<>();
+        for(Task task: tasks){
+            TaskDto t = new TaskDto(task.getId(), task.getName(), task.getAssignee());
+            tasksDto.add(t);
+        }
+        return new ResponseEntity<>(tasksDto, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/form/magazine-correction/{taskId}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<FormFieldsDto> getMagazineCorrectionForm(@PathVariable("taskId") String taskId){
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
+
+        TaskFormData tfd = formService.getTaskFormData(task.getId());
+        List<FormField> properties = tfd.getFormFields();
+        List<ScienceField> scienceFields = scienceFieldService.findAll();
+
+        String billing = (String) runtimeService.getVariable(pi.getId(), "nacinNaplacivanja");
+
+        for(FormField field : properties){
+            if(field.getId().equals("nacin_naplacivanja_stari")){
+                EnumFormType enumFormType = (EnumFormType) field.getType();
+                List<String> keys = new ArrayList<>(enumFormType.getValues().values());
+                for(String val: keys){
+                    if (val.equals(billing)){
+                        field.getProperties().put(val, "selected");
+                    }
+                }
+            }
+        }
+
+        return new ResponseEntity<>(new FormFieldsDto(task.getId(), pi.getId(), properties), HttpStatus.OK);
+    }
+
+
+    @RequestMapping(value = "/magazine-correction/{taskId}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<String> magazineCorrection(@RequestBody List<FormSubmissionDto> magazineCorrectionData, @PathVariable("taskId") String taskId){
+        HashMap<String, Object> map = Utils.mapListToDto(magazineCorrectionData);
+
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        String processInstanceId = task.getProcessInstanceId();
+        runtimeService.setVariable(processInstanceId, "magazineCorrectionData", magazineCorrectionData);
+
+        formService.submitTaskForm(taskId, map);
+        return new ResponseEntity<>("Ispravka je uspesna!", HttpStatus.OK);
+    }
+
+
+
 
 
 }
