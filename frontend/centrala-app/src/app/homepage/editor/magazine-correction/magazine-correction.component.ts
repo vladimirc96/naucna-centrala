@@ -16,6 +16,9 @@ export class MagazineCorrectionComponent implements OnInit {
   formFieldsDto = null;
   formFields = [];
   enumValues = [];
+  urednici = [];
+  recenzenti = [];
+  naucneOblasti = [];
 
   controls: any = [];
   billing: any;
@@ -32,7 +35,7 @@ export class MagazineCorrectionComponent implements OnInit {
           this.formFieldsDto = response;
           this.formFields = response.formFields;
           this.formFields.forEach( (field) =>{
-            if( field.type.name=='enum'){
+            if( field.type.name=='enum' && field.id == 'nacin_naplacivanja_stari'){
               this.enumValues = Object.keys(field.type.values);
               console.log(this.enumValues);
               if(field.properties['Autorima'] === 'selected'){
@@ -42,8 +45,18 @@ export class MagazineCorrectionComponent implements OnInit {
                 this.billing = 'citaocima';
                 console.log(this.billing);
               }
-
             }
+
+            if(field.type.name == 'enum' && field.id == 'naucne_oblasti_ispravka'){
+              this.naucneOblasti = Object.keys(field.type.values);
+            }
+            if(field.type.name == 'enum' && field.id == 'urednici_ispravka'){
+              this.urednici = Object.keys(field.type.values);
+            }
+            if(field.type.name == 'enum' && field.id == 'recenzenti_ispravka'){
+              this.recenzenti = Object.keys(field.type.values);
+            }
+
           });
 
       },
@@ -56,13 +69,46 @@ export class MagazineCorrectionComponent implements OnInit {
   }
 
   onSubmit(value, form){
+
+    if(!form.form.valid){
+      alert("Potrebno popuniti sva polja oznacena sa zvezdicom.");
+      return;
+    }
+
     let dto = Array();
 
     this.controls = form.controls;
     for(var control in this.controls){
-      dto.push({fieldId: control, fieldValue: this.controls[control].value});
+      if(control === 'naucne_oblasti_ispravka' || control === 'recenzenti_ispravka' || control === 'urednici_ispravka'){
+        continue;
+      }else{
+        dto.push({fieldId: control, fieldValue: this.controls[control].value});
+      }
     }
     console.log(dto);
+
+    for(var property in value){
+   
+      if(property === 'naucne_oblasti_ispravka'){
+        var list = value[property];
+        for(let i=0; i<list.length; i++){
+          dto.push({fieldId: property, fieldValue: list[i]});
+        }
+      }
+      if(property === 'urednici_ispravka'){
+        var list = value[property];
+        for(let i=0; i<list.length; i++){
+          dto.push({fieldId: property, fieldValue: list[i]});
+        }
+      }
+      if(property === 'recenzenti_ispravka'){
+        var list = value[property];
+        for(let i=0; i<list.length; i++){
+          dto.push({fieldId: property, fieldValue: list[i]});
+        }
+      }
+
+    }
 
     this.magazineService.magazineCorrection(dto, this.formFieldsDto.taskId).subscribe(
       (success) => {

@@ -10,17 +10,17 @@
     <bpmn:userTask id="Task_08gnwrz" name="Novi casopis" camunda:assignee="${initiator}">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="naziv" label="Naziv" type="string">
+          <camunda:formField id="naziv" label="Naziv *" type="string">
             <camunda:validation>
               <camunda:constraint name="required" />
             </camunda:validation>
           </camunda:formField>
-          <camunda:formField id="issn" label="ISSN" type="string" />
-          <camunda:formField id="nacin_naplacivanja" label="Izaberite nacin naplacivanja" type="enum">
+          <camunda:formField id="issn" label="ISSN *" type="string" />
+          <camunda:formField id="nacin_naplacivanja" label="Izaberite nacin naplacivanja *" type="enum">
             <camunda:value id="autorima" name="Autorima" />
             <camunda:value id="citaocima" name="Citaocima" />
           </camunda:formField>
-          <camunda:formField id="naucne_oblasti" label="Naucne oblasti" type="enum" />
+          <camunda:formField id="naucne_oblasti" label="Naucne oblasti *" type="enum" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_06gqi13</bpmn:incoming>
@@ -49,7 +49,7 @@ execution.setVariable("aktivan",isActive);</bpmn:script>
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="urednici" label="Izaberite urednike (opciono)" type="enum" />
-          <camunda:formField id="recenzenti" label="Izaberite recenzente (obavezno)" type="enum" />
+          <camunda:formField id="recenzenti" label="Izaberite recenzente (obavezno, min 2)" type="enum" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_162rcez</bpmn:incoming>
@@ -70,8 +70,11 @@ execution.setVariable("aktivan",isActive);</bpmn:script>
           <camunda:formField id="naziv_provera" label="Naziv" type="string" defaultValue="${naziv}" />
           <camunda:formField id="issn_provera" label="ISSN" type="string" defaultValue="${issn}" />
           <camunda:formField id="nacin_naplacivanja_provera" label="Nacin naplacivanja" type="string" defaultValue="${nacinNaplacivanja}" />
-          <camunda:formField id="ispravka" label="Ispravka?" type="boolean" defaultValue="false" />
-          <camunda:formField id="komentar_uredniku" label="Komentar" type="string" />
+          <camunda:formField id="naucne_oblasti_provera" label="Naucne oblasti" type="enum" />
+          <camunda:formField id="urednici_provera" label="Urednici" type="enum" />
+          <camunda:formField id="recenzenti_provera" label="Recenzenti" type="enum" />
+          <camunda:formField id="ispravka" label="Ispravka?" type="boolean" />
+          <camunda:formField id="komentar_uredniku" label="Komentar za urednika" type="string" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0oykbh5</bpmn:incoming>
@@ -96,12 +99,15 @@ execution.setVariable("aktivan",isActive);</bpmn:script>
     <bpmn:userTask id="Task_0zoja4o" name="Ispravka podataka casopisa">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="naziv_stari" label="Naziv" type="string" defaultValue="${naziv_provera}" />
-          <camunda:formField id="issn_stari" label="ISSN" type="string" defaultValue="${issn_provera}" />
-          <camunda:formField id="nacin_naplacivanja_stari" label="Nacin naplacivanja" type="enum">
+          <camunda:formField id="naziv_stari" label="Naziv *" type="string" defaultValue="${naziv_provera}" />
+          <camunda:formField id="issn_stari" label="ISSN *" type="string" defaultValue="${issn_provera}" />
+          <camunda:formField id="nacin_naplacivanja_stari" label="Nacin naplacivanja *" type="enum">
             <camunda:value id="autorima" name="Autorima" />
             <camunda:value id="citaocima" name="Citaocima" />
           </camunda:formField>
+          <camunda:formField id="naucne_oblasti_ispravka" label="Naucne oblasti" type="enum" />
+          <camunda:formField id="urednici_ispravka" label="Urednici" type="enum" />
+          <camunda:formField id="recenzenti_ispravka" label="Recenzenti" type="enum" />
           <camunda:formField id="komentar" label="Komentar" type="string" defaultValue="${komentar_uredniku}" />
         </camunda:formData>
       </bpmn:extensionElements>

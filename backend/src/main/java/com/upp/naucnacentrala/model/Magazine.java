@@ -2,6 +2,7 @@ package com.upp.naucnacentrala.model;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,18 +25,14 @@ public class Magazine {
     @Column(name = "is_active")
     private boolean isActive = false;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "magazine_sciencefield",
             joinColumns = @JoinColumn(name = "magazine_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "sciencefield_id", referencedColumnName = "id"))
     private List<ScienceField> scienceFields;
-//
-//    // uredjivacki odbor
-//    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "magazine")
-//    private EditorialBoard editorialBoard;
 
     // recenzenti
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "magazine_reviewers",
             joinColumns = @JoinColumn(name = "magazines_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "reviewer_username", referencedColumnName = "username"))
@@ -97,16 +94,9 @@ public class Magazine {
     }
 
     public void setScienceFieldEditors(List<Editor> scienceFieldEditors) {
-        this.scienceFieldEditors = scienceFieldEditors;
+        this.scienceFieldEditors.clear();
+        this.scienceFieldEditors.addAll(scienceFieldEditors);
     }
-
-//    public EditorialBoard getEditorialBoard() {
-//        return editorialBoard;
-//    }
-//
-//    public void setEditorialBoard(EditorialBoard editorialBoard) {
-//        this.editorialBoard = editorialBoard;
-//    }
 
     public List<Reviewer> getReviewers() {
         return reviewers;
@@ -131,4 +121,22 @@ public class Magazine {
     public void setActive(boolean active) {
         isActive = active;
     }
+
+    public void addEditor(Editor editor){
+        scienceFieldEditors.add(editor);
+        editor.setMagazine(this);
+    }
+
+    public void removeEditor(Editor editor){
+        editor.setMagazine(null);
+        this.scienceFieldEditors.remove(editor);
+    }
+
+    public void clearEditors(){
+        for(Editor editor: this.scienceFieldEditors){
+            editor.setMagazine(null);
+        }
+        this.scienceFieldEditors.clear();
+    }
+
 }

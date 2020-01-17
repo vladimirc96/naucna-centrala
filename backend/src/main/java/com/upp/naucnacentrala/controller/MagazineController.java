@@ -4,10 +4,7 @@ import com.upp.naucnacentrala.Utils;
 import com.upp.naucnacentrala.dto.FormFieldsDto;
 import com.upp.naucnacentrala.dto.FormSubmissionDto;
 import com.upp.naucnacentrala.dto.TaskDto;
-import com.upp.naucnacentrala.model.Magazine;
-import com.upp.naucnacentrala.model.Reviewer;
-import com.upp.naucnacentrala.model.ScienceField;
-import com.upp.naucnacentrala.model.User;
+import com.upp.naucnacentrala.model.*;
 import com.upp.naucnacentrala.security.TokenUtils;
 import com.upp.naucnacentrala.service.MagazineService;
 import com.upp.naucnacentrala.service.ScienceFieldService;
@@ -167,9 +164,11 @@ public class MagazineController {
 
         TaskFormData tfd = formService.getTaskFormData(task.getId());
         List<FormField> properties = tfd.getFormFields();
-        List<ScienceField> scienceFields = scienceFieldService.findAll();
 
         String billing = (String) runtimeService.getVariable(pi.getId(), "nacinNaplacivanja");
+        List<User> editors = userService.findAllEditors();
+        List<User> reviewers = userService.findAllReviewers();
+        List<ScienceField> fields = scienceFieldService.findAll();
 
         for(FormField field : properties){
             if(field.getId().equals("nacin_naplacivanja_stari")){
@@ -181,11 +180,28 @@ public class MagazineController {
                     }
                 }
             }
+            if(field.getId().equals("naucne_oblasti_ispravka")){
+                EnumFormType scienceFields = (EnumFormType) field.getType();
+                for(ScienceField scienceField: fields){
+                    scienceFields.getValues().put(scienceField.getName(), scienceField.getName());
+                }
+            }
+            if(field.getId().equals("urednici_ispravka")){
+                EnumFormType urednici = (EnumFormType) field.getType();
+                for(User user: editors){
+                    urednici.getValues().put(user.getUsername(), user.getFirstName() + " " + user.getLastName() + ", " + user.getUsername());
+                }
+            }
+            if(field.getId().equals("recenzenti_ispravka")){
+                EnumFormType urednici = (EnumFormType) field.getType();
+                for(User user: reviewers){
+                    urednici.getValues().put(user.getUsername(), user.getFirstName() + " " + user.getLastName() + ", " + user.getUsername());
+                }
+            }
         }
 
         return new ResponseEntity<>(new FormFieldsDto(task.getId(), pi.getId(), properties), HttpStatus.OK);
     }
-
 
     @RequestMapping(value = "/magazine-correction/{taskId}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
     public ResponseEntity<String> magazineCorrection(@RequestBody List<FormSubmissionDto> magazineCorrectionData, @PathVariable("taskId") String taskId){

@@ -11,7 +11,7 @@
               </option>
             </select>
 
-            <select multiple name={{field.id}} *ngIf="field.type.name=='enum' && field.id=='recenzenti' " ngModel class="form-control">
+            <select multiple name={{field.id}} *ngIf="field.type.name=='enum' && field.id=='recenzenti' " ngModel class="form-control" required>
                 <option *ngFor="let val of recenzenti" value={{val}}>
                   {{field.type.values[val]}}
                 </option>

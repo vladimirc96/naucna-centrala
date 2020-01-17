@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MagazineService } from 'src/app/services/magazine.service.';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
   selector: 'app-editorial-board-form',
@@ -15,7 +15,7 @@ export class EditorialBoardFormComponent implements OnInit {
   recenzenti = [];
   processInstanceId: string;
 
-  constructor(private magazineService: MagazineService, private route: ActivatedRoute) {
+  constructor(private magazineService: MagazineService, private route: ActivatedRoute, private router: Router) {
     
     this.route.params.subscribe(
       (params: Params) => {
@@ -46,6 +46,11 @@ export class EditorialBoardFormComponent implements OnInit {
   }
 
   onSubmit(value, form){
+    
+    if(!this.validate(value,form)){
+      return;
+    }
+
     var dto = new Array();
 
     for(var property in value){
@@ -65,12 +70,37 @@ export class EditorialBoardFormComponent implements OnInit {
     this.magazineService.saveEditorialBoard(this.formFieldsDto.taskId, dto).subscribe(
       (success) => {
         alert(success);
+        this.router.navigate(['/homepage/editor']);
       },
       (error) => {
         alert(error);
       }
     )
 
+  }
+
+  validate(value,form){
+    if(!form.form.valid){
+      alert("Potrebno je postaviti recenzente.");
+      return false;
+    }
+
+    var recenzentiTemp = new Array();
+
+    for(var property in value){
+      if(property === 'recenzenti'){
+        var recenzenti = value[property];
+        for(let i=0; i<recenzenti.length; i++){
+          recenzentiTemp.push({fieldId: property, fieldValue: recenzenti[i]});
+        }
+      }
+    }
+
+    if(recenzentiTemp.length < 2){
+      alert("Potrebno je postaviti minimalno 2 recenzenta.");
+      return false;
+    }
+    return true;
   }
 
 }

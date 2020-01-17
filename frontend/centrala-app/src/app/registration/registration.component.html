@@ -1,14 +1,16 @@
 <div class="wrapper">
   <div class="d-flex justify-content-center">
-  <form style="width: 550px" #f="ngForm" (ngSubmit)="onSubmit(f.value, f)" ngNativateValidate> 
+  <form style="width: 550px" #f="ngForm" (ngSubmit)="onSubmit(f.value, f)"> 
 
     <div *ngFor="let field of formFields">
         
         <label for={{field.id}}> {{field.label}} </label>
         
-        <input type="text" name={{field.id}} *ngIf="field.type.name == 'string'" class="form-control" ngModel>
+        <input type="text" name={{field.id}} *ngIf="field.type.name == 'string'" class="form-control" ngModel required>
+
         <input type="checkbox" name={{field.id}} *ngIf="field.type.name== 'boolean'" ngModel style="margin-left:10px">
-        <select multiple name={{field.id}} *ngIf="field.type.name == 'enum'" class="form-control" ngModel>
+        
+        <select multiple name={{field.id}} *ngIf="field.type.name == 'enum'" class="form-control" ngModel required>
           <option *ngFor="let val of enumValues" value={{val}}>
             {{field.type.values[val]}}
           </option>
@@ -18,8 +20,9 @@
   <div class="d-flex justify-content-center">
   <button type="submit" class="btn">Potvrdi</button>
   </div>
-
   </form>
   </div>
 
 </div>
+
+<ngx-spinner></ngx-spinner>

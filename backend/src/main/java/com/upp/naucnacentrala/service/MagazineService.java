@@ -85,6 +85,10 @@ public class MagazineService {
     }
 
     public Magazine magazineCorrection(List<FormSubmissionDto> magazineCorrectionData, Magazine magazine){
+        //List<Editor> editors = new ArrayList<>();
+        List<Reviewer> reviewers = new ArrayList<>();
+        List<ScienceField> fields = new ArrayList<>();
+
         for(FormSubmissionDto dto: magazineCorrectionData){
             if(dto.getFieldId().equals("naziv_stari")){
                 magazine.setName(dto.getFieldValue());
@@ -96,7 +100,33 @@ public class MagazineService {
                 }else{
                     magazine.setBillingType(BillingType.READERS);
                 }
+            }else if(dto.getFieldId().equals("naucne_oblasti_ispravka")){
+                ScienceField field = scienceFieldService.findOneByName(dto.getFieldValue());
+                fields.add(field);
+            }else if(dto.getFieldId().equals("urednici_ispravka")){
+                if(!magazine.getScienceFieldEditors().isEmpty()){
+                    List<Editor> editors = new ArrayList<>(magazine.getScienceFieldEditors());
+                    magazine.clearEditors();
+                    for(Editor editor: editors){
+                        editor = (Editor) userService.save(editor);
+                    }
+                }
+                Editor editor = (Editor) userService.findOneByUsername(dto.getFieldValue());
+                magazine.addEditor(editor);
+            }else if(dto.getFieldId().equals("recenzenti_ispravka")){
+                magazine.getReviewers().clear();
+                Reviewer reviewer = (Reviewer) userService.findOneByUsername(dto.getFieldValue());
+                reviewer.getMagazines().add(magazine);
+                reviewers.add(reviewer);
             }
+        }
+
+        if(!reviewers.isEmpty()){
+            magazine.setReviewers(reviewers);
+        }
+
+        if(!fields.isEmpty()){
+            magazine.setScienceFields(fields);
         }
 
         magazine = magazineRepo.save(magazine);

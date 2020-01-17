@@ -30,5 +30,8 @@ export class RepositoryService {
     return this.httpClient.get('/api/repository/get/form/' + taskId);
   }
 
+  getCheckMagazineDataForm(taskId){
+    return this.httpClient.get('/api/repository/form/check-magazine-data/' + taskId);
+  }
   
 }

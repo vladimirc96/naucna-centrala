@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RepositoryService } from 'src/app/services/repository.service';
 import { AdminService } from 'src/app/services/admin.service';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
   selector: 'app-check-magazine-data',
@@ -14,20 +14,36 @@ export class CheckMagazineDataComponent implements OnInit {
 
   formFieldsDto = null;
   formFields = [];
-  enumValues = [];
+  naucneOblasti = [];
+  urednici = [];
+  recenzenti = [];
+
   correction: any;
 
-  constructor(private repoService: RepositoryService, private adminService: AdminService, private route: ActivatedRoute) { 
+  constructor(private repoService: RepositoryService, private adminService: AdminService, private route: ActivatedRoute, private router: Router) { 
     this.route.params.subscribe(
       (params: Params) => {
         this.taskId = params['id'];
       }
     )
 
-    this.repoService.getForm(this.taskId).subscribe(
+    this.repoService.getCheckMagazineDataForm(this.taskId).subscribe(
       (response: any) => {
         this.formFieldsDto = response;
         this.formFields = response.formFields;
+        
+        this.formFields.forEach((field) => {
+          if(field.type.name=='enum' && field.id == 'naucne_oblasti_provera'){
+            this.naucneOblasti = Object.keys(field.type.values);
+          }
+          if(field.type.name=='enum' && field.id == 'urednici_provera'){
+            this.urednici = Object.keys(field.type.values);
+          }
+          if(field.type.name=='enum' && field.id == 'recenzenti_provera'){
+            this.recenzenti = Object.keys(field.type.values);
+          }
+        })
+
     },
     (error) => {alert(error)}
     )
@@ -52,6 +68,7 @@ export class CheckMagazineDataComponent implements OnInit {
     this.adminService.checkMagazineDataSubmit(dto, this.formFieldsDto.taskId).subscribe(
       (success) => {
         alert(success);
+        this.router.navigate(['/homepage/admin/magazines']);
       },
       (error) => {
         alert(error.message);

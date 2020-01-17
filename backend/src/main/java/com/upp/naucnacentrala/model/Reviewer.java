@@ -10,8 +10,7 @@ public class Reviewer extends User{
     @Column(name = "title")
     private String title;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "magazine_reviewers")
+    @ManyToMany(mappedBy = "reviewers", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Magazine> magazines;
 
     public Reviewer() {

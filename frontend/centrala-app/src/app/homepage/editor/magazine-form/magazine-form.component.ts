@@ -41,6 +41,11 @@ export class MagazineFormComponent implements OnInit {
 
   onSubmit(value, form){
 
+    if(!form.form.valid){
+      alert("Potrebno popuniti sva polja oznacena sa zvezdicom.");
+      return;
+    }
+
     let dto = new Array();
     for(var property in value){
       if(property === 'naucne_oblasti'){

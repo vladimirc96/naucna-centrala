@@ -9,12 +9,34 @@
           <input type="text" name={{field.id}} *ngIf="field.type.name == 'string' && field.id != 'komentar_uredniku'" class="form-control" [ngModel]=field.defaultValue readonly>
           <input type="text" name={{field.id}} *ngIf="field.type.name == 'string' && field.id == 'komentar_uredniku' " class="form-control" ngModel>
           <input type="checkbox" name={{field.id}} *ngIf="field.type.name == 'boolean'" ngModel style="margin-left:10px;">
+
+          <select multiple name={{field.id}} *ngIf="field.type.name == 'enum' && field.id == 'naucne_oblasti_provera'" class="form-control" ngModel readonly>
+            <option *ngFor="let val of naucneOblasti" value={{val}}>
+              {{field.type.values[val]}}
+            </option>
+          </select>
+
+          <select multiple name={{field.id}} *ngIf="field.type.name == 'enum' && field.id == 'urednici_provera'" class="form-control" ngModel readonly>
+            <option *ngFor="let val of urednici" value={{val}}>
+              {{field.type.values[val]}}
+            </option>
+          </select>
+
+          <select multiple name={{field.id}} *ngIf="field.type.name == 'enum' && field.id == 'recenzenti_provera'" class="form-control" ngModel readonly>
+            <option *ngFor="let val of recenzenti" value={{val}}>
+              {{field.type.values[val]}}
+            </option>
+          </select>
+
+        </div>
+
+        
+    <div class="d-flex justify-content-center">
+      <button type="submit" class="btn btn-primary">Potvrdi</button>
+      </div>
+      </form>
+
     </div>
 
-    <div class="d-flex justify-content-center">
-    <button type="submit" class="btn btn-primary">Potvrdi</button>
-    </div>
-    </form>
     </div>
   
-  </div>

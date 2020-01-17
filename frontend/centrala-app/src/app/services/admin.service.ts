@@ -14,6 +14,11 @@ export class AdminService {
     return this.httpClient.get('/api/admin/reviewer/form/' + taskId);
   }
 
+  getTasksReviewer(){
+    return this.httpClient.get('/api/admin/tasks/reviewer');
+  }
+
+
   setReviewer(dto, taskId){
     return this.httpClient.put('/api/admin/set-reviewer/' + taskId, dto, {responseType: 'text'});
   }

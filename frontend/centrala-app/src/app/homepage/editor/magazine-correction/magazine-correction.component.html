@@ -1,12 +1,13 @@
 <div class="wrapper">
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center" style="width: 100%; height: 100%;">
     <form #f="ngForm" (ngSubmit)="onSubmit(f.value, f)" ngNativateValidate> 
   
       <div *ngFor="let field of formFields">
           
           <label for={{field.id}}> {{field.label}} </label>
-          <input type="text" name={{field.id}} *ngIf="field.type.name == 'string'" class="form-control" [ngModel]=field.defaultValue>
-          <select name={{field.id}} *ngIf="field.type.name=='enum'" [ngModel]="billing" class="form-control">
+          <input type="text" name={{field.id}} *ngIf="field.type.name == 'string' && field.id != 'komentar'" class="form-control" [ngModel]=field.defaultValue required>
+          <input type="text" name={{field.id}} *ngIf="field.type.name == 'string' && field.id == 'komentar'" class="form-control" [ngModel]=field.defaultValue>
+          <select name={{field.id}} *ngIf="field.type.name=='enum' && field.id=='nacin_naplacivanja_stari'" [ngModel]="billing" class="form-control" required>
             <ng-container *ngFor="let val of enumValues">
               <option *ngIf="billing == val" [value]=billing selected disabled hidden>
                 {{field.type.values[val]}}
@@ -16,7 +17,24 @@
               </option>
             </ng-container>
           </select>
-            
+          
+          <select multiple name={{field.id}} *ngIf="field.type.name == 'enum' && field.id == 'naucne_oblasti_ispravka'" class="form-control" ngModel>
+            <option *ngFor="let val of naucneOblasti" value={{val}}>
+              {{field.type.values[val]}}
+            </option>
+          </select>
+
+          <select multiple name={{field.id}} *ngIf="field.type.name == 'enum' && field.id == 'urednici_ispravka'" class="form-control" ngModel>
+            <option *ngFor="let val of urednici" value={{val}}>
+              {{field.type.values[val]}}
+            </option>
+          </select>
+
+          <select multiple name={{field.id}} *ngIf="field.type.name == 'enum' && field.id == 'recenzenti_ispravka'" class="form-control" ngModel>
+            <option *ngFor="let val of recenzenti" value={{val}}>
+              {{field.type.values[val]}}
+            </option>
+          </select>
           
     </div>
 

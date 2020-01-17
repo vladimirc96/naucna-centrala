@@ -7,6 +7,7 @@ import com.upp.naucnacentrala.dto.TaskDto;
 import com.upp.naucnacentrala.model.BillingType;
 import com.upp.naucnacentrala.model.Magazine;
 import com.upp.naucnacentrala.model.ScienceField;
+import com.upp.naucnacentrala.model.User;
 import com.upp.naucnacentrala.security.TokenUtils;
 import com.upp.naucnacentrala.service.MagazineService;
 import com.upp.naucnacentrala.service.ScienceFieldService;
@@ -51,6 +52,9 @@ public class RepositoryController {
     private TokenUtils tokenUtils;
 
     @Autowired
+    private MagazineService magazineService;
+
+    @Autowired
     private ScienceFieldService scienceFieldService;
 
 
@@ -70,4 +74,40 @@ public class RepositoryController {
         List<FormField> properties = tfd.getFormFields();
         return new ResponseEntity<>(new FormFieldsDto(task.getId(), processInstanceId, properties), HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/form/check-magazine-data/{taskId}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<FormFieldsDto> getCheckMagazineDataForm(@PathVariable("taskId") String taskId){
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
+
+        TaskFormData tfd = formService.getTaskFormData(task.getId());
+        List<FormField> properties = tfd.getFormFields();
+        Long magazineId = (Long) runtimeService.getVariable(task.getProcessInstanceId(), "magazineId");
+        Magazine magazine = magazineService.findOneById(magazineId);
+
+        for(FormField field : properties){
+            if(field.getId().equals("naucne_oblasti_provera")){
+                EnumFormType enumType = (EnumFormType) field.getType();
+                for(ScienceField scienceField: magazine.getScienceFields()){
+                    enumType.getValues().put(scienceField.getName(), scienceField.getName());
+                }
+            }
+            if(field.getId().equals("urednici_provera")){
+                EnumFormType enumType = (EnumFormType) field.getType();
+                for(User user: magazine.getScienceFieldEditors()){
+                    enumType.getValues().put(user.getUsername(), user.getFirstName() + " " + user.getLastName() + ", " + user.getUsername());
+                }
+            }
+            if(field.getId().equals("recenzenti_provera")){
+                EnumFormType enumType = (EnumFormType) field.getType();
+                for(User user: magazine.getReviewers()){
+                    enumType.getValues().put(user.getUsername(), user.getFirstName() + " " + user.getLastName() + ", " + user.getUsername());
+                }
+            }
+        }
+
+        return new ResponseEntity<>(new FormFieldsDto(task.getId(), pi.getId(), properties), HttpStatus.OK);
+    }
+
+
 }

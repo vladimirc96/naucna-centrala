@@ -115,27 +115,6 @@ public class AdminController {
         return new ResponseEntity<>(tasksDto, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/form/check-magazine-data/{taskId}", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<FormFieldsDto> getCheckMagazineDataForm(@PathVariable("taskId") String taskId){
-        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
-        ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
-
-        TaskFormData tfd = formService.getTaskFormData(task.getId());
-        List<FormField> properties = tfd.getFormFields();
-        Long magazineId = (Long) runtimeService.getVariable(task.getProcessInstanceId(), "magazineId");
-        Magazine magazine = magazineService.findOneById(magazineId);
-
-        for(FormField field : properties){
-            if(field.getId().equals("naucne_oblasti_provera")){
-                EnumFormType enumType = (EnumFormType) field.getType();
-                for(ScienceField scienceField: magazine.getScienceFields()){
-                    enumType.getValues().put(scienceField.getName(), scienceField.getName());
-                }
-            }
-        }
-
-        return new ResponseEntity<>(new FormFieldsDto(task.getId(), pi.getId(), properties), HttpStatus.OK);
-    }
 
     @RequestMapping(value = "/check-magazine-data/{taskId}", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> checkMagazineDataSubmit(@RequestBody List<FormSubmissionDto> checkMagazineData,@PathVariable("taskId") String taskId){

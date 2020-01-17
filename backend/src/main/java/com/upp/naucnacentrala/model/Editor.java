@@ -1,5 +1,7 @@
 package com.upp.naucnacentrala.model;
 
+import org.hibernate.validator.constraints.ScriptAssert;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -10,11 +12,8 @@ public class Editor extends User {
     @Column(name = "title")
     private String title;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Magazine magazine;
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    private EditorialBoard editorialBoard;
 
     public String getTitle() {
         return title;
@@ -24,14 +23,6 @@ public class Editor extends User {
         this.title = title;
     }
 
-//    public EditorialBoard getEditorialBoard() {
-//        return editorialBoard;
-//    }
-//
-//    public void setEditorialBoard(EditorialBoard editorialBoard) {
-//        this.editorialBoard = editorialBoard;
-//    }
-
     public Magazine getMagazine() {
         return magazine;
     }
@@ -39,4 +30,7 @@ public class Editor extends User {
     public void setMagazine(Magazine magazine) {
         this.magazine = magazine;
     }
+
+
+
 }

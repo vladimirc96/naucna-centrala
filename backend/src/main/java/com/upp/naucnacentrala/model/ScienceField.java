@@ -17,8 +17,7 @@ public class ScienceField implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "sciencefield_magazine")
+    @ManyToMany(mappedBy = "scienceFields", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Magazine> magazines;
 
     @ManyToMany(mappedBy = "scienceFields", cascade = {CascadeType.PERSIST, CascadeType.MERGE})

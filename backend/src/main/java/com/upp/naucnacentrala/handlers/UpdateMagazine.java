@@ -28,6 +28,11 @@ public class UpdateMagazine implements JavaDelegate{
         // update varijable za formu
         delegateExecution.setVariable("naziv", magazine.getName());
         delegateExecution.setVariable("issn", magazine.getIssn());
+
+        delegateExecution.setVariable("naucne_oblasti_provera", null);
+        delegateExecution.setVariable("urednici_provera", null);
+        delegateExecution.setVariable("recenzenti_provera", null);
+
         if(magazine.getBillingType().name().equals("AUTHORS")){
             delegateExecution.setVariable("nacinNaplacivanja", "Autorima");
         }else{

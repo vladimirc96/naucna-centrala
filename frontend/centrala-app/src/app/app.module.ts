@@ -22,6 +22,7 @@ import { MagazinesComponent } from './homepage/admin/magazines/magazines.compone
 import { CheckMagazineDataComponent } from './homepage/admin/check-magazine-data/check-magazine-data.component';
 import { EditorTasksComponent } from './homepage/editor/editor-tasks/editor-tasks.component';
 import { MagazineCorrectionComponent } from './homepage/editor/magazine-correction/magazine-correction.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { MagazineCorrectionComponent } from './homepage/editor/magazine-correcti
     FormsModule,
     ReactiveFormsModule,
     AngularFontAwesomeModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    BrowserAnimationsModule
   ],
   providers: [ { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }, ],
   bootstrap: [AppComponent]

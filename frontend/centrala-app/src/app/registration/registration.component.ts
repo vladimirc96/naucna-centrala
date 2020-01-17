@@ -17,6 +17,8 @@ export class RegistrationComponent implements OnInit {
   formFieldsDto = null;
   formFields = [];
   enumValues = [];
+
+  isValid = true;
   
   constructor(private repositoryService: RepositoryService, private userService: UserService, private router: Router, private spinner: NgxSpinnerService) {
     
@@ -38,6 +40,11 @@ export class RegistrationComponent implements OnInit {
   }
 
   onSubmit(value, form){
+
+    if(!form.form.valid){
+      alert("Potrebno popuniti sva polja oznacena sa zvezdicom.");
+      return;
+    }
 
     let dto = new Array();
 
@@ -67,5 +74,6 @@ export class RegistrationComponent implements OnInit {
     )
 
   }
+
 
 }
