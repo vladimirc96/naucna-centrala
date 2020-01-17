@@ -1,7 +1,10 @@
 package com.upp.naucnacentrala.handlers;
 
 import com.upp.naucnacentrala.dto.FormSubmissionDto;
+import com.upp.naucnacentrala.model.Editor;
 import com.upp.naucnacentrala.model.Magazine;
+import com.upp.naucnacentrala.model.Reviewer;
+import com.upp.naucnacentrala.model.ScienceField;
 import com.upp.naucnacentrala.service.MagazineService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -26,9 +29,23 @@ public class UpdateMagazine implements JavaDelegate{
         magazine = magazineService.magazineCorrection(magazineCorrectionData, magazine);
 
         // update varijable za formu
+        String oldScienceFields = "";
+        String oldEditors = "";
+        String oldReviewers = "";
+        for(ScienceField scienceField: magazine.getScienceFields()){
+            oldScienceFields = oldScienceFields + scienceField.getName() + ", ";
+        }
+        for(Editor editor: magazine.getScienceFieldEditors()){
+            oldEditors = oldEditors + editor.getFirstName() + " " + editor.getLastName() + ", ";
+        }
+        for(Reviewer reviewer: magazine.getReviewers()){
+            oldReviewers = oldReviewers + reviewer.getFirstName() + " " + reviewer.getLastName() + ", ";
+        }
+        delegateExecution.setVariable("oldScienceFields", oldScienceFields);
+        delegateExecution.setVariable("oldReviewers", oldReviewers);
+        delegateExecution.setVariable("oldEditors", oldEditors);
         delegateExecution.setVariable("naziv", magazine.getName());
         delegateExecution.setVariable("issn", magazine.getIssn());
-
         if(magazine.getBillingType().name().equals("AUTHORS")){
             delegateExecution.setVariable("nacinNaplacivanja", "Autorima");
         }else{

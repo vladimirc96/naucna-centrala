@@ -161,7 +161,6 @@ public class MagazineController {
     public ResponseEntity<FormFieldsDto> getMagazineCorrectionForm(@PathVariable("taskId") String taskId){
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
         ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
-
         TaskFormData tfd = formService.getTaskFormData(task.getId());
         List<FormField> properties = tfd.getFormFields();
 
@@ -169,7 +168,6 @@ public class MagazineController {
         List<User> editors = userService.findAllEditors();
         List<User> reviewers = userService.findAllReviewers();
         List<ScienceField> fields = scienceFieldService.findAll();
-
         for(FormField field : properties){
             if(field.getId().equals("nacin_naplacivanja_stari")){
                 EnumFormType enumFormType = (EnumFormType) field.getType();

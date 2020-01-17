@@ -69,6 +69,7 @@ export class RegistrationComponent implements OnInit {
         this.router.navigate(['/homepage']);
       },
       (error: any) => {
+        this.spinner.hide();
         alert(error.message);
       }
     )

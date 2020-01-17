@@ -147,6 +147,10 @@ public class UserService {
         userRepo.delete(user);
     }
 
+    public void removeById(String username){
+        userRepo.deleteById(username);
+    }
+
     public void sendNotificationSync(User user, String processId) throws MailException, InterruptedException {
         SimpleMailMessage mail = new SimpleMailMessage();
         // mail.setTo(user.getEmail());
@@ -162,7 +166,7 @@ public class UserService {
         runtimeService.setVariable(processId, "hashedValue", hash); // sacuvaj za kasniju proveru
 
         // potreban jednokratni hash
-        mail.setText("Zdravo " + user.getUsername() + ",\n\n molimo vas da kliknete na sledeći link kako bi verifikovali svoj profil: "+ path);
+        mail.setText("Zdravo " + user.getFirstName() + ",\n\n molimo vas da kliknete na sledeći link kako bi verifikovali svoj profil: "+ path);
 
         javaMailSender.send(mail);
     }

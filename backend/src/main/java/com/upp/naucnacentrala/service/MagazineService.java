@@ -57,7 +57,6 @@ public class MagazineService {
 
     public Magazine saveEditorialBoard(List<FormSubmissionDto> editorialBoard, Magazine magazine){
         List<Reviewer> reviewers = new ArrayList<>();
-        List<Editor> editors = new ArrayList<>();
 
         for(FormSubmissionDto dto: editorialBoard){
             if(dto.getFieldId().equals("recenzenti")){
@@ -66,12 +65,10 @@ public class MagazineService {
             }
             if(dto.getFieldId().equals("urednici")){
                 Editor editor = (Editor) userService.findOneByUsername(dto.getFieldValue());
-                editor.setMagazine(magazine);
-                editors.add(editor);
+                magazine.addEditor(editor);
             }
         }
         magazine.setReviewers(reviewers);
-        magazine.setScienceFieldEditors(editors);
         magazine = magazineRepo.save(magazine);
         return magazine;
     }
@@ -85,7 +82,6 @@ public class MagazineService {
     }
 
     public Magazine magazineCorrection(List<FormSubmissionDto> magazineCorrectionData, Magazine magazine){
-        //List<Editor> editors = new ArrayList<>();
         List<Reviewer> reviewers = new ArrayList<>();
         List<ScienceField> fields = new ArrayList<>();
 
@@ -101,15 +97,14 @@ public class MagazineService {
                     magazine.setBillingType(BillingType.READERS);
                 }
             }else if(dto.getFieldId().equals("naucne_oblasti_ispravka")){
+                if(!magazine.getScienceFields().isEmpty()) {
+                    magazine.getScienceFields().clear();
+                }
                 ScienceField field = scienceFieldService.findOneByName(dto.getFieldValue());
                 fields.add(field);
             }else if(dto.getFieldId().equals("urednici_ispravka")){
                 if(!magazine.getScienceFieldEditors().isEmpty()){
-                    List<Editor> editors = new ArrayList<>(magazine.getScienceFieldEditors());
                     magazine.clearEditors();
-//                    for(Editor editor: editors){
-//                        editor = (Editor) userService.save(editor);
-//                    }
                 }
                 Editor editor = (Editor) userService.findOneByUsername(dto.getFieldValue());
                 magazine.addEditor(editor);

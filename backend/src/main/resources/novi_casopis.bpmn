@@ -105,9 +105,12 @@ execution.setVariable("aktivan",isActive);</bpmn:script>
             <camunda:value id="autorima" name="Autorima" />
             <camunda:value id="citaocima" name="Citaocima" />
           </camunda:formField>
-          <camunda:formField id="naucne_oblasti_ispravka" label="Naucne oblasti" type="enum" />
-          <camunda:formField id="urednici_ispravka" label="Urednici" type="enum" />
-          <camunda:formField id="recenzenti_ispravka" label="Recenzenti" type="enum" />
+          <camunda:formField id="naucne_oblasti_stare" label="Naucne oblasti" type="string" defaultValue="${oldScienceFields}" />
+          <camunda:formField id="naucne_oblasti_ispravka" label="Ispravka naucnih oblasti *" type="enum" />
+          <camunda:formField id="urednici_stari" label="Urednici" type="string" defaultValue="${oldEditors}" />
+          <camunda:formField id="urednici_ispravka" label="Ispravka urednika *" type="enum" />
+          <camunda:formField id="recenzenti_stari" label="Recenzenti" type="string" defaultValue="${oldReviewers}" />
+          <camunda:formField id="recenzenti_ispravka" label="Recenzenti ispravka *" type="enum" />
           <camunda:formField id="komentar" label="Komentar" type="string" defaultValue="${komentar_uredniku}" />
         </camunda:formData>
       </bpmn:extensionElements>
@@ -190,7 +193,7 @@ execution.setVariable("aktivan",isActive);</bpmn:script>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0dnydvz_di" bpmnElement="SequenceFlow_0dnydvz">
         <di:waypoint x="1435" y="297" />
-        <di:waypoint x="1511" y="297" />
+        <di:waypoint x="1510" y="297" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_0bgwot5_di" bpmnElement="Task_1tiu1fp">
         <dc:Bounds x="1540" y="410" width="100" height="80" />
@@ -205,11 +208,11 @@ execution.setVariable("aktivan",isActive);</bpmn:script>
         <di:waypoint x="1762" y="450" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="UserTask_18i3q56_di" bpmnElement="Task_0zoja4o">
-        <dc:Bounds x="1511" y="257" width="100" height="80" />
+        <dc:Bounds x="1510" y="257" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_00x8t4k_di" bpmnElement="SequenceFlow_00x8t4k">
-        <di:waypoint x="1561" y="257" />
-        <di:waypoint x="1561" y="120" />
+        <di:waypoint x="1560" y="257" />
+        <di:waypoint x="1560" y="120" />
         <di:waypoint x="1420" y="120" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_104t9q3_di" bpmnElement="Task_1xt878m">

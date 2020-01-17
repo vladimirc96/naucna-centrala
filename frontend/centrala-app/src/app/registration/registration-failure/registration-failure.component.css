@@ -1,0 +1,25 @@
+.wrapper{
+    height: 100%;
+    width: 100%;
+    background-color: #23344B;
+}
+
+p{
+    color:#FDF2E1;
+    font-weight: 300;
+    font-size: xx-large;
+}
+
+a {
+    color:#FDF2E1;
+    font-weight: 300;
+    font-size: large;
+}
+
+a:hover{
+    color:#FDF2E1;
+}
+
+div.align-self-start{
+    margin-top:15%;
+}

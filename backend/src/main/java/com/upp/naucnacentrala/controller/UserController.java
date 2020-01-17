@@ -73,14 +73,14 @@ public class UserController {
         User user = userService.findOneByUsername(userNameDto.getFieldValue());
         if(user != null){
             runtimeService.setVariable(processInstanceId, "dataValid", false);
-            return new ResponseEntity<>(new RegistrationResponseDTO("Korisnik sa navedenim korisnickim imenom vec postoji."), HttpStatus.OK);
+            return new ResponseEntity<>(new RegistrationResponseDTO("Korisnik sa navedenim korisnickim imenom vec postoji."), HttpStatus.NOT_ACCEPTABLE);
         }
 
         try{
             userService.validateData(registrationData);
         }catch(Exception e){
             runtimeService.setVariable(processInstanceId, "dataValid", false);
-            return new ResponseEntity<>(new RegistrationResponseDTO(e.getMessage()), HttpStatus.OK);
+            return new ResponseEntity<>(new RegistrationResponseDTO(e.getMessage()), HttpStatus.NOT_ACCEPTABLE);
         }
 
         // ako  su dobri podaci treba sacuvati korisnika u bazu i staviti mu da nije aktivan
@@ -94,8 +94,8 @@ public class UserController {
         }
 
         runtimeService.setVariable(processInstanceId, "userId", user.getUsername());
-        formService.submitTaskForm(taskId, map);
         runtimeService.setVariable(processInstanceId, "dataValid", true);
+        formService.submitTaskForm(taskId, map);
         return new ResponseEntity<>(new RegistrationResponseDTO("Uspesno ste se registrovali! Proverite email kako bi verifikovali svoj profil."),HttpStatus.CREATED);
     }
 
@@ -127,9 +127,11 @@ public class UserController {
         RedirectView rv = new RedirectView();
         String hashedValue = (String) runtimeService.getVariable(processId, "hashedValue");
         boolean isValid = BCrypt.checkpw(username, hashedValue);
-//        if(!isValid){
-//
-//        }
+        if(!isValid){
+            userService.removeById(username);
+            rv.setUrl("http://localhost:4200/registration-failure");
+            return rv;
+        }
         runtimeService.setVariable(processId, "isVerified", true);
         rv.setUrl("http://localhost:4200/registration-success");
         return rv;

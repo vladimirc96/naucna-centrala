@@ -79,16 +79,15 @@ export class MagazineCorrectionComponent implements OnInit {
 
     this.controls = form.controls;
     for(var control in this.controls){
-      if(control === 'naucne_oblasti_ispravka' || control === 'recenzenti_ispravka' || control === 'urednici_ispravka'){
+      if(control === 'naucne_oblasti_ispravka' || control === 'recenzenti_ispravka' || control === 'urednici_ispravka' ||
+          control === 'naucne_oblasti_stare' || control === 'urednici_stari' || control === 'recenzenti_stari'){
         continue;
       }else{
         dto.push({fieldId: control, fieldValue: this.controls[control].value});
       }
     }
-    console.log(dto);
 
     for(var property in value){
-   
       if(property === 'naucne_oblasti_ispravka'){
         var list = value[property];
         for(let i=0; i<list.length; i++){
@@ -107,7 +106,6 @@ export class MagazineCorrectionComponent implements OnInit {
           dto.push({fieldId: property, fieldValue: list[i]});
         }
       }
-
     }
 
     this.magazineService.magazineCorrection(dto, this.formFieldsDto.taskId).subscribe(

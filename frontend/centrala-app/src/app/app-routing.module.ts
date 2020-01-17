@@ -14,6 +14,7 @@ import { MagazinesComponent } from './homepage/admin/magazines/magazines.compone
 import { CheckMagazineDataComponent } from './homepage/admin/check-magazine-data/check-magazine-data.component';
 import { EditorTasksComponent } from './homepage/editor/editor-tasks/editor-tasks.component';
 import { MagazineCorrectionComponent } from './homepage/editor/magazine-correction/magazine-correction.component';
+import { RegistrationFailureComponent } from './registration/registration-failure/registration-failure.component';
 
 const appRoutes: Routes = [
 	{ path: '', redirectTo: 'homepage', pathMatch: 'full'},
@@ -34,6 +35,7 @@ const appRoutes: Routes = [
 	{ path: 'login', component: LoginComponent },
 	{ path: 'registration', component: RegistrationComponent},
 	{ path: 'registration-success', component: RegistrationSuccessComponent },
+	{ path: 'registration-failure', component: RegistrationFailureComponent}
 	
 	]
 
