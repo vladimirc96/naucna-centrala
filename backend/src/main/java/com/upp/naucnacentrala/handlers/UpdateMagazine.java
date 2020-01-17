@@ -41,6 +41,13 @@ public class UpdateMagazine implements JavaDelegate{
         for(Reviewer reviewer: magazine.getReviewers()){
             oldReviewers = oldReviewers + reviewer.getFirstName() + " " + reviewer.getLastName() + ", ";
         }
+
+
+        oldScienceFields = oldScienceFields.substring(0, oldScienceFields.length()-2);
+        oldEditors = oldEditors.substring(0, oldEditors.length()-2);
+        oldReviewers = oldReviewers.substring(0, oldReviewers.length()-2);
+
+
         delegateExecution.setVariable("oldScienceFields", oldScienceFields);
         delegateExecution.setVariable("oldReviewers", oldReviewers);
         delegateExecution.setVariable("oldEditors", oldEditors);

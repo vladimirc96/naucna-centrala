@@ -1,5 +1,5 @@
 insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type)
-values ("dovla", "$2a$10$hctBLZeH2CG4qTaFLztqQumVRPs9RKlczyopnLFQrKKGMLo2hKzlq", "Vladimir", "Cvetanovic", "Novi Sad", "Srbija", "dovla@gmail.com", false, true, "ADMIN");
+values ("vlada", "$2a$10$Ybft/Pph5.11ESjhvMCWnuyWliLcGlsKRRTPxbTtwlE00j31OZdf6", "Vladimir", "Cvetanovic", "Novi Sad", "Srbija", "dovla@gmail.com", false, true, "ADMIN");
 insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type)
 values ("vukasin", "$2a$10$3u5vuAP6GogQOyE5JQMTOOBIVB874JoCxtcE2s15H1JBVidraPUCW", "Vukasin", "Jovic", "Novi Sad", "Srbija", "vukasin@gmail.com", false, true, "EDITOR");
 
@@ -31,7 +31,7 @@ insert into privilege values (2, 'SET_REVIEWER');
 insert into roles_privileges values (2,1);
 insert into roles_privileges values (2,2);
 
-insert into user_roles values ('dovla',2);
+insert into user_roles values ('vlada',2);
 insert into user_roles values ('vukasin', 3);
 insert into user_roles values ('lazic', 4);
 insert into user_roles values ('djordjevic', 4);
