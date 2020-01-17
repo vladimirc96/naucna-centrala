@@ -88,18 +88,21 @@ public class RepositoryController {
         for(FormField field : properties){
             if(field.getId().equals("naucne_oblasti_provera")){
                 EnumFormType enumType = (EnumFormType) field.getType();
+                if(!enumType.getValues().isEmpty()) enumType.getValues().clear();
                 for(ScienceField scienceField: magazine.getScienceFields()){
                     enumType.getValues().put(scienceField.getName(), scienceField.getName());
                 }
             }
             if(field.getId().equals("urednici_provera")){
                 EnumFormType enumType = (EnumFormType) field.getType();
+                if(!enumType.getValues().isEmpty()) enumType.getValues().clear();
                 for(User user: magazine.getScienceFieldEditors()){
                     enumType.getValues().put(user.getUsername(), user.getFirstName() + " " + user.getLastName() + ", " + user.getUsername());
                 }
             }
             if(field.getId().equals("recenzenti_provera")){
                 EnumFormType enumType = (EnumFormType) field.getType();
+                if(!enumType.getValues().isEmpty()) enumType.getValues().clear();
                 for(User user: magazine.getReviewers()){
                     enumType.getValues().put(user.getUsername(), user.getFirstName() + " " + user.getLastName() + ", " + user.getUsername());
                 }

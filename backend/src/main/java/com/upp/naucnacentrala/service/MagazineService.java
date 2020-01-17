@@ -107,14 +107,16 @@ public class MagazineService {
                 if(!magazine.getScienceFieldEditors().isEmpty()){
                     List<Editor> editors = new ArrayList<>(magazine.getScienceFieldEditors());
                     magazine.clearEditors();
-                    for(Editor editor: editors){
-                        editor = (Editor) userService.save(editor);
-                    }
+//                    for(Editor editor: editors){
+//                        editor = (Editor) userService.save(editor);
+//                    }
                 }
                 Editor editor = (Editor) userService.findOneByUsername(dto.getFieldValue());
                 magazine.addEditor(editor);
             }else if(dto.getFieldId().equals("recenzenti_ispravka")){
-                magazine.getReviewers().clear();
+                if(!magazine.getReviewers().isEmpty()){
+                    magazine.getReviewers().clear();
+                }
                 Reviewer reviewer = (Reviewer) userService.findOneByUsername(dto.getFieldValue());
                 reviewer.getMagazines().add(magazine);
                 reviewers.add(reviewer);
