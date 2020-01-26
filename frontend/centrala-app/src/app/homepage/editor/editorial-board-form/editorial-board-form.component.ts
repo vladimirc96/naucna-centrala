@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MagazineService } from 'src/app/services/magazine.service.';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { RepositoryService } from 'src/app/services/repository.service';
 
 @Component({
   selector: 'app-editorial-board-form',
@@ -15,7 +16,7 @@ export class EditorialBoardFormComponent implements OnInit {
   recenzenti = [];
   processInstanceId: string;
 
-  constructor(private magazineService: MagazineService, private route: ActivatedRoute, private router: Router) {
+  constructor(private magazineService: MagazineService, private route: ActivatedRoute, private router: Router, private repoService: RepositoryService) {
     
     this.route.params.subscribe(
       (params: Params) => {
@@ -23,7 +24,7 @@ export class EditorialBoardFormComponent implements OnInit {
       }
     )
 
-    this.magazineService.getEditorialBoardForm(this.processInstanceId).subscribe(
+    this.repoService.getEditorialBoardForm(this.processInstanceId).subscribe(
       (response: any) => {
         this.formFieldsDto = response;
         this.formFields = response.formFields;

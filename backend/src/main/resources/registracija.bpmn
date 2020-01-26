@@ -47,11 +47,6 @@
         <bpmn:condition xsi:type="bpmn:tFormalExpression">${isVerified== true}</bpmn:condition>
       </bpmn:conditionalEventDefinition>
     </bpmn:intermediateCatchEvent>
-    <bpmn:parallelGateway id="ExclusiveGateway_0o5zwlo">
-      <bpmn:incoming>SequenceFlow_1nb0u5o</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0fc41no</bpmn:outgoing>
-      <bpmn:outgoing>SequenceFlow_0sjkvnh</bpmn:outgoing>
-    </bpmn:parallelGateway>
     <bpmn:sequenceFlow id="SequenceFlow_19z72hg" sourceRef="IntermediateCatchEvent_0ruizlv" targetRef="Task_0mbtfml" />
     <bpmn:sequenceFlow id="SequenceFlow_0vq25cl" sourceRef="IntermediateThrowEvent_0suxe6w" targetRef="Task_19hoiuk" />
     <bpmn:intermediateCatchEvent id="IntermediateThrowEvent_0suxe6w">
@@ -151,6 +146,11 @@
     <bpmn:sequenceFlow id="SequenceFlow_07limty" sourceRef="ExclusiveGateway_14mu8y6" targetRef="Forma_registracije">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${dataValid==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
+    <bpmn:eventBasedGateway id="ExclusiveGateway_0o5zwlo">
+      <bpmn:incoming>SequenceFlow_1nb0u5o</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0fc41no</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0sjkvnh</bpmn:outgoing>
+    </bpmn:eventBasedGateway>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Registracija">
@@ -186,9 +186,6 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="IntermediateCatchEvent_0ruizlv_di" bpmnElement="IntermediateCatchEvent_0ruizlv">
         <dc:Bounds x="952" y="312" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ParallelGateway_01uiyq1_di" bpmnElement="ExclusiveGateway_0o5zwlo">
-        <dc:Bounds x="855" y="182" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_19z72hg_di" bpmnElement="SequenceFlow_19z72hg">
         <di:waypoint x="988" y="330" />
@@ -298,6 +295,9 @@
         <di:waypoint x="330" y="300" />
         <di:waypoint x="330" y="247" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EventBasedGateway_0fw6al4_di" bpmnElement="ExclusiveGateway_0o5zwlo">
+        <dc:Bounds x="855" y="182" width="50" height="50" />
+      </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>

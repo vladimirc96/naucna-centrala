@@ -27,11 +27,20 @@ export class RepositoryService {
   }
 
   getForm(taskId){
-    return this.httpClient.get('/api/repository/get/form/' + taskId);
+    return this.httpClient.get('/api/repository/form/' + taskId);
   }
 
   getCheckMagazineDataForm(taskId){
     return this.httpClient.get('/api/repository/form/check-magazine-data/' + taskId);
   }
+
+  getMagazineCorrectionForm(taskId){
+    return this.httpClient.get('/api/magazines/form/magazine-correction/' + taskId);
+  }
+
+  getEditorialBoardForm(processInstanceId){
+    return this.httpClient.get('/api/magazines/form/editorial-board/' + processInstanceId);
+  }
+  
   
 }

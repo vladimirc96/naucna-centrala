@@ -11,6 +11,7 @@ import com.upp.naucnacentrala.model.User;
 import com.upp.naucnacentrala.security.TokenUtils;
 import com.upp.naucnacentrala.service.MagazineService;
 import com.upp.naucnacentrala.service.ScienceFieldService;
+import com.upp.naucnacentrala.service.UserService;
 import org.camunda.bpm.engine.*;
 import org.camunda.bpm.engine.form.FormField;
 import org.camunda.bpm.engine.form.TaskFormData;
@@ -57,6 +58,8 @@ public class RepositoryController {
     @Autowired
     private ScienceFieldService scienceFieldService;
 
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value = "/tasks/claim/{taskId}", method = RequestMethod.POST,produces = "application/json")
     public ResponseEntity claim(@PathVariable String taskId, HttpServletRequest request) {
@@ -66,7 +69,7 @@ public class RepositoryController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/get/form/{taskId}", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/form/{taskId}", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<FormFieldsDto> getFormFields(@PathVariable("taskId") String taskId){
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
         String processInstanceId = task.getProcessInstanceId();
@@ -106,6 +109,84 @@ public class RepositoryController {
                 for(User user: magazine.getReviewers()){
                     enumType.getValues().put(user.getUsername(), user.getFirstName() + " " + user.getLastName() + ", " + user.getUsername());
                 }
+            }
+        }
+
+        return new ResponseEntity<>(new FormFieldsDto(task.getId(), pi.getId(), properties), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/form/magazine-correction/{taskId}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<FormFieldsDto> getMagazineCorrectionForm(@PathVariable("taskId") String taskId){
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
+        TaskFormData tfd = formService.getTaskFormData(task.getId());
+        List<FormField> properties = tfd.getFormFields();
+
+        String billing = (String) runtimeService.getVariable(pi.getId(), "nacinNaplacivanja");
+        List<User> editors = userService.findAllEditors();
+        List<User> reviewers = userService.findAllReviewers();
+        List<ScienceField> fields = scienceFieldService.findAll();
+        for(FormField field : properties){
+            if(field.getId().equals("nacin_naplacivanja_stari")){
+                EnumFormType enumFormType = (EnumFormType) field.getType();
+                List<String> keys = new ArrayList<>(enumFormType.getValues().values());
+                for(String val: keys){
+                    if (val.equals(billing)){
+                        field.getProperties().put(val, "selected");
+                    }
+                }
+            }
+            if(field.getId().equals("naucne_oblasti_ispravka")){
+                EnumFormType scienceFields = (EnumFormType) field.getType();
+                for(ScienceField scienceField: fields){
+                    scienceFields.getValues().put(scienceField.getName(), scienceField.getName());
+                }
+            }
+            if(field.getId().equals("urednici_ispravka")){
+                EnumFormType urednici = (EnumFormType) field.getType();
+                for(User user: editors){
+                    urednici.getValues().put(user.getUsername(), user.getFirstName() + " " + user.getLastName() + ", " + user.getUsername());
+                }
+            }
+            if(field.getId().equals("recenzenti_ispravka")){
+                EnumFormType urednici = (EnumFormType) field.getType();
+                for(User user: reviewers){
+                    urednici.getValues().put(user.getUsername(), user.getFirstName() + " " + user.getLastName() + ", " + user.getUsername());
+                }
+            }
+        }
+
+        return new ResponseEntity<>(new FormFieldsDto(task.getId(), pi.getId(), properties), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/form/editorial-board/{processInstanceId}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<FormFieldsDto> getEditorialBoardForm(@PathVariable("processInstanceId") String processInstanceId){
+        ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+
+        Task task = taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
+        TaskFormData tfd = formService.getTaskFormData(task.getId());
+        List<FormField> properties = tfd.getFormFields();
+        Long magazineId = (Long) runtimeService.getVariable(processInstanceId, "magazineId");
+        Magazine magazine = magazineService.findOneById(magazineId);
+
+        List<User> reviewers = userService.findAllByMagazineScienceFields(magazine.getScienceFields(), "REVIEWER");
+        for(FormField field : properties){
+            if(field.getId().equals("recenzenti")){
+                EnumFormType enumType = (EnumFormType) field.getType();
+                for(User user: reviewers){
+                    enumType.getValues().put(user.getUsername(), user.getFirstName() + " " + user.getLastName() + ", " + user.getUsername());
+                }
+                break;
+            }
+        }
+        List<User> editors = userService.findAllByMagazineScienceFields(magazine.getScienceFields(), "EDITOR");
+        for(FormField field : properties){
+            if(field.getId().equals("urednici")){
+                EnumFormType enumType = (EnumFormType) field.getType();
+                for(User user: editors){
+                    enumType.getValues().put(user.getUsername(), user.getFirstName() + " " + user.getLastName() + ", " + user.getUsername());
+                }
+                break;
             }
         }
 
