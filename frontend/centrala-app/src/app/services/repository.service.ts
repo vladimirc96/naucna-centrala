@@ -35,11 +35,11 @@ export class RepositoryService {
   }
 
   getMagazineCorrectionForm(taskId){
-    return this.httpClient.get('/api/magazines/form/magazine-correction/' + taskId);
+    return this.httpClient.get('/api/repository/form/magazine-correction/' + taskId);
   }
 
   getEditorialBoardForm(processInstanceId){
-    return this.httpClient.get('/api/magazines/form/editorial-board/' + processInstanceId);
+    return this.httpClient.get('/api/repository/form/editorial-board/' + processInstanceId);
   }
   
   

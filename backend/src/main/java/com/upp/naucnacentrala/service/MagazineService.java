@@ -1,6 +1,7 @@
 package com.upp.naucnacentrala.service;
 
 import com.upp.naucnacentrala.dto.FormSubmissionDto;
+import com.upp.naucnacentrala.dto.MagazineDTO;
 import com.upp.naucnacentrala.model.*;
 import com.upp.naucnacentrala.repository.MagazineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,23 @@ public class MagazineService {
         return magazineRepo.findOneById(id);
     }
 
+    public MagazineDTO findOneDto(Long id){
+        Magazine magazine = magazineRepo.findOneById(id);
+        return new MagazineDTO(magazine.getId(), magazine.getName(), magazine.getIssn(), magazine.getScienceFields(), magazine.getChiefEditor());
+    }
+
     public Magazine save(Magazine magazine){
         return magazineRepo.save(magazine);
     }
+
+    public List<MagazineDTO> findAll(){
+        List<MagazineDTO> magazines = new ArrayList<>();
+        for(Magazine magazine: magazineRepo.findAll()){
+            magazines.add(new MagazineDTO(magazine.getId(), magazine.getName(), magazine.getIssn(), magazine.getScienceFields(), magazine.getChiefEditor()));
+        }
+        return magazines;
+    }
+
 
     public Magazine save(List<FormSubmissionDto> magazineData){
         Magazine magazine = new Magazine();
@@ -71,10 +86,6 @@ public class MagazineService {
         magazine.setReviewers(reviewers);
         magazine = magazineRepo.save(magazine);
         return magazine;
-    }
-
-    public List<Magazine> findAll(){
-        return magazineRepo.findAll();
     }
 
     public void remove(Magazine magazine){

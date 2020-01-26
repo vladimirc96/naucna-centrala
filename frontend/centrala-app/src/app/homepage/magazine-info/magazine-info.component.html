@@ -1,0 +1,8 @@
+<h1 style="padding-top: 70px">{{magazine.name}}</h1>
+<p style="margin-top:13px">Glavni urednik: {{magazine.chiefEditor}}</p>
+<div class="oblast" *ngFor="let oblast of magazine.scienceFieldList">{{oblast}}</div>
+<div class="d-flex flex-row-reverse">
+    <button class="btn btn-link">Pretplati se</button>
+    <button class="btn btn-link">Kupi</button>
+</div>
+<hr>

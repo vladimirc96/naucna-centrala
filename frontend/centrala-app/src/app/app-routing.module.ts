@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RegistrationComponent } from './registration/registration.component';
 import { RegistrationSuccessComponent } from './registration/registration-success/registration-success.component';
@@ -15,10 +15,14 @@ import { CheckMagazineDataComponent } from './homepage/admin/check-magazine-data
 import { EditorTasksComponent } from './homepage/editor/editor-tasks/editor-tasks.component';
 import { MagazineCorrectionComponent } from './homepage/editor/magazine-correction/magazine-correction.component';
 import { RegistrationFailureComponent } from './registration/registration-failure/registration-failure.component';
+import { MagazineListComponent } from './homepage/magazine-list/magazine-list.component';
+import { MagazineInfoComponent } from './homepage/magazine-info/magazine-info.component';
 
 const appRoutes: Routes = [
-	{ path: '', redirectTo: 'homepage', pathMatch: 'full'},
+	{ path: '', redirectTo: 'homepage/magazine-list', pathMatch: 'full'},
 	{ path: 'homepage', component: HomepageComponent, children: [
+		{ path: 'magazine-list', component: MagazineListComponent},
+		{ path: 'magazine/:id', component: MagazineInfoComponent},
 		{ path: 'admin', component: AdminComponent, children: [
 			{ path: 'reviewer', component: ReviewerComponent },
 			{ path: 'check-reviewer-data/:id', component: ReviewerFormComponent},

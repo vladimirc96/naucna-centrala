@@ -24,6 +24,8 @@ import { EditorTasksComponent } from './homepage/editor/editor-tasks/editor-task
 import { MagazineCorrectionComponent } from './homepage/editor/magazine-correction/magazine-correction.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RegistrationFailureComponent } from './registration/registration-failure/registration-failure.component';
+import { MagazineListComponent } from './homepage/magazine-list/magazine-list.component';
+import { MagazineInfoComponent } from './homepage/magazine-info/magazine-info.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { RegistrationFailureComponent } from './registration/registration-failur
     CheckMagazineDataComponent,
     EditorTasksComponent,
     MagazineCorrectionComponent,
-    RegistrationFailureComponent
+    RegistrationFailureComponent,
+    MagazineListComponent,
+    MagazineInfoComponent
   ],
   imports: [
     BrowserModule,

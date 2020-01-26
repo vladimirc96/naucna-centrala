@@ -10,6 +10,15 @@ export class MagazineService {
 
   constructor(private httpClient: HttpClient) { }
 
+
+  get(id){
+    return this.httpClient.get('/api/magazines/' + id);
+  }
+  
+  getAll(){
+    return this.httpClient.get('/api/magazines');
+  }
+
   getForm(){
     return this.httpClient.get('/api/magazines/form');
   }

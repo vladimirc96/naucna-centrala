@@ -1,9 +1,10 @@
 <nav class="navbar navbar-expand" style="background-color:#23344B">
-  <a class="navbar-brand" [routerLink]="['/homepage']" style="color: white">Naucna centrala</a>
+  <a class="navbar-brand" [routerLink]="['']" style="color: white">Naucna centrala</a>
       <ul class="navbar-nav mr-auto">
 
+        <a class="reg-casopis" href="#"> Registrujte časopis </a>
+
         <!-- ADMIN -->
-      
         <li class="nav-item" *ngIf="isAdmin">
           <a class="nav-link">Urednici</a>
         </li>
@@ -23,9 +24,11 @@
 
       </ul>
   <div class="d-flex flex-row-reverse">
-    <button class="btn" [routerLink]="['/registration']" *ngIf="!isLoggedIn">Register</button>
-    <button class="btn" [routerLink]="['/login']" *ngIf="!isLoggedIn">Login</button>
-    <button class="btn" (click)="logOut()" *ngIf="isLoggedIn">Logout</button>
+    
+    <button class="btn" [routerLink]="['/registration']" *ngIf="!isLoggedIn">Registracija</button>
+    <button class="btn" [routerLink]="['/login']" *ngIf="!isLoggedIn">Prijava</button>
+    <button class="btn" (click)="logOut()" *ngIf="isLoggedIn">Odjava</button>
+    
   </div>
   </nav>
   
