@@ -23,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import spinjar.com.fasterxml.jackson.databind.ser.std.EnumSerializer;
+import sun.misc.Request;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
@@ -66,11 +67,15 @@ public class MagazineController {
         return new ResponseEntity<>(magazineService.findAll(), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/get-by-editor", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<List<MagazineDTO>> findAllByChiefEditor(HttpServletRequest request){
+        return new ResponseEntity(magazineService.findAllByChiefEditor(Utils.getUsernameFromRequest(request, tokenUtils)), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/{magazineId}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<MagazineDTO> get(@PathVariable("magazineId") String magazineId){
         return new ResponseEntity<>(magazineService.findOneDto(Long.parseLong(magazineId)), HttpStatus.OK);
     }
-
 
 
     @RequestMapping(value = "/form", method = RequestMethod.GET, produces = "application/json")

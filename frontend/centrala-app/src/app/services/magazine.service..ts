@@ -47,4 +47,8 @@ export class MagazineService {
     return this.httpClient.put('/api/magazines/magazine-correction/'+ taskId, dto, {responseType: 'text'});
   }
 
+  getAllByChiefEditor(){
+    return this.httpClient.get('/api/magazines/get-by-editor');
+  }
+
 }
