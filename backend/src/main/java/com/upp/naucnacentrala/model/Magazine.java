@@ -30,7 +30,7 @@ public class Magazine {
     private Long sellerId;
 
     @Column(name = "is_registered")
-    private boolean isRegistered;
+    private boolean isRegistered = false;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "magazine_sciencefield",
