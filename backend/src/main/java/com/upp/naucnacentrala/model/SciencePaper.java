@@ -28,6 +28,12 @@ public class SciencePaper {
     @OneToMany(mappedBy = "sciencePaper", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<OrderObject> orderObjects;
 
+    @Column(name = "price")
+    private double price;
+
+    @Column(name = "currency")
+    private String currency;
+
     public SciencePaper() {
     }
 
@@ -41,6 +47,18 @@ public class SciencePaper {
 
     public String getTitle() {
         return title;
+    }
+
+    public Magazine getMagazine() {
+        return magazine;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public String getCurrency() {
+        return currency;
     }
 
     public void setTitle(String title) {
@@ -77,5 +95,17 @@ public class SciencePaper {
 
     public void setOrderObjects(List<OrderObject> orderObjects) {
         this.orderObjects = orderObjects;
+    }
+
+    public void setMagazine(Magazine magazine) {
+        this.magazine = magazine;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 }

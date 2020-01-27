@@ -40,7 +40,7 @@ export class MagazineInfoComponent implements OnInit {
     this.kpService.createPlan(this.magazineId).subscribe(
       (response) => {
         this.retHref = response;
-        window.location.href = this.retHref;
+        window.location.href = this.retHref.href;
       },
       (error) => {
         alert(error.message);

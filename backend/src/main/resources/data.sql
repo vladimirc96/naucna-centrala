@@ -79,6 +79,9 @@ insert into user_sciencefields values ('andrijana', 3);
 insert into user_sciencefields values ('andrijana', 4);
 insert into user_sciencefields values ('andrijana', 5);
 
+-- insert into science_paper (1, 'USD', 'nauka', 'ovo je apstrakt rada', 7, 'Kutak nauke kroz istoriju', 1, 2);
+-- insert into science_paper (2, 'USD', 'informatika', 'ovo je apstrakt rada 2', 10, 'Algoritmi nauke', 1, 2);
+
 
 
 
