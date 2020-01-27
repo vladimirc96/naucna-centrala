@@ -38,3 +38,7 @@ p.minor{
 .left-side{
     width: 30%;
 }
+
+.btn {
+    margin-bottom: 5px;
+}
