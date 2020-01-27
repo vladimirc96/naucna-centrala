@@ -1,7 +1,11 @@
 package com.upp.naucnacentrala.controller;
 
+import com.upp.naucnacentrala.client.RegistrationClient;
+import com.upp.naucnacentrala.dto.KPRegistrationDTO;
+import com.upp.naucnacentrala.dto.MagazineDTO;
 import com.upp.naucnacentrala.dto.MagazineInfoDTO;
 import com.upp.naucnacentrala.model.Magazine;
+import com.upp.naucnacentrala.service.KPService;
 import com.upp.naucnacentrala.service.MagazineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,10 +24,28 @@ public class KPController {
     @Autowired
     RestTemplate restTemplate;
 
+    @Autowired
+    RegistrationClient registrationClient;
+
+    @Autowired
+    KPService kpService;
+
     @RequestMapping(value = "/createPlan/{magazineId}", method = RequestMethod.GET)
     public ResponseEntity<?> sendKPCreatePlan(@PathVariable("magazineId") long magazineId){
         Magazine m = magazineService.findOneById(magazineId);
 
         return new ResponseEntity<>("Task obavljen!", HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    public @ResponseBody ResponseEntity registerSeller(@RequestBody MagazineDTO magazineDTO){
+        return new ResponseEntity<>(kpService.initRegistration(magazineDTO), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/registration/status", method = RequestMethod.POST)
+    public @ResponseBody ResponseEntity registerSeller(@RequestBody KPRegistrationDTO kprDTO){
+        kpService.changeRegistrationStatus(kprDTO);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 }
