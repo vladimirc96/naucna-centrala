@@ -11,6 +11,8 @@ import { MagazineService } from 'src/app/services/magazine.service.';
 export class EditorTasksComponent implements OnInit {
 
   tasks = [];
+  magazineList: any = [];
+  emptyMagazineList: boolean = false;
 
   constructor(private repoService: RepositoryService, private magazineService: MagazineService,private router: Router) { }
 
@@ -23,6 +25,16 @@ export class EditorTasksComponent implements OnInit {
     (error) => {
       alert(error.message);
     }
+
+    this.magazineService.getAllByChiefEditor().subscribe(
+      (data) => {
+        this.magazineList = data;
+      }, 
+      (error) => {
+        alert(error.message);
+      }
+    )
+
   }
 
   claimTask(taskId){

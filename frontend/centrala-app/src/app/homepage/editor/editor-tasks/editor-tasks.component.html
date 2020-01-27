@@ -1,6 +1,34 @@
 <div style="width: 100%; padding-top:15px" class="d-flex flex-row-reverse">
     <button class="btn btn-primary" [routerLink]="['/homepage/editor/magazines']">Kreiraj casopis</button>
     </div>
+
+   
+    <div class="table-responsive">
+        <h1>Časopisi:</h1>
+        <table class="table" id="lista">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Naziv časopisa</th>
+              <th scope="col">ISSN</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let magazine of magazineList">
+                  <th scope="row">{{ magazine.id }}</th>
+                  <td>{{ magazine.name }}</td>
+                  <td>{{ magazine.issn }}</td>
+                  <td style="width:10px"><button class="btn btn-link" (click)="onRegister(magazine.id)" [disabled]="magazine.isRegistered">Registruj</button></td>
+                </tr>
+              </tbody>
+        </table>
+        </div>
+      <div>
+        <h3 *ngIf="emptyMagazineList">U sistemu ne postoje casopisi za koje ste glavni urednik.</h3>
+    </div>
+
+
     <h1>Zadaci:</h1>
     <div class="wrapper" style="width: 100%; height: 100%;">
         <table>

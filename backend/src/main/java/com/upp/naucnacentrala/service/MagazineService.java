@@ -29,7 +29,7 @@ public class MagazineService {
 
     public MagazineDTO findOneDto(Long id){
         Magazine magazine = magazineRepo.findOneById(id);
-        return new MagazineDTO(magazine.getId(), magazine.getName(), magazine.getIssn(), magazine.getScienceFields(), magazine.getChiefEditor());
+        return new MagazineDTO(magazine.getId(), magazine.getName(), magazine.getIssn(), magazine.getScienceFields(), magazine.getChiefEditor(), magazine.isRegistered());
     }
 
     public Magazine save(Magazine magazine){
@@ -39,7 +39,7 @@ public class MagazineService {
     public List<MagazineDTO> findAll(){
         List<MagazineDTO> magazines = new ArrayList<>();
         for(Magazine magazine: magazineRepo.findAll()){
-            magazines.add(new MagazineDTO(magazine.getId(), magazine.getName(), magazine.getIssn(), magazine.getScienceFields(), magazine.getChiefEditor()));
+            magazines.add(new MagazineDTO(magazine.getId(), magazine.getName(), magazine.getIssn(), magazine.getScienceFields(), magazine.getChiefEditor(), magazine.isRegistered()));
         }
         return magazines;
     }
@@ -140,6 +140,14 @@ public class MagazineService {
 
         magazine = magazineRepo.save(magazine);
         return magazine;
+    }
+
+    public List<MagazineDTO> findAllByChiefEditor(String username){
+        List<MagazineDTO> magazines = new ArrayList<>();
+        for(Magazine magazine: magazineRepo.findAllByChiefEditor(username)){
+            magazines.add(new MagazineDTO(magazine.getId(), magazine.getName(), magazine.getIssn(), magazine.getScienceFields(), magazine.getChiefEditor(), magazine.isRegistered()));
+        }
+        return magazines;
     }
 
 
