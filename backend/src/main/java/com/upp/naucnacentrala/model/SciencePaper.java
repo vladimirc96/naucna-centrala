@@ -28,9 +28,6 @@ public class SciencePaper {
     @OneToMany(mappedBy = "sciencePaper", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<OrderObject> orderObjects;
 
-    @Column(name = "price")
-    private double price;
-
     @Column(name = "currency")
     private String currency;
 
