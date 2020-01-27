@@ -54,12 +54,12 @@ public class Order {
         this.magazineId = magazineId;
     }
 
-    public Long getScientificPaperId() {
-        return scientificPaperId;
+    public Long getSciencePaperId() {
+        return sciencePaperId;
     }
 
-    public void setScientificPaperId(Long scientificPaperId) {
-        this.scientificPaperId = scientificPaperId;
+    public void setSciencePaperId(Long sciencePaperId) {
+        this.sciencePaperId = sciencePaperId;
     }
 
     public Long getSubscriptionId() {
