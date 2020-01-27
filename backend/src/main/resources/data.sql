@@ -1,6 +1,9 @@
-insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered, seller_id) values (1, "Naucni kutak", "111", "READERS", true, "milica", false, 0);
-insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered, seller_id) values (2, "Nauka danas", "222", "AUTHORS", true, "andrijana", false, 0);
-insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered, seller_id) values (3, "Savremena psihologija", "333", "READERS", true, "vukasin", false, 0);
+insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered) values (1, "Naucni kutak", "111", "READERS", true, "milica", false);
+insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered) values (2, "Nauka danas", "222", "AUTHORS", true, "andrijana", false);
+insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered) values (3, "Savremena psihologija", "333", "READERS", true, "vukasin", false);
+
+insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id) values (1, 'Mape uma', 'Kljucni pojam', 'Abstrakt', 100, 'USD', 3);
+insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id) values (2, 'Kako prihvatiti odgovornost?', 'Kljucni pojam', 'Abstrakt', 200, 'USD', 3);
 
 insert into science_field values (1, 'Matematika');
 insert into science_field values (2, 'Informatika');
