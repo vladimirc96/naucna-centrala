@@ -2,6 +2,7 @@ package com.upp.naucnacentrala.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Subscription {
@@ -19,8 +20,11 @@ public class Subscription {
     @Column(name = "user_id")
     private String userId;
 
-    @Column(name = "magazine_id")
-    private Long magazineId;
+    @ManyToOne
+    private Magazine magazine;
+
+    @OneToMany(mappedBy = "subscription", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<OrderObject> orderObjects;
 
     public Subscription() {
     }
@@ -57,11 +61,19 @@ public class Subscription {
         this.userId = userId;
     }
 
-    public Long getMagazineId() {
-        return magazineId;
+    public Magazine getMagazine() {
+        return magazine;
     }
 
-    public void setMagazineId(Long magazineId) {
-        this.magazineId = magazineId;
+    public void setMagazine(Magazine magazine) {
+        this.magazine = magazine;
+    }
+
+    public List<OrderObject> getOrderObjects() {
+        return orderObjects;
+    }
+
+    public void setOrderObjects(List<OrderObject> orderObjects) {
+        this.orderObjects = orderObjects;
     }
 }

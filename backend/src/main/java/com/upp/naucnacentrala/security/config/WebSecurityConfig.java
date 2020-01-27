@@ -82,6 +82,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 					.antMatchers("/admin/**").permitAll()
 					.antMatchers("/repository/**").permitAll()
 					.antMatchers("/magazines/**").permitAll()
+					.antMatchers("/test/**").permitAll()
 					// svaki zahtev mora biti autorizovan
 					.anyRequest().authenticated().and()
 				// presretni svaki zahtev filterom
@@ -103,6 +104,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 			web.ignoring().antMatchers(HttpMethod.PUT, "/users/**");
 
 			web.ignoring().antMatchers(HttpMethod.GET, "/magazines");
+			web.ignoring().antMatchers(HttpMethod.GET, "/test/**");
 			web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js");
 		}
 		

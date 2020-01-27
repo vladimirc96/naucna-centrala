@@ -23,6 +23,9 @@ public class ScienceField implements Serializable {
     @ManyToMany(mappedBy = "scienceFields", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<User> users;
 
+    @OneToMany(mappedBy = "scienceField", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<SciencePaper> sciencePapers;
+
     public ScienceField() {
     }
 

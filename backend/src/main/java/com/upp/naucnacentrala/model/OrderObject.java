@@ -6,20 +6,14 @@ import com.upp.naucnacentrala.model.enums.OrderType;
 import javax.persistence.*;
 
 @Entity
-public class Order {
+public class OrderObject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "magazine_id")
-    private Long magazineId;
-
-    @Column(name = "science_paper_id")
-    private Long sciencePaperId;
-
-    @Column(name = "subscription_id")
-    private Long subscriptionId;
+    @Column(name = "user_id")
+    private String userId;
 
     @Column(name = "amount")
     private double amount;
@@ -32,11 +26,17 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
+    @ManyToOne
+    private Magazine magazine;
 
-    public Order() {
+    @ManyToOne
+    private SciencePaper sciencePaper;
+
+    @ManyToOne
+    private Subscription subscription;
+
+    public OrderObject() {
     }
-
-
 
     public Long getId() {
         return id;
@@ -46,28 +46,28 @@ public class Order {
         this.id = id;
     }
 
-    public Long getMagazineId() {
-        return magazineId;
+    public Magazine getMagazine() {
+        return magazine;
     }
 
-    public void setMagazineId(Long magazineId) {
-        this.magazineId = magazineId;
+    public void setMagazine(Magazine magazine) {
+        this.magazine = magazine;
     }
 
-    public Long getSciencePaperId() {
-        return sciencePaperId;
+    public SciencePaper getSciencePaper() {
+        return sciencePaper;
     }
 
-    public void setSciencePaperId(Long sciencePaperId) {
-        this.sciencePaperId = sciencePaperId;
+    public void setSciencePaper(SciencePaper sciencePaper) {
+        this.sciencePaper = sciencePaper;
     }
 
-    public Long getSubscriptionId() {
-        return subscriptionId;
+    public Subscription getSubscription() {
+        return subscription;
     }
 
-    public void setSubscriptionId(Long subscriptionId) {
-        this.subscriptionId = subscriptionId;
+    public void setSubscription(Subscription subscription) {
+        this.subscription = subscription;
     }
 
     public double getAmount() {
@@ -92,5 +92,13 @@ public class Order {
 
     public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
