@@ -15,6 +15,8 @@ public class Editor extends User {
     @ManyToOne
     private Magazine magazine;
 
+    public Editor(){ super(); }
+
     public String getTitle() {
         return title;
     }
