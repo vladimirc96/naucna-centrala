@@ -1,7 +1,6 @@
 package com.upp.naucnacentrala.model;
 
-import com.upp.naucnacentrala.model.enums.OrderStatus;
-import com.upp.naucnacentrala.model.enums.OrderType;
+import com.upp.naucnacentrala.model.enums.Enums;
 
 import javax.persistence.*;
 
@@ -20,11 +19,11 @@ public class OrderObject {
 
     @Column(name = "order_type")
     @Enumerated(EnumType.STRING)
-    private OrderType orderType;
+    private Enums.OrderType orderType;
 
     @Column(name = "order_status")
     @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus;
+    private Enums.OrderStatus orderStatus;
 
     @ManyToOne
     private Magazine magazine;
@@ -78,19 +77,19 @@ public class OrderObject {
         this.amount = amount;
     }
 
-    public OrderType getOrderType() {
+    public Enums.OrderType getOrderType() {
         return orderType;
     }
 
-    public void setOrderType(OrderType orderType) {
+    public void setOrderType(Enums.OrderType orderType) {
         this.orderType = orderType;
     }
 
-    public OrderStatus getOrderStatus() {
+    public Enums.OrderStatus getOrderStatus() {
         return orderStatus;
     }
 
-    public void setOrderStatus(OrderStatus orderStatus) {
+    public void setOrderStatus(Enums.OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
     }
 
