@@ -12,19 +12,22 @@ public class MagazineDTO {
     private String name;
     private String issn;
     private boolean isRegistered;
+    private long sellerId;
     private List<String> scienceFieldList = new ArrayList<>();
     private String chiefEditor;
 
     public MagazineDTO() {
     }
 
-    public MagazineDTO(Long id, String name, String issn, List<ScienceField> scienceFieldList, Editor chiefEditor, boolean isRegistered) {
+    public MagazineDTO(Long id, String name, String issn, List<ScienceField> scienceFieldList, Editor chiefEditor,
+                       boolean isRegistered, long sellerId) {
         this.id = id;
         this.name = name;
         this.issn = issn;
         this.setScienceFieldList(scienceFieldList);
         this.setChiefEditor(chiefEditor);
         this.isRegistered = isRegistered;
+        this.sellerId = sellerId;
     }
 
     public Long getId() {
@@ -73,5 +76,18 @@ public class MagazineDTO {
     }
     public void setChiefEditor(Editor chiefEditor) {
         this.chiefEditor = chiefEditor.getFirstName() + " " + chiefEditor.getLastName();
+    }
+
+    public long getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(long sellerId) {
+        this.sellerId = sellerId;
+    }
+
+
+    public void setChiefEditor(String chiefEditor) {
+        this.chiefEditor = chiefEditor;
     }
 }

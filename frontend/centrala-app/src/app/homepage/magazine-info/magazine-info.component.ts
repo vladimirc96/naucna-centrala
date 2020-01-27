@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MagazineService } from 'src/app/services/magazine.service.';
 import { ActivatedRoute, Params } from '@angular/router';
 import { KPService } from 'src/app/services/kp.service';
+import { OrderService } from 'src/app/services/order.service';
 
 @Component({
   selector: 'app-magazine-info',
@@ -15,7 +16,7 @@ export class MagazineInfoComponent implements OnInit {
   retHref: any;
 
 
-  constructor(private magazineService: MagazineService, private route: ActivatedRoute, private kpService: KPService) {
+  constructor(private magazineService: MagazineService, private route: ActivatedRoute, private kpService: KPService, private orderService: OrderService) {
     this.route.params.subscribe(
       (params: Params) => {
         this.magazineId = params['id'];
@@ -40,12 +41,24 @@ export class MagazineInfoComponent implements OnInit {
     this.kpService.createPlan(this.magazineId).subscribe(
       (response) => {
         this.retHref = response;
-        window.location.href = this.retHref;
+        window.location.href = this.retHref.href;
       },
       (error) => {
         alert(error.message);
       }
     );
+
+  }
+
+  onKupi(){
+    this.orderService.initMagazineOrder(this.magazine).subscribe(
+      (response: any) => {
+        window.open(response.redirectUrl, "_blank");
+      },
+      (error) => {
+        alert(error.message);
+      }
+    )
   }
 
 }

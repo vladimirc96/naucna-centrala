@@ -1,6 +1,6 @@
-insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered) values (1, "Naucni kutak", "111", "READERS", true, "milica", false);
-insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered) values (2, "Nauka danas", "222", "AUTHORS", true, "andrijana", false);
-insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered) values (3, "Savremena psihologija", "333", "READERS", true, "vukasin", false);
+insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered, seller_id) values (1, "Naucni kutak", "111", "READERS", true, "milica", false, 0);
+insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered, seller_id) values (2, "Nauka danas", "222", "AUTHORS", true, "andrijana", false, 0);
+insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered, seller_id) values (3, "Savremena psihologija", "333", "READERS", true, "vukasin", false, 0);
 
 insert into science_field values (1, 'Matematika');
 insert into science_field values (2, 'Informatika');
@@ -78,6 +78,9 @@ insert into user_sciencefields values ('milica', 3);
 insert into user_sciencefields values ('andrijana', 3);
 insert into user_sciencefields values ('andrijana', 4);
 insert into user_sciencefields values ('andrijana', 5);
+
+-- insert into science_paper (1, 'USD', 'nauka', 'ovo je apstrakt rada', 7, 'Kutak nauke kroz istoriju', 1, 2);
+-- insert into science_paper (2, 'USD', 'informatika', 'ovo je apstrakt rada 2', 10, 'Algoritmi nauke', 1, 2);
 
 
 

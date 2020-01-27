@@ -27,7 +27,7 @@ public class KPService {
         Magazine m = magazineRepository.findOneById(magazineDTO.getId());
 
         // ako postoji seller id za tu instancu magazina, znaci da vec postoji registracija, uspesna ili neuspesna
-        if (m.getSellerId() != null) {
+        if (m.getSellerId() != 0) {
 
             if (m.isRegistered()) {
                 throw new BadRequestException("Already registered.");
