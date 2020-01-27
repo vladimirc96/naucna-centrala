@@ -2,9 +2,6 @@ package com.upp.naucnacentrala.controller;
 
 import com.upp.naucnacentrala.Utils;
 import com.upp.naucnacentrala.dto.FormFieldsDto;
-import com.upp.naucnacentrala.dto.FormSubmissionDto;
-import com.upp.naucnacentrala.dto.TaskDto;
-import com.upp.naucnacentrala.model.BillingType;
 import com.upp.naucnacentrala.model.Magazine;
 import com.upp.naucnacentrala.model.ScienceField;
 import com.upp.naucnacentrala.model.User;
@@ -22,9 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.support.CustomSQLExceptionTranslatorRegistrar;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.annotation.RequestScope;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;

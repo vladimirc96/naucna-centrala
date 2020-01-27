@@ -1,8 +1,9 @@
 package com.upp.naucnacentrala.model;
 
 
+import com.upp.naucnacentrala.model.enums.BillingType;
+
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,6 +25,12 @@ public class Magazine {
 
     @Column(name = "is_active")
     private boolean isActive = false;
+
+    @Column(name = "seller_id")
+    private Long sellerId;
+
+    @Column(name = "is_registered")
+    private boolean isRegistered;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "magazine_sciencefield",

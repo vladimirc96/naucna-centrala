@@ -1,4 +1,4 @@
-package com.upp.naucnacentrala.model;
+package com.upp.naucnacentrala.model.enums;
 
 public enum BillingType {
 
