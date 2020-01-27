@@ -19,6 +19,9 @@ public class SciencePaper {
     @Column(name = "paper_abstract")
     private String paperAbstract;
 
+    @Column(name = "price")
+    private double price;
+
     @ManyToOne
     private ScienceField scienceField;
 
@@ -77,5 +80,21 @@ public class SciencePaper {
 
     public void setOrderObjects(List<OrderObject> orderObjects) {
         this.orderObjects = orderObjects;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public Magazine getMagazine() {
+        return magazine;
+    }
+
+    public void setMagazine(Magazine magazine) {
+        this.magazine = magazine;
     }
 }
