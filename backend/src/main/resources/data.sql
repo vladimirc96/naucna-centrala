@@ -1,6 +1,6 @@
-insert into magazine (id, name, issn, billing_type, is_active, editor_id) values (1, "Naucni kutak", "111", "READERS", true, "milica");
-insert into magazine (id, name, issn, billing_type, is_active, editor_id) values (2, "Nauka danas", "222", "AUTHORS", true, "andrijana");
-insert into magazine (id, name, issn, billing_type, is_active, editor_id) values (3, "Savremena psihologija", "333", "READERS", true, "vukasin");
+insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered) values (1, "Naucni kutak", "111", "READERS", true, "milica", false);
+insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered) values (2, "Nauka danas", "222", "AUTHORS", true, "andrijana", false);
+insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered) values (3, "Savremena psihologija", "333", "READERS", true, "vukasin", false);
 
 insert into science_field values (1, 'Matematika');
 insert into science_field values (2, 'Informatika');
