@@ -154,44 +154,4 @@ public class Magazine {
         }
         this.scienceFieldEditors.clear();
     }
-
-    public Long getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(Long sellerId) {
-        this.sellerId = sellerId;
-    }
-
-    public boolean isRegistered() {
-        return isRegistered;
-    }
-
-    public void setRegistered(boolean registered) {
-        isRegistered = registered;
-    }
-
-    public List<OrderObject> getOrderObjects() {
-        return orderObjects;
-    }
-
-    public void setOrderObjects(List<OrderObject> orderObjects) {
-        this.orderObjects = orderObjects;
-    }
-
-    public List<Subscription> getSubscriptions() {
-        return subscriptions;
-    }
-
-    public void setSubscriptions(List<Subscription> subscriptions) {
-        this.subscriptions = subscriptions;
-    }
-
-    public List<SciencePaper> getSciencePapers() {
-        return sciencePapers;
-    }
-
-    public void setSciencePapers(List<SciencePaper> sciencePapers) {
-        this.sciencePapers = sciencePapers;
-    }
 }
