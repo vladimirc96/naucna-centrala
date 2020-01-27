@@ -19,9 +19,6 @@ public class SciencePaper {
     @Column(name = "paper_abstract")
     private String paperAbstract;
 
-    @Column(name = "price")
-    private double price;
-
     @ManyToOne
     private ScienceField scienceField;
 
