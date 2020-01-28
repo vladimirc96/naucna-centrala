@@ -14,10 +14,20 @@ public class RegistrationClient {
     RestTemplate restTemplate;
 
     private final String INIT_REG_ENDPOINT = "https://localhost:8500/sellers/sellers/register/init";
+    private final String INIT_REG_REVIEW_ENDPOINT = "https://localhost:8500/sellers/sellers/register/review";
+
 
     public KPRegistrationDTO initRegistration(KPRegistrationDTO kprDTO) {
 
         ResponseEntity<KPRegistrationDTO> kpResponse = restTemplate.postForEntity(this.INIT_REG_ENDPOINT,
+                new HttpEntity<>(kprDTO), KPRegistrationDTO.class);
+
+        return kpResponse.getBody();
+    }
+
+    public KPRegistrationDTO reviewRegistration(KPRegistrationDTO kprDTO) {
+
+        ResponseEntity<KPRegistrationDTO> kpResponse = restTemplate.postForEntity(this.INIT_REG_REVIEW_ENDPOINT,
                 new HttpEntity<>(kprDTO), KPRegistrationDTO.class);
 
         return kpResponse.getBody();

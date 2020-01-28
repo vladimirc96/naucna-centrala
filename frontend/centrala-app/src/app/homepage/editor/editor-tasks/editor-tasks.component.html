@@ -19,12 +19,14 @@
                   <th scope="row">{{ magazine.id }}</th>
                   <td>{{ magazine.name }}</td>
                   <td>{{ magazine.issn }}</td>
-                  <td style="width:10px"><button class="btn btn-link" (click)="onRegisterMagazine(magazine.id)" *ngIf="!magazine.registered && magazine.sellerId == 0">Registruj</button></td>
-                  <td style="width:10px"><span *ngIf="magazine.registered">Registrovan</span></td>
-                  
-                  <td style="width:10px"><span *ngIf="!magazine.registered && magazine.sellerId != 0">Registracija u toku</span></td>
+                  <td style="width:500px" class="text-right">
+                    <button class="btn btn-link" (click)="onRegisterMagazine(magazine.id)" *ngIf="!magazine.registered && magazine.sellerId == 0">Registruj</button>
+                    <ng-container *ngIf="magazine.sellerId != 0">
+                      <button class="btn btn-link" (click)="onReviewRegistration(magazine.id)" *ngIf="magazine.sellerId != 0">Pregled registracije</button>
+                    </ng-container>
+                  </td>
                 </tr>
-              </tbody>
+            </tbody>
         </table>
         </div>
       <div>

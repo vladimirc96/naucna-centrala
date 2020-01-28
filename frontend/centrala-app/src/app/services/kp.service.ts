@@ -18,6 +18,10 @@ export class KPService {
     return this.httpClient.post('/api/kp/registration', magazine);
   }
 
+  reviewRegistration(magazine) {
+    return this.httpClient.post('/api/kp/registration/review', magazine);
+  }
+
 //   createPlan(id) {
 //     return this.httpClient.post('/api/kp/createPlan', casopis, {responseType: 'text'});
 //   }

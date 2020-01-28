@@ -28,14 +28,7 @@ public class KPService {
 
         // ako postoji seller id za tu instancu magazina, znaci da vec postoji registracija, uspesna ili neuspesna
         if (m.getSellerId() != null) {
-
-            if (m.isRegistered()) {
-                throw new BadRequestException("Already registered.");
-            } else {
-                // TODO make edit registration in this case, but otom potom
-                throw new BadRequestException("Already registered.");
-            }
-
+            return reviewRegistration(m);
         }
 
         KPRegistrationDTO kprDTO = new KPRegistrationDTO();
@@ -57,5 +50,18 @@ public class KPService {
         magazineRepository.save(m);
         System.out.println("Magazine: " + m.getId() + " registration success: " + m.isRegistered());
 
+    }
+
+    public KPRegistrationDTO reviewRegistrationSeller(MagazineDTO magazineDTO) {
+        Magazine m = magazineRepository.findOneById(magazineDTO.getId());
+        return reviewRegistration(m);
+    }
+
+    private KPRegistrationDTO reviewRegistration(Magazine m) {
+        KPRegistrationDTO kprDTO = new KPRegistrationDTO();
+        kprDTO.setRegistrationStatusCallbackUrl(this.REG_STATUS_CALLBACK_URL);
+        kprDTO.setSellerId(m.getSellerId());
+        kprDTO = registrationClient.reviewRegistration(kprDTO);
+        return kprDTO;
     }
 }

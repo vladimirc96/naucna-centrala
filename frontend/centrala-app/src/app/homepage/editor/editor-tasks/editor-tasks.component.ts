@@ -61,9 +61,23 @@ export class EditorTasksComponent implements OnInit {
 
           return m;
         })
-        window.open(res.registrationPageRedirectUrl, "_blank");
+        window.open(res.registrationPageRedirectUrl);
       }, err=> console.log(err.error)
     )
+  }
+
+  onReviewRegistration(id) {
+    
+    let dto = {
+      id: id
+    }
+
+    this.kpService.reviewRegistration(dto).subscribe(
+      (res: any) => {
+        window.open(res.registrationPageRedirectUrl);
+      }, err => console.log(err.error)
+    )
+    
   }
 
 }

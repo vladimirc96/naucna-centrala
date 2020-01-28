@@ -61,6 +61,11 @@ public class KPController {
         return new ResponseEntity<>(kpService.initRegistration(magazineDTO), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/registration/review", method = RequestMethod.POST)
+    public @ResponseBody ResponseEntity reviewRegistrationSeller(@RequestBody MagazineDTO magazineDTO){
+        return new ResponseEntity<>(kpService.reviewRegistrationSeller(magazineDTO), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/registration/status", method = RequestMethod.POST)
     public @ResponseBody ResponseEntity registerSeller(@RequestBody KPRegistrationDTO kprDTO){
         kpService.changeRegistrationStatus(kprDTO);
