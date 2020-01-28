@@ -22,6 +22,10 @@ export class KPService {
     return this.httpClient.post('/api/kp/registration/review', magazine);
   }
 
+  subscriptions(id) {
+    return this.httpClient.get('/api/kp/subscriptions/'.concat(id));
+  }
+
 //   createPlan(id) {
 //     return this.httpClient.post('/api/kp/createPlan', casopis, {responseType: 'text'});
 //   }

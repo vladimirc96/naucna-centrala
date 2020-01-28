@@ -21,7 +21,7 @@ export class MagazineInfoComponent implements OnInit {
       (params: Params) => {
         this.magazineId = params['id'];
       }
-    )
+    );
 
 
    }
@@ -59,6 +59,18 @@ export class MagazineInfoComponent implements OnInit {
         alert(error.message);
       }
     )
+  }
+
+  onPretplatise() {
+    this.kpService.subscriptions(this.magazineId).subscribe(
+      (response) => {
+        this.retHref = response;
+        window.location.href = this.retHref.href;
+      },
+      (error) => {
+        alert(error.message);
+      }
+    );
   }
 
 }

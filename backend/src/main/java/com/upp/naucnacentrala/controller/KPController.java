@@ -72,4 +72,9 @@ public class KPController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/subscriptions/{magazineId}", method = RequestMethod.GET)
+    public ResponseEntity<?> subscriptions(@PathVariable("magazineId") long magazineId){
+        return null;
+    }
+
 }
