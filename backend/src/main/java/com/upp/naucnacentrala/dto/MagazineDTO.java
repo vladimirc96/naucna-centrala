@@ -12,7 +12,7 @@ public class MagazineDTO {
     private String name;
     private String issn;
     private boolean isRegistered;
-    private long sellerId;
+    private Long sellerId;
     private List<String> scienceFieldList = new ArrayList<>();
     private String chiefEditor;
 
@@ -27,7 +27,7 @@ public class MagazineDTO {
         this.setScienceFieldList(scienceFieldList);
         this.setChiefEditor(chiefEditor);
         this.isRegistered = isRegistered;
-        this.sellerId = sellerId;
+        this.setSellerId(sellerId);
     }
 
     public Long getId() {
@@ -78,11 +78,11 @@ public class MagazineDTO {
         this.chiefEditor = chiefEditor.getFirstName() + " " + chiefEditor.getLastName();
     }
 
-    public long getSellerId() {
+    public Long getSellerId() {
         return sellerId;
     }
 
-    public void setSellerId(long sellerId) {
+    public void setSellerId(Long sellerId) {
         this.sellerId = sellerId;
     }
 

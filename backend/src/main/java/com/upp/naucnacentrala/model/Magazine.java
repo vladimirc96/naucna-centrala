@@ -194,4 +194,24 @@ public class Magazine {
     public void setSciencePapers(List<SciencePaper> sciencePapers) {
         this.sciencePapers = sciencePapers;
     }
+
+    @Override
+    public String toString() {
+        return "Magazine{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", issn='" + issn + '\'' +
+                ", billingType=" + billingType +
+                ", isActive=" + isActive +
+                ", sellerId=" + sellerId +
+                ", isRegistered=" + isRegistered +
+                ", scienceFields=" + scienceFields +
+                ", reviewers=" + reviewers +
+                ", chiefEditor=" + chiefEditor +
+                ", scienceFieldEditors=" + scienceFieldEditors +
+                ", orderObjects=" + orderObjects +
+                ", subscriptions=" + subscriptions +
+                ", sciencePapers=" + sciencePapers +
+                '}';
+    }
 }

@@ -31,6 +31,9 @@ public class SciencePaper {
     @Column(name = "currency")
     private String currency;
 
+    @Column(name = "price")
+    private double price;
+
     public SciencePaper() {
     }
 

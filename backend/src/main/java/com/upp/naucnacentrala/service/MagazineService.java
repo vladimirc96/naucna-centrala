@@ -29,8 +29,13 @@ public class MagazineService {
 
     public MagazineDTO findOneDto(Long id){
         Magazine magazine = magazineRepo.findOneById(id);
-        return new MagazineDTO(magazine.getId(), magazine.getName(), magazine.getIssn(), magazine.getScienceFields(),
-                magazine.getChiefEditor(), magazine.isRegistered(), magazine.getSellerId());
+        if(magazine.getSellerId() != null){
+            return new MagazineDTO(magazine.getId(), magazine.getName(), magazine.getIssn(), magazine.getScienceFields(),
+                    magazine.getChiefEditor(), magazine.isRegistered(), magazine.getSellerId());
+        }else{
+            return new MagazineDTO(magazine.getId(), magazine.getName(), magazine.getIssn(), magazine.getScienceFields(),
+                    magazine.getChiefEditor(), magazine.isRegistered(), new Long(0));
+        }
     }
 
     public Magazine save(Magazine magazine){
@@ -40,8 +45,14 @@ public class MagazineService {
     public List<MagazineDTO> findAll(){
         List<MagazineDTO> magazines = new ArrayList<>();
         for(Magazine magazine: magazineRepo.findAll()){
-            magazines.add(new MagazineDTO(magazine.getId(), magazine.getName(), magazine.getIssn(),
-                    magazine.getScienceFields(), magazine.getChiefEditor(), magazine.isRegistered(), magazine.getSellerId()));
+            if(magazine.getSellerId() != null){
+                magazines.add(new MagazineDTO(magazine.getId(), magazine.getName(), magazine.getIssn(),
+                        magazine.getScienceFields(), magazine.getChiefEditor(), magazine.isRegistered(), magazine.getSellerId()));
+            }else{
+                magazines.add(new MagazineDTO(magazine.getId(), magazine.getName(), magazine.getIssn(),
+                        magazine.getScienceFields(), magazine.getChiefEditor(), magazine.isRegistered(), new Long(0)));
+
+            }
         }
         return magazines;
     }
@@ -147,8 +158,13 @@ public class MagazineService {
     public List<MagazineDTO> findAllByChiefEditor(String username){
         List<MagazineDTO> magazines = new ArrayList<>();
         for(Magazine magazine: magazineRepo.findAllByChiefEditor(username)){
-            magazines.add(new MagazineDTO(magazine.getId(), magazine.getName(), magazine.getIssn(),
-                    magazine.getScienceFields(), magazine.getChiefEditor(), magazine.isRegistered(), magazine.getSellerId()));
+            if(magazine.getSellerId() != null){
+                magazines.add(new MagazineDTO(magazine.getId(), magazine.getName(), magazine.getIssn(),
+                        magazine.getScienceFields(), magazine.getChiefEditor(), magazine.isRegistered(), magazine.getSellerId()));
+            }else{
+                magazines.add(new MagazineDTO(magazine.getId(), magazine.getName(), magazine.getIssn(),
+                        magazine.getScienceFields(), magazine.getChiefEditor(), magazine.isRegistered(), new Long(0)));
+            }
         }
         return magazines;
     }
