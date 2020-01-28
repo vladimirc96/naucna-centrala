@@ -2,6 +2,7 @@ package com.upp.naucnacentrala.dto;
 
 import com.upp.naucnacentrala.model.Editor;
 import com.upp.naucnacentrala.model.ScienceField;
+import com.upp.naucnacentrala.model.SciencePaper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +16,13 @@ public class MagazineDTO {
     private Long sellerId;
     private List<String> scienceFieldList = new ArrayList<>();
     private String chiefEditor;
+    private List<SciencePaperDTO> sciencePaperDTOList = new ArrayList<>();
 
     public MagazineDTO() {
     }
 
     public MagazineDTO(Long id, String name, String issn, List<ScienceField> scienceFieldList, Editor chiefEditor,
-                       boolean isRegistered, long sellerId) {
+                       boolean isRegistered, long sellerId, List<SciencePaper> sciencePapers) {
         this.id = id;
         this.name = name;
         this.issn = issn;
@@ -28,6 +30,7 @@ public class MagazineDTO {
         this.setChiefEditor(chiefEditor);
         this.isRegistered = isRegistered;
         this.setSellerId(sellerId);
+        this.setSciencePaperDTOList(sciencePapers);
     }
 
     public Long getId() {
@@ -86,8 +89,17 @@ public class MagazineDTO {
         this.sellerId = sellerId;
     }
 
-
     public void setChiefEditor(String chiefEditor) {
         this.chiefEditor = chiefEditor;
+    }
+
+    public void setSciencePaperDTOList(List<SciencePaper> sciencePapers) {
+        for(SciencePaper paper: sciencePapers){
+            this.sciencePaperDTOList.add(new SciencePaperDTO(paper.getId(), paper.getTitle(), paper.getKeyTerm(), paper.getPaperAbstract(), paper.getPrice(), paper.getCurrency()));
+        }
+    }
+
+    public List<SciencePaperDTO> getSciencePaperDTOList() {
+        return sciencePaperDTOList;
     }
 }

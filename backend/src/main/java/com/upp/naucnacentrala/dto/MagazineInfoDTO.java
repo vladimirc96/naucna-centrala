@@ -3,29 +3,21 @@ package com.upp.naucnacentrala.dto;
 
 public class MagazineInfoDTO {
 
-    private Long id;
     private String name;
     private String issn;
     private String currency;
     private double amount;
+    private long sellerId;
 
     public MagazineInfoDTO() {
     }
 
-    public MagazineInfoDTO(Long id, String name, String issn, String currency, double amount) {
-        this.id = id;
+    public MagazineInfoDTO(String name, String issn, String currency, double amount, long sellerId) {
         this.name = name;
         this.issn = issn;
         this.currency = currency;
         this.amount = amount;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        this.sellerId = sellerId;
     }
 
     public String getName() {
@@ -58,5 +50,13 @@ public class MagazineInfoDTO {
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public void setSellerId(long sellerId) {
+        this.sellerId = sellerId;
+    }
+
+    public long getSellerId() {
+        return sellerId;
     }
 }

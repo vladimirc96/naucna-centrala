@@ -49,7 +49,7 @@ public class KPController {
             currency = radovi.get(0).getCurrency();
         }
         double roundAmount = Math.round(amount * 100.0) / 100.0;
-        MagazineInfoDTO magazineDTO = new MagazineInfoDTO(m.getSellerId(), m.getName(), m.getIssn(), currency, roundAmount);
+        MagazineInfoDTO magazineDTO = new MagazineInfoDTO(m.getName(), m.getIssn(), currency, roundAmount, m.getSellerId());
         ResponseEntity response = restTemplate.postForEntity("https://localhost:8500/sellers/sellers/createPlan", new HttpEntity<>(magazineDTO),
                 String.class);
         StringDTO text = new StringDTO((String) response.getBody());
