@@ -5,6 +5,13 @@ insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_reg
 insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id) values (1, 'Mape uma', 'Kljucni pojam', 'Abstrakt', 100, 'USD', 3);
 insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id) values (2, 'Kako prihvatiti odgovornost?', 'Kljucni pojam', 'Abstrakt', 200, 'USD', 3);
 
+insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id) values (3, 'Matematicka analiza', 'Kljucni pojam', 'Abstrakt', 200, 'USD', 1);
+insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id) values (4, 'Algoritmi', 'Kljucni pojam', 'Abstrakt', 200, 'USD', 1);
+
+insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id) values (5, 'Prepoznavanja objekata - Python', 'Kljucni pojam', 'Abstrakt', 200, 'USD', 2);
+insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id) values (6, 'Globalno zagrevanje', 'Kljucni pojam', 'Abstrakt', 200, 'USD', 2);
+
+
 insert into science_field values (1, 'Matematika');
 insert into science_field values (2, 'Informatika');
 insert into science_field values (3, 'Automatika');

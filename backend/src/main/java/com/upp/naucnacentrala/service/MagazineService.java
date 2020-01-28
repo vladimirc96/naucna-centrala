@@ -31,10 +31,10 @@ public class MagazineService {
         Magazine magazine = magazineRepo.findOneById(id);
         if(magazine.getSellerId() != null){
             return new MagazineDTO(magazine.getId(), magazine.getName(), magazine.getIssn(), magazine.getScienceFields(),
-                    magazine.getChiefEditor(), magazine.isRegistered(), magazine.getSellerId());
+                    magazine.getChiefEditor(), magazine.isRegistered(), magazine.getSellerId(), magazine.getSciencePapers());
         }else{
             return new MagazineDTO(magazine.getId(), magazine.getName(), magazine.getIssn(), magazine.getScienceFields(),
-                    magazine.getChiefEditor(), magazine.isRegistered(), new Long(0));
+                    magazine.getChiefEditor(), magazine.isRegistered(), new Long(0), magazine.getSciencePapers());
         }
     }
 
@@ -47,10 +47,10 @@ public class MagazineService {
         for(Magazine magazine: magazineRepo.findAll()){
             if(magazine.getSellerId() != null){
                 magazines.add(new MagazineDTO(magazine.getId(), magazine.getName(), magazine.getIssn(),
-                        magazine.getScienceFields(), magazine.getChiefEditor(), magazine.isRegistered(), magazine.getSellerId()));
+                        magazine.getScienceFields(), magazine.getChiefEditor(), magazine.isRegistered(), magazine.getSellerId(), magazine.getSciencePapers()));
             }else{
                 magazines.add(new MagazineDTO(magazine.getId(), magazine.getName(), magazine.getIssn(),
-                        magazine.getScienceFields(), magazine.getChiefEditor(), magazine.isRegistered(), new Long(0)));
+                        magazine.getScienceFields(), magazine.getChiefEditor(), magazine.isRegistered(), new Long(0), magazine.getSciencePapers()));
 
             }
         }
@@ -160,10 +160,10 @@ public class MagazineService {
         for(Magazine magazine: magazineRepo.findAllByChiefEditor(username)){
             if(magazine.getSellerId() != null){
                 magazines.add(new MagazineDTO(magazine.getId(), magazine.getName(), magazine.getIssn(),
-                        magazine.getScienceFields(), magazine.getChiefEditor(), magazine.isRegistered(), magazine.getSellerId()));
+                        magazine.getScienceFields(), magazine.getChiefEditor(), magazine.isRegistered(), magazine.getSellerId(), magazine.getSciencePapers()));
             }else{
                 magazines.add(new MagazineDTO(magazine.getId(), magazine.getName(), magazine.getIssn(),
-                        magazine.getScienceFields(), magazine.getChiefEditor(), magazine.isRegistered(), new Long(0)));
+                        magazine.getScienceFields(), magazine.getChiefEditor(), magazine.isRegistered(), new Long(0), magazine.getSciencePapers()));
             }
         }
         return magazines;

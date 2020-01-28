@@ -7,3 +7,16 @@
     <button class="btn btn-link" (click)="onKupi()">Kupi</button>
 </div>
 <hr>
+
+<div class="wrapper">
+
+    <div *ngFor="let sciencePaper of magazine.sciencePaperDTOList" class="paper d-flex d-inline-flex">
+        <div class="right-side">
+            <p>{{ sciencePaper.title }}</p>
+        </div>
+        <div class="left-side d-flex justify-content-end">
+            <button class="btn btn-primary d-flex flex-row-reverse"> Kupi </button>
+        </div>
+    </div>
+
+</div>
