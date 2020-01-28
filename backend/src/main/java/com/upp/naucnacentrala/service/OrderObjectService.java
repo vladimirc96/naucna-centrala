@@ -2,6 +2,7 @@ package com.upp.naucnacentrala.service;
 
 import com.upp.naucnacentrala.Utils;
 import com.upp.naucnacentrala.client.OrderClient;
+import com.upp.naucnacentrala.dto.FinalizeOrderDTO;
 import com.upp.naucnacentrala.dto.InitOrderResponseDTO;
 import com.upp.naucnacentrala.dto.MagazineDTO;
 import com.upp.naucnacentrala.model.Magazine;
@@ -52,6 +53,13 @@ public class OrderObjectService {
         }
         amount = amount * 0.95;
         return Math.round(amount * 100.0) / 100.0;
+    }
+
+    public void finalizeOrder(FinalizeOrderDTO foDTO) {
+        OrderObject o = orderObjectRepo.findById(foDTO.getNcOrderId()).get();
+        o.setOrderStatus(foDTO.getOrderStatus());
+        orderObjectRepo.save(o);
+
     }
 
 }

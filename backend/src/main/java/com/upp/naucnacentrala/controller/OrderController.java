@@ -1,6 +1,7 @@
 package com.upp.naucnacentrala.controller;
 
 import com.upp.naucnacentrala.client.OrderClient;
+import com.upp.naucnacentrala.dto.FinalizeOrderDTO;
 import com.upp.naucnacentrala.dto.InitOrderResponseDTO;
 import com.upp.naucnacentrala.dto.MagazineDTO;
 import com.upp.naucnacentrala.model.OrderObject;
@@ -8,10 +9,7 @@ import com.upp.naucnacentrala.service.OrderObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,6 +24,14 @@ public class OrderController {
     public ResponseEntity<InitOrderResponseDTO> initOrder(@RequestBody MagazineDTO magazineDTO, HttpServletRequest request){
         return new ResponseEntity(orderObjectService.create(magazineDTO, request), HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/orders/finalize", method = RequestMethod.POST)
+    public @ResponseBody ResponseEntity finalizeOrder(@RequestBody FinalizeOrderDTO foDTO){
+        orderObjectService.finalizeOrder(foDTO);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+
 
 
 }
