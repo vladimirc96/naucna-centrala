@@ -14,6 +14,7 @@ export class EditorTasksComponent implements OnInit {
   tasks = [];
   magazineList: any = [];
   emptyMagazineList: boolean = false;
+  retHref: any;
 
   constructor(private repoService: RepositoryService, private magazineService: MagazineService,private router: Router, private kpService: KPService) { }
 
@@ -78,6 +79,22 @@ export class EditorTasksComponent implements OnInit {
       }, err => console.log(err.error)
     )
     
+  }
+
+  onPlan(magazineID) {
+    this.kpService.createPlan(magazineID).subscribe(
+      (response) => {
+        this.retHref = response;
+        if(this.retHref === "noPP") {
+          alert("Nije moguce napraviti plan jer PayPal nije registrovan!");
+        } else {
+          window.location.href = this.retHref.href;
+        }
+      },
+      (error) => {
+        alert(error.message);
+      }
+    );
   }
 
 }

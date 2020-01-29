@@ -25,6 +25,11 @@ public class OrderController {
         return new ResponseEntity(orderObjectService.create(magazineDTO, request), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/magazine/initSub", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<InitOrderResponseDTO> initSub(@RequestBody MagazineDTO magazineDTO, HttpServletRequest request){
+        return new ResponseEntity(orderObjectService.createSub(magazineDTO, request), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/finalize", method = RequestMethod.POST)
     public @ResponseBody ResponseEntity finalizeOrder(@RequestBody FinalizeOrderDTO foDTO){
         orderObjectService.finalizeOrder(foDTO);

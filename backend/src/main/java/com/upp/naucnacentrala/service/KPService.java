@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.BadRequestException;
 import java.util.List;
 
@@ -33,6 +34,9 @@ public class KPService {
 
     @Autowired
     RestTemplate restTemplate;
+
+    @Autowired
+    OrderObjectService orderObjectService;
 
 
     public KPRegistrationDTO initRegistration(MagazineDTO magazineDTO) {
@@ -94,16 +98,6 @@ public class KPService {
         MagazineInfoDTO magazineDTO = new MagazineInfoDTO(m.getName(), m.getIssn(), currency, roundAmount, m.getSellerId());
         ResponseEntity response = restTemplate.postForEntity("https://localhost:8500/sellers/sellers/createPlan", new HttpEntity<>(magazineDTO),
                 String.class);
-        StringDTO text = new StringDTO((String) response.getBody());
-        return text;
-    }
-
-    public StringDTO getSubscriptions(long sellerId) {
-        MagazineInfoDTO magazineDTO = new MagazineInfoDTO(null, null, null, 0, sellerId);
-
-        // TODO OrderObject koji je ekviavalent ActiveOrder na KP
-        ResponseEntity response = restTemplate.postForEntity("https://localhost:8500/sellers/sellers/getSubscriptions", new HttpEntity<>(magazineDTO),
-        String.class);
         StringDTO text = new StringDTO((String) response.getBody());
         return text;
     }

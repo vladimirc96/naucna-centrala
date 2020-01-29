@@ -12,4 +12,8 @@ export class OrderService {
     return this.httpClient.post('/api/orders/magazine/init', magazineDTO);
   }
 
+  initMagazineSubscription(magazineDTO) {
+    return this.httpClient.post('/api/orders/magazine/initSub', magazineDTO);
+  }
+
 }

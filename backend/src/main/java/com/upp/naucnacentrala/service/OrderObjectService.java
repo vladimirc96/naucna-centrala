@@ -45,6 +45,19 @@ public class OrderObjectService {
         return orderClient.initOrder(magazine, orderObject);
     }
 
+    public InitOrderResponseDTO createSub(MagazineDTO magazineDTO, HttpServletRequest request){
+        Magazine magazine = magazineService.findOneById(magazineDTO.getId());
+        OrderObject orderObject = new OrderObject();
+        orderObject.setMagazine(magazine);
+        orderObject.setOrderType(Enums.OrderType.ORDER_SUBSCRIPTION);
+        orderObject.setUserId(Utils.getUsernameFromRequest(request, tokenUtils));
+        orderObject.setAmount(calculateAmount(magazine));
+        orderObject.setOrderStatus(Enums.OrderStatus.PENDING);
+        orderObject = orderObjectRepo.save(orderObject);
+
+        return orderClient.initOrder(magazine, orderObject);
+    }
+
 
     private double calculateAmount(Magazine magazine) {
         double amount = 0;

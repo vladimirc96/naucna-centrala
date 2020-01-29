@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
@@ -51,11 +52,6 @@ public class KPController {
     public @ResponseBody ResponseEntity registerSeller(@RequestBody KPRegistrationDTO kprDTO){
         kpService.changeRegistrationStatus(kprDTO);
         return new ResponseEntity(HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/subscriptions/{magazineId}", method = RequestMethod.GET)
-    public ResponseEntity<?> subscriptions(@PathVariable("magazineId") long magazineId){
-        return new ResponseEntity<>(kpService.getSubscriptions(magazineId), HttpStatus.OK);
     }
 
 }

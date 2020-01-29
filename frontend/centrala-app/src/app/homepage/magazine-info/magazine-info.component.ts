@@ -37,19 +37,6 @@ export class MagazineInfoComponent implements OnInit {
     )
   }
 
-  onPlan() {
-    this.kpService.createPlan(this.magazineId).subscribe(
-      (response) => {
-        this.retHref = response;
-        window.location.href = this.retHref.href;
-      },
-      (error) => {
-        alert(error.message);
-      }
-    );
-
-  }
-
   onKupi(){
     this.orderService.initMagazineOrder(this.magazine).subscribe(
       (response: any) => {
@@ -62,10 +49,9 @@ export class MagazineInfoComponent implements OnInit {
   }
 
   onPretplatise() {
-    this.kpService.subscriptions(this.magazine.sellerId).subscribe(
-      (response) => {
-        this.retHref = response;
-        window.location.href = this.retHref.href;
+    this.orderService.initMagazineSubscription(this.magazine).subscribe(
+      (response: any) => {
+        window.open(response.redirectUrl);
       },
       (error) => {
         alert(error.message);
