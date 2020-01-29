@@ -25,7 +25,7 @@ public class OrderController {
         return new ResponseEntity(orderObjectService.create(magazineDTO, request), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/orders/finalize", method = RequestMethod.POST)
+    @RequestMapping(value = "/finalize", method = RequestMethod.POST)
     public @ResponseBody ResponseEntity finalizeOrder(@RequestBody FinalizeOrderDTO foDTO){
         orderObjectService.finalizeOrder(foDTO);
         return new ResponseEntity(HttpStatus.OK);

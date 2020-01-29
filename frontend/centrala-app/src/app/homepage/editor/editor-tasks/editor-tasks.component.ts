@@ -61,7 +61,7 @@ export class EditorTasksComponent implements OnInit {
 
           return m;
         })
-        window.open(res.registrationPageRedirectUrl);
+        window.location.href = res.registrationPageRedirectUrl;
       }, err=> console.log(err.error)
     )
   }
@@ -74,7 +74,7 @@ export class EditorTasksComponent implements OnInit {
 
     this.kpService.reviewRegistration(dto).subscribe(
       (res: any) => {
-        window.open(res.registrationPageRedirectUrl);
+        window.location.href = res.registrationPageRedirectUrl;
       }, err => console.log(err.error)
     )
     
