@@ -100,8 +100,10 @@ public class KPService {
 
     public StringDTO getSubscriptions(long sellerId) {
         MagazineInfoDTO magazineDTO = new MagazineInfoDTO(null, null, null, 0, sellerId);
+
+        // TODO OrderObject koji je ekviavalent ActiveOrder na KP
         ResponseEntity response = restTemplate.postForEntity("https://localhost:8500/sellers/sellers/getSubscriptions", new HttpEntity<>(magazineDTO),
-                String.class);
+        String.class);
         StringDTO text = new StringDTO((String) response.getBody());
         return text;
     }
