@@ -62,7 +62,7 @@ export class MagazineInfoComponent implements OnInit {
   }
 
   onPretplatise() {
-    this.kpService.subscriptions(this.magazineId).subscribe(
+    this.kpService.subscriptions(this.magazine.sellerId).subscribe(
       (response) => {
         this.retHref = response;
         window.location.href = this.retHref.href;

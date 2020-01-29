@@ -27,9 +27,6 @@ public class KPController {
     MagazineService magazineService;
 
     @Autowired
-    RestTemplate restTemplate;
-
-    @Autowired
     RegistrationClient registrationClient;
 
     @Autowired
@@ -37,23 +34,7 @@ public class KPController {
 
     @RequestMapping(value = "/createPlan/{magazineId}", method = RequestMethod.GET)
     public ResponseEntity<?> sendKPCreatePlan(@PathVariable("magazineId") long magazineId){
-        Magazine m = magazineService.findOneById(magazineId);
-        List<SciencePaper> radovi = m.getSciencePapers();
-        double amount = 0;
-        for(SciencePaper rad : radovi) {
-            amount += rad.getPrice();
-        }
-        amount = amount * 0.9;
-        String currency = "USD";
-        if(!radovi.isEmpty()) {
-            currency = radovi.get(0).getCurrency();
-        }
-        double roundAmount = Math.round(amount * 100.0) / 100.0;
-        MagazineInfoDTO magazineDTO = new MagazineInfoDTO(m.getName(), m.getIssn(), currency, roundAmount, m.getSellerId());
-        ResponseEntity response = restTemplate.postForEntity("https://localhost:8500/sellers/sellers/createPlan", new HttpEntity<>(magazineDTO),
-                String.class);
-        StringDTO text = new StringDTO((String) response.getBody());
-        return new ResponseEntity<>(text, HttpStatus.OK);
+        return new ResponseEntity<>(kpService.createPlan(magazineId), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
@@ -74,7 +55,7 @@ public class KPController {
 
     @RequestMapping(value = "/subscriptions/{magazineId}", method = RequestMethod.GET)
     public ResponseEntity<?> subscriptions(@PathVariable("magazineId") long magazineId){
-        return null;
+        return new ResponseEntity<>(kpService.getSubscriptions(magazineId), HttpStatus.OK);
     }
 
 }
