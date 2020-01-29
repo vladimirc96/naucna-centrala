@@ -3,12 +3,19 @@ package com.upp.naucnacentrala.service;
 import com.upp.naucnacentrala.client.RegistrationClient;
 import com.upp.naucnacentrala.dto.KPRegistrationDTO;
 import com.upp.naucnacentrala.dto.MagazineDTO;
+import com.upp.naucnacentrala.dto.MagazineInfoDTO;
+import com.upp.naucnacentrala.dto.StringDTO;
 import com.upp.naucnacentrala.model.Magazine;
+import com.upp.naucnacentrala.model.SciencePaper;
 import com.upp.naucnacentrala.repository.MagazineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.ws.rs.BadRequestException;
+import java.util.List;
 
 @Service
 public class KPService {
@@ -20,6 +27,12 @@ public class KPService {
 
     @Autowired
     RegistrationClient registrationClient;
+
+    @Autowired
+    MagazineService magazineService;
+
+    @Autowired
+    RestTemplate restTemplate;
 
 
     public KPRegistrationDTO initRegistration(MagazineDTO magazineDTO) {
@@ -63,5 +76,33 @@ public class KPService {
         kprDTO.setSellerId(m.getSellerId());
         kprDTO = registrationClient.reviewRegistration(kprDTO);
         return kprDTO;
+    }
+
+    public StringDTO createPlan(long magId) {
+        Magazine m = magazineService.findOneById(magId);
+        List<SciencePaper> radovi = m.getSciencePapers();
+        double amount = 0;
+        for(SciencePaper rad : radovi) {
+            amount += rad.getPrice();
+        }
+        amount = amount * 0.9;
+        String currency = "USD";
+        if(!radovi.isEmpty()) {
+            currency = radovi.get(0).getCurrency();
+        }
+        double roundAmount = Math.round(amount * 100.0) / 100.0;
+        MagazineInfoDTO magazineDTO = new MagazineInfoDTO(m.getName(), m.getIssn(), currency, roundAmount, m.getSellerId());
+        ResponseEntity response = restTemplate.postForEntity("https://localhost:8500/sellers/sellers/createPlan", new HttpEntity<>(magazineDTO),
+                String.class);
+        StringDTO text = new StringDTO((String) response.getBody());
+        return text;
+    }
+
+    public StringDTO getSubscriptions(long sellerId) {
+        MagazineInfoDTO magazineDTO = new MagazineInfoDTO(null, null, null, 0, sellerId);
+        ResponseEntity response = restTemplate.postForEntity("https://localhost:8500/sellers/sellers/getSubscriptions", new HttpEntity<>(magazineDTO),
+                String.class);
+        StringDTO text = new StringDTO((String) response.getBody());
+        return text;
     }
 }
