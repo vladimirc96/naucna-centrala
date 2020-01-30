@@ -16,4 +16,8 @@ export class OrderService {
     return this.httpClient.post('/api/orders/magazine/initSub', magazineDTO);
   }
 
+  initPaperOrder(paper) {
+    return this.httpClient.post('/api/orders/scPaper/init', paper);
+  }
+
 }

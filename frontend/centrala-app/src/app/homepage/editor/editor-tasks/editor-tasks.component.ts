@@ -98,20 +98,7 @@ export class EditorTasksComponent implements OnInit {
   }
 
   onListPlans(magazineID) {
-    alert("To be implemented :)");
-    // this.kpService.getPlans(magazineID).subscribe(
-    //   (response) => {
-    //     this.retHref = response;
-    //     if(this.retHref === "noPP") {
-    //       alert("Nije moguce napraviti plan jer PayPal nije registrovan!");
-    //     } else {
-    //       window.location.href = this.retHref.href;
-    //     }
-    //   },
-    //   (error) => {
-    //     alert(error.message);
-    //   }
-    // );
+    window.location.href = "http://localhost:4201/billingplans/show/" + magazineID;
   }
 
 }

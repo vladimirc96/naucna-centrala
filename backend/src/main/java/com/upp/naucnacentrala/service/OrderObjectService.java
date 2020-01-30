@@ -5,6 +5,7 @@ import com.upp.naucnacentrala.client.OrderClient;
 import com.upp.naucnacentrala.dto.FinalizeOrderDTO;
 import com.upp.naucnacentrala.dto.InitOrderResponseDTO;
 import com.upp.naucnacentrala.dto.MagazineDTO;
+import com.upp.naucnacentrala.dto.SciencePaperDTO;
 import com.upp.naucnacentrala.model.Magazine;
 import com.upp.naucnacentrala.model.OrderObject;
 import com.upp.naucnacentrala.model.SciencePaper;
@@ -24,6 +25,9 @@ public class OrderObjectService {
     private MagazineService magazineService;
 
     @Autowired
+    SciencePaperService sciencePaperService;
+
+    @Autowired
     TokenUtils tokenUtils;
 
     @Autowired
@@ -34,12 +38,8 @@ public class OrderObjectService {
 
     public InitOrderResponseDTO create(MagazineDTO magazineDTO, HttpServletRequest request){
         Magazine magazine = magazineService.findOneById(magazineDTO.getId());
-        OrderObject orderObject = new OrderObject();
-        orderObject.setMagazine(magazine);
+        OrderObject orderObject = createOrderObject(magazine, request);
         orderObject.setOrderType(Enums.OrderType.ORDER_CASOPIS);
-        orderObject.setUserId(Utils.getUsernameFromRequest(request, tokenUtils));
-        orderObject.setAmount(calculateAmount(magazine));
-        orderObject.setOrderStatus(Enums.OrderStatus.PENDING);
         orderObject = orderObjectRepo.save(orderObject);
 
         return orderClient.initOrder(magazine, orderObject);
@@ -47,15 +47,33 @@ public class OrderObjectService {
 
     public InitOrderResponseDTO createSub(MagazineDTO magazineDTO, HttpServletRequest request){
         Magazine magazine = magazineService.findOneById(magazineDTO.getId());
-        OrderObject orderObject = new OrderObject();
-        orderObject.setMagazine(magazine);
+        OrderObject orderObject = createOrderObject(magazine, request);
         orderObject.setOrderType(Enums.OrderType.ORDER_SUBSCRIPTION);
-        orderObject.setUserId(Utils.getUsernameFromRequest(request, tokenUtils));
-        orderObject.setAmount(calculateAmount(magazine));
-        orderObject.setOrderStatus(Enums.OrderStatus.PENDING);
         orderObject = orderObjectRepo.save(orderObject);
 
         return orderClient.initOrder(magazine, orderObject);
+    }
+
+    public InitOrderResponseDTO createPaper(SciencePaperDTO paperDTO, HttpServletRequest request) {
+        SciencePaper paper = sciencePaperService.findOneById(paperDTO.getId());
+        OrderObject orderObject = new OrderObject();
+        orderObject.setSciencePaper(paper);
+        orderObject.setUserId(Utils.getUsernameFromRequest(request, tokenUtils));
+        orderObject.setAmount(paperDTO.getPrice());
+        orderObject.setOrderStatus(Enums.OrderStatus.PENDING);
+        orderObject.setOrderType(Enums.OrderType.ORDER_RAD);
+        orderObject = orderObjectRepo.save(orderObject);
+
+        return orderClient.initPaperOrder(paper, orderObject);
+    }
+
+    private OrderObject createOrderObject(Magazine m, HttpServletRequest request) {
+        OrderObject oo = new OrderObject();
+        oo.setMagazine(m);
+        oo.setUserId(Utils.getUsernameFromRequest(request, tokenUtils));
+        oo.setAmount(calculateAmount(m));
+        oo.setOrderStatus(Enums.OrderStatus.PENDING);
+        return oo;
     }
 
 

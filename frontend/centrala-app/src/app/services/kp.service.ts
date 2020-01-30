@@ -22,4 +22,8 @@ export class KPService {
     return this.httpClient.post('/api/kp/registration/review', magazine);
   }
 
+  getPlans(magazienId) {
+    return this.httpClient.get('/api/kp/getPlans/'.concat(magazienId));
+  }
+
 }

@@ -4,6 +4,7 @@ import com.upp.naucnacentrala.dto.InitOrderResponseDTO;
 import com.upp.naucnacentrala.dto.InitOrderRequestDTO;
 import com.upp.naucnacentrala.model.Magazine;
 import com.upp.naucnacentrala.model.OrderObject;
+import com.upp.naucnacentrala.model.SciencePaper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
@@ -26,5 +27,16 @@ public class OrderClient {
         ResponseEntity<InitOrderResponseDTO> responseEntity = restTemplate.postForEntity("https://localhost:8500/sellers/active-order/init", httpEntity, InitOrderResponseDTO.class);
         return responseEntity.getBody();
     }
+
+    public InitOrderResponseDTO initPaperOrder(SciencePaper paper, OrderObject orderObject){
+        InitOrderRequestDTO initOrderRequestDTO = new InitOrderRequestDTO(orderObject.getId(), paper.getTitle(), paper.getCurrency(),
+                paper.getMagazine().getSellerId(), orderObject.getAmount(), this.returnUrl, orderObject.getOrderType(), orderObject.getOrderStatus());
+
+        HttpEntity<InitOrderRequestDTO> httpEntity = new HttpEntity<>(initOrderRequestDTO);
+        ResponseEntity<InitOrderResponseDTO> responseEntity = restTemplate.postForEntity("https://localhost:8500/sellers/active-order/init", httpEntity, InitOrderResponseDTO.class);
+        return responseEntity.getBody();
+    }
+
+
 
 }

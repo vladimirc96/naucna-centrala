@@ -41,7 +41,6 @@ export class MagazineInfoComponent implements OnInit {
     this.orderService.initMagazineOrder(this.magazine).subscribe(
       (response: any) => {
         window.location.href = response.redirectUrl;
-        // window.open(response.redirectUrl, "_blank");
       },
       (error) => {
         alert(error.message);
@@ -53,12 +52,22 @@ export class MagazineInfoComponent implements OnInit {
     this.orderService.initMagazineSubscription(this.magazine).subscribe(
       (response: any) => {
         window.location.href = response.redirectUrl;
-        // window.open(response.redirectUrl);
       },
       (error) => {
         alert(error.message);
       }
     );
+  }
+
+  onKupiRad(paper) {
+    this.orderService.initPaperOrder(paper).subscribe(
+      (response: any) => {
+        window.location.href = response.redirectUrl;
+      },
+      (error) => {
+        alert(error.message);
+      }
+    )
   }
 
 }

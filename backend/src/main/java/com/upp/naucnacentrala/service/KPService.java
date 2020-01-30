@@ -1,15 +1,14 @@
 package com.upp.naucnacentrala.service;
 
 import com.upp.naucnacentrala.client.RegistrationClient;
-import com.upp.naucnacentrala.dto.KPRegistrationDTO;
-import com.upp.naucnacentrala.dto.MagazineDTO;
-import com.upp.naucnacentrala.dto.MagazineInfoDTO;
-import com.upp.naucnacentrala.dto.StringDTO;
+import com.upp.naucnacentrala.dto.*;
 import com.upp.naucnacentrala.model.Magazine;
 import com.upp.naucnacentrala.model.SciencePaper;
 import com.upp.naucnacentrala.repository.MagazineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -100,5 +99,11 @@ public class KPService {
                 String.class);
         StringDTO text = new StringDTO((String) response.getBody());
         return text;
+    }
+
+    public List<BillingPlanDTO> getMagazinePlans(long magId) {
+        Magazine m = magazineService.findOneById(magId);
+        ResponseEntity<List<BillingPlanDTO>> responseEntity = restTemplate.exchange("https://localhost:8500/paypal-service/paypal/getAllPlans/" + m.getSellerId(), HttpMethod.GET, null, new ParameterizedTypeReference<List<BillingPlanDTO>>(){});
+        return responseEntity.getBody();
     }
 }

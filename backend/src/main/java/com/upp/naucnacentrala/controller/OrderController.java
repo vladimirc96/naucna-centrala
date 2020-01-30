@@ -4,6 +4,7 @@ import com.upp.naucnacentrala.client.OrderClient;
 import com.upp.naucnacentrala.dto.FinalizeOrderDTO;
 import com.upp.naucnacentrala.dto.InitOrderResponseDTO;
 import com.upp.naucnacentrala.dto.MagazineDTO;
+import com.upp.naucnacentrala.dto.SciencePaperDTO;
 import com.upp.naucnacentrala.model.OrderObject;
 import com.upp.naucnacentrala.service.OrderObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,11 @@ public class OrderController {
     @RequestMapping(value = "/magazine/initSub", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public ResponseEntity<InitOrderResponseDTO> initSub(@RequestBody MagazineDTO magazineDTO, HttpServletRequest request){
         return new ResponseEntity(orderObjectService.createSub(magazineDTO, request), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/scPaper/init", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<InitOrderResponseDTO> initPaper(@RequestBody SciencePaperDTO paperDTO, HttpServletRequest request){
+        return new ResponseEntity(orderObjectService.createPaper(paperDTO, request), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/finalize", method = RequestMethod.POST)
