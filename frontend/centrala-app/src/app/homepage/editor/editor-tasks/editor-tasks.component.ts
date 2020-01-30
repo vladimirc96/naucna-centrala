@@ -85,7 +85,7 @@ export class EditorTasksComponent implements OnInit {
     this.kpService.createPlan(magazineID).subscribe(
       (response) => {
         this.retHref = response;
-        if(this.retHref === "noPP") {
+        if(this.retHref.href === "noPP") {
           alert("Nije moguce napraviti plan jer PayPal nije registrovan!");
         } else {
           window.location.href = this.retHref.href;
