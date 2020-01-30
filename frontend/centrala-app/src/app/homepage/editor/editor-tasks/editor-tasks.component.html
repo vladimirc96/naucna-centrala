@@ -20,12 +20,17 @@
                   <th scope="row">{{ magazine.id }}</th>
                   <td>{{ magazine.name }}</td>
                   <td>{{ magazine.issn }}</td>
-                  <td style="width:500px" class="text-right">
+                  <td style="width:350px" class="text-right">
                     <ng-container *ngIf="magazine.sellerId != 0">
-                      <button class="btn btn-primary plan" (click)="onPlan(magazine.id)" *ngIf="magazine.sellerId != 0">Napravi PayPal plan</button>
+                      <button class="btn btn-primary" (click)="onListPlans(magazine.id)" *ngIf="magazine.sellerId != 0">Pregledaj planove</button>
                     </ng-container>
                   </td>
-                  <td >
+                  <td>
+                    <ng-container *ngIf="magazine.sellerId != 0">
+                      <button class="btn btn-primary" (click)="onPlan(magazine.id)" *ngIf="magazine.sellerId != 0">Napravi PayPal plan</button>
+                    </ng-container>
+                  </td>
+                  <td>
                     <button class="btn btn-link" (click)="onRegisterMagazine(magazine.id)" *ngIf="!magazine.registered && magazine.sellerId == 0">Registruj</button>
                     <ng-container *ngIf="magazine.sellerId != 0">
                       <button class="btn btn-link " (click)="onReviewRegistration(magazine.id)" *ngIf="magazine.sellerId != 0">Pregled registracije</button>

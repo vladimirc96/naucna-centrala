@@ -40,7 +40,8 @@ export class MagazineInfoComponent implements OnInit {
   onKupi(){
     this.orderService.initMagazineOrder(this.magazine).subscribe(
       (response: any) => {
-        window.open(response.redirectUrl, "_blank");
+        window.location.href = response.redirectUrl;
+        // window.open(response.redirectUrl, "_blank");
       },
       (error) => {
         alert(error.message);
@@ -51,7 +52,8 @@ export class MagazineInfoComponent implements OnInit {
   onPretplatise() {
     this.orderService.initMagazineSubscription(this.magazine).subscribe(
       (response: any) => {
-        window.open(response.redirectUrl);
+        window.location.href = response.redirectUrl;
+        // window.open(response.redirectUrl);
       },
       (error) => {
         alert(error.message);
