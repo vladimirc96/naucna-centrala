@@ -20,4 +20,8 @@ export class OrderService {
     return this.httpClient.post('/api/orders/scPaper/init', paper);
   }
 
+  getAllOrders() {
+    return this.httpClient.get('/api/orders/');
+  }
+
 }

@@ -1,10 +1,7 @@
 package com.upp.naucnacentrala.controller;
 
 import com.upp.naucnacentrala.client.OrderClient;
-import com.upp.naucnacentrala.dto.FinalizeOrderDTO;
-import com.upp.naucnacentrala.dto.InitOrderResponseDTO;
-import com.upp.naucnacentrala.dto.MagazineDTO;
-import com.upp.naucnacentrala.dto.SciencePaperDTO;
+import com.upp.naucnacentrala.dto.*;
 import com.upp.naucnacentrala.model.OrderObject;
 import com.upp.naucnacentrala.service.OrderObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/orders")
@@ -20,6 +18,11 @@ public class OrderController {
 
     @Autowired
     private OrderObjectService orderObjectService;
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public @ResponseBody ResponseEntity<List<OrderDTO>> getAllOrders() {
+        return new ResponseEntity<>(orderObjectService.getAllOrders(), HttpStatus.OK);
+    }
 
     @RequestMapping(value = "/magazine/init", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public ResponseEntity<InitOrderResponseDTO> initOrder(@RequestBody MagazineDTO magazineDTO, HttpServletRequest request){

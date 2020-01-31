@@ -2,20 +2,20 @@ package com.upp.naucnacentrala.service;
 
 import com.upp.naucnacentrala.Utils;
 import com.upp.naucnacentrala.client.OrderClient;
-import com.upp.naucnacentrala.dto.FinalizeOrderDTO;
-import com.upp.naucnacentrala.dto.InitOrderResponseDTO;
-import com.upp.naucnacentrala.dto.MagazineDTO;
-import com.upp.naucnacentrala.dto.SciencePaperDTO;
+import com.upp.naucnacentrala.dto.*;
 import com.upp.naucnacentrala.model.Magazine;
 import com.upp.naucnacentrala.model.OrderObject;
 import com.upp.naucnacentrala.model.SciencePaper;
 import com.upp.naucnacentrala.model.enums.Enums;
 import com.upp.naucnacentrala.repository.OrderObjectRepository;
 import com.upp.naucnacentrala.security.TokenUtils;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -35,6 +35,10 @@ public class OrderObjectService {
 
     @Autowired
     private OrderClient orderClient;
+
+    public List<OrderDTO> getAllOrders() {
+        return orderObjectRepo.findAll().stream().map(o -> OrderDTO.formDto(o)).collect(Collectors.toList());
+    }
 
     public InitOrderResponseDTO create(MagazineDTO magazineDTO, HttpServletRequest request){
         Magazine magazine = magazineService.findOneById(magazineDTO.getId());

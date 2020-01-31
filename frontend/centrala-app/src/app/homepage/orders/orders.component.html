@@ -1,0 +1,38 @@
+<div class="container pt-5 pb-5" >
+    <h2 class="mb-5">Lista svih porudžbina</h2>
+    <table class="table table-sm" *ngIf="orders">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Kupac</th>
+            <th scope="col">Prodavac ID</th>
+            <th scope="col">Iznos</th>
+            <th scope="col">Artikal</th>
+            <th scope="col">Tip porudžbine</th>
+            <th scope="col">Status porudžbine</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let o of orders">
+            <th>{{ o.id }}</th>
+            <td>{{ o.userId }}</td>
+            <td ><span *ngIf="o.magazine">{{ o.magazine.sellerId }}</span></td>
+            <td>{{ o.amount }}</td>
+            <td>
+                <span *ngIf="o.orderType == 'ORDER_CASOPIS' && o.magazine">
+                    {{ o.magazine.name }}
+                </span>
+                <span *ngIf="o.orderType == 'ORDER_RAD' && o.sciencePaper">
+                    {{ o.sciencePaper.title }}
+                </span>
+                <span *ngIf="o.orderType == 'ORDER_SUBSCRIPTION'">
+                    Pretplata za  {{ o.magazine.name }}
+                </span>
+            </td>
+            <td>{{ o.orderType }}</td>
+            <td>{{ o.orderStatus }}</td>
+        </tr>
+          
+        </tbody>
+      </table>
+</div>
