@@ -113,8 +113,12 @@ public class OrderObjectService {
     public void finalizeOrder(FinalizeOrderDTO foDTO) {
         OrderObject o = orderObjectRepo.findById(foDTO.getNcOrderId()).get();
         o.setOrderStatus(foDTO.getOrderStatus());
-        o.getSubscription().setStartDate(new Date(System.currentTimeMillis()));
-        o.getSubscription().setEndDate(foDTO.getFinalDate());
+
+        if (o.getOrderType() == Enums.OrderType.ORDER_SUBSCRIPTION) {
+            o.getSubscription().setStartDate(new Date(System.currentTimeMillis()));
+            o.getSubscription().setEndDate(foDTO.getFinalDate());
+
+        }
         orderObjectRepo.save(o);
 
     }

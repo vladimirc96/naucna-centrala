@@ -57,6 +57,10 @@ public class OrderDTO {
                 SciencePaperDTO spDTO = new SciencePaperDTO();
                 spDTO.setId(o.getSciencePaper().getId());
                 spDTO.setTitle(o.getSciencePaper().getTitle());
+
+                MagazineInfoDTO mDTO = new MagazineInfoDTO();
+                mDTO.setSellerId(o.getSciencePaper().getMagazine().getSellerId());
+                spDTO.setMagazine(mDTO);
                 oDTO.setSciencePaper(spDTO);
             }
 

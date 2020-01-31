@@ -95,7 +95,8 @@ public class MagazineDTO {
 
     public void setSciencePaperDTOList(List<SciencePaper> sciencePapers) {
         for(SciencePaper paper: sciencePapers){
-            this.sciencePaperDTOList.add(new SciencePaperDTO(paper.getId(), paper.getTitle(), paper.getKeyTerm(), paper.getPaperAbstract(), paper.getPrice(), paper.getCurrency()));
+            this.sciencePaperDTOList.add(new SciencePaperDTO(paper.getId(), paper.getTitle(), paper.getKeyTerm(),
+                    paper.getPaperAbstract(), paper.getPrice(), paper.getCurrency(), null));
         }
     }
 

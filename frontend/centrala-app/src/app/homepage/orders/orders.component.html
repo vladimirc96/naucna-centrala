@@ -21,6 +21,7 @@
             <td >
                 <span *ngIf="o.magazine">{{ o.magazine.sellerId }}</span>
                 <span *ngIf="o.subscription">{{ o.subscription.magazine.sellerId }}</span>
+                <span *ngIf="o.sciencePaper">{{ o.sciencePaper.magazine.sellerId }}</span>
             </td>
             <td>{{ o.amount }}</td>
             <td>

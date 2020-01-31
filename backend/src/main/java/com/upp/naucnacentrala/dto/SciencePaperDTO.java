@@ -8,16 +8,26 @@ public class SciencePaperDTO {
     private String paperAbstract;
     private double price;
     private String currency;
+    private MagazineInfoDTO magazine;
 
     public SciencePaperDTO() {}
 
-    public SciencePaperDTO(Long id, String title, String keyTerm, String paperAbstract, double price, String currency) {
+    public SciencePaperDTO(Long id, String title, String keyTerm, String paperAbstract, double price, String currency, MagazineInfoDTO magazine) {
         this.id = id;
         this.title = title;
         this.keyTerm = keyTerm;
         this.paperAbstract = paperAbstract;
         this.price = price;
         this.currency = currency;
+        this.magazine = magazine;
+    }
+
+    public MagazineInfoDTO getMagazine() {
+        return magazine;
+    }
+
+    public void setMagazine(MagazineInfoDTO magazine) {
+        this.magazine = magazine;
     }
 
     public Long getId() {
