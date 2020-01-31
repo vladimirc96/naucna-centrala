@@ -5,6 +5,7 @@ import com.upp.naucnacentrala.dto.InitOrderRequestDTO;
 import com.upp.naucnacentrala.model.Magazine;
 import com.upp.naucnacentrala.model.OrderObject;
 import com.upp.naucnacentrala.model.SciencePaper;
+import com.upp.naucnacentrala.model.enums.Enums;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,9 @@ public class OrderClient {
         InitOrderRequestDTO initOrderRequestDTO = new InitOrderRequestDTO(orderObject.getId(), magazine.getName(), "USD",
                 magazine.getSellerId(), orderObject.getAmount(), this.returnUrl, orderObject.getOrderType(), orderObject.getOrderStatus());
 
+        if (orderObject.getOrderType() == Enums.OrderType.ORDER_SUBSCRIPTION) {
+            initOrderRequestDTO.setTitle("Subscription for: " + initOrderRequestDTO.getTitle());
+        }
         HttpEntity<InitOrderRequestDTO> httpEntity = new HttpEntity<>(initOrderRequestDTO);
         ResponseEntity<InitOrderResponseDTO> responseEntity = restTemplate.postForEntity("https://localhost:8500/sellers/active-order/init", httpEntity, InitOrderResponseDTO.class);
         return responseEntity.getBody();
