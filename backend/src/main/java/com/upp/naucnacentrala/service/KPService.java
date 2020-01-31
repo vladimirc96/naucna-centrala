@@ -101,9 +101,12 @@ public class KPService {
         return text;
     }
 
-    public List<BillingPlanDTO> getMagazinePlans(long magId) {
+    public String getMagazinePlans(long magId) {
         Magazine m = magazineService.findOneById(magId);
-        ResponseEntity<List<BillingPlanDTO>> responseEntity = restTemplate.exchange("https://localhost:8500/paypal-service/paypal/getAllPlans/" + m.getSellerId(), HttpMethod.GET, null, new ParameterizedTypeReference<List<BillingPlanDTO>>(){});
-        return responseEntity.getBody();
+        ResponseEntity response = restTemplate.getForEntity("https://localhost:8500/sellers/sellers/getPlans/" + m.getSellerId(),
+                String.class);
+        StringDTO text = new StringDTO((String) response.getBody());
+
+       return text.getHref();
     }
 }

@@ -98,7 +98,14 @@ export class EditorTasksComponent implements OnInit {
   }
 
   onListPlans(magazineID) {
-    window.location.href = "http://localhost:4201/billingplans/show/" + magazineID;
+    this.kpService.getPlans(magazineID).subscribe(
+      (data) => {
+        this.retHref = data;
+        window.location.href = this.retHref;
+      }, (error) => {
+        alert(error.message);
+      }
+    );
   }
 
 }

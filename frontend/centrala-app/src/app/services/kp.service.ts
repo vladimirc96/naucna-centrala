@@ -23,7 +23,7 @@ export class KPService {
   }
 
   getPlans(magazienId) {
-    return this.httpClient.get('/api/kp/getPlans/'.concat(magazienId));
+    return this.httpClient.get('/api/kp/getPlans/'.concat(magazienId), {responseType: 'text'});
   }
 
 }

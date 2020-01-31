@@ -26,7 +26,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RegistrationFailureComponent } from './registration/registration-failure/registration-failure.component';
 import { MagazineListComponent } from './homepage/magazine-list/magazine-list.component';
 import { MagazineInfoComponent } from './homepage/magazine-info/magazine-info.component';
-import { MagazinePlansComponent } from './homepage/magazine-plans/magazine-plans.component';
 
 @NgModule({
   declarations: [
@@ -47,8 +46,7 @@ import { MagazinePlansComponent } from './homepage/magazine-plans/magazine-plans
     MagazineCorrectionComponent,
     RegistrationFailureComponent,
     MagazineListComponent,
-    MagazineInfoComponent,
-    MagazinePlansComponent
+    MagazineInfoComponent
   ],
   imports: [
     BrowserModule,
