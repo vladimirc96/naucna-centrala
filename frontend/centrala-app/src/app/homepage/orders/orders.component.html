@@ -1,4 +1,4 @@
-<div class="container pt-5 pb-5" >
+<div class="pt-5 pb-5" >
     <h2 class="mb-5">Lista svih porudžbina</h2>
     <table class="table table-sm" *ngIf="orders">
         <thead>
@@ -10,13 +10,18 @@
             <th scope="col">Artikal</th>
             <th scope="col">Tip porudžbine</th>
             <th scope="col">Status porudžbine</th>
+            <th scope="col">Početak pretplate</th>
+            <th scope="col">Završetak pretplate</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let o of orders">
             <th>{{ o.id }}</th>
             <td>{{ o.userId }}</td>
-            <td ><span *ngIf="o.magazine">{{ o.magazine.sellerId }}</span></td>
+            <td >
+                <span *ngIf="o.magazine">{{ o.magazine.sellerId }}</span>
+                <span *ngIf="o.subscription">{{ o.subscription.magazine.sellerId }}</span>
+            </td>
             <td>{{ o.amount }}</td>
             <td>
                 <span *ngIf="o.orderType == 'ORDER_CASOPIS' && o.magazine">
@@ -25,12 +30,15 @@
                 <span *ngIf="o.orderType == 'ORDER_RAD' && o.sciencePaper">
                     {{ o.sciencePaper.title }}
                 </span>
-                <span *ngIf="o.orderType == 'ORDER_SUBSCRIPTION'">
-                    Pretplata za  {{ o.magazine.name }}
+                <span *ngIf="o.orderType == 'ORDER_SUBSCRIPTION' && o.subscription && o.subscription.magazine" >
+                    Pretplata za  {{ o.subscription.magazine.name }}
                 </span>
             </td>
             <td>{{ o.orderType }}</td>
             <td>{{ o.orderStatus }}</td>
+            
+            <td><span *ngIf="o.subscription">{{ o.subscription.startDate  | date}}</span></td>
+            <td><span *ngIf="o.subscription">{{ o.subscription.endDate  | date }}</span></td>
         </tr>
           
         </tbody>

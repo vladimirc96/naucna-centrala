@@ -6,14 +6,17 @@ import com.upp.naucnacentrala.dto.*;
 import com.upp.naucnacentrala.model.Magazine;
 import com.upp.naucnacentrala.model.OrderObject;
 import com.upp.naucnacentrala.model.SciencePaper;
+import com.upp.naucnacentrala.model.Subscription;
 import com.upp.naucnacentrala.model.enums.Enums;
 import com.upp.naucnacentrala.repository.OrderObjectRepository;
+import com.upp.naucnacentrala.repository.SubscriptionRepository;
 import com.upp.naucnacentrala.security.TokenUtils;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,6 +39,9 @@ public class OrderObjectService {
     @Autowired
     private OrderClient orderClient;
 
+    @Autowired
+    private SubscriptionRepository subRepo;
+
     public List<OrderDTO> getAllOrders() {
         return orderObjectRepo.findAll().stream().map(o -> OrderDTO.formDto(o)).collect(Collectors.toList());
     }
@@ -51,12 +57,14 @@ public class OrderObjectService {
 
     public InitOrderResponseDTO createSub(MagazineDTO magazineDTO, HttpServletRequest request){
         Magazine magazine = magazineService.findOneById(magazineDTO.getId());
-        OrderObject orderObject = createOrderObject(magazine, request);
+        OrderObject orderObject = createSubscriptionOrderObject(magazine, request);
         orderObject.setOrderType(Enums.OrderType.ORDER_SUBSCRIPTION);
         orderObject = orderObjectRepo.save(orderObject);
 
         return orderClient.initOrder(magazine, orderObject);
     }
+
+
 
     public InitOrderResponseDTO createPaper(SciencePaperDTO paperDTO, HttpServletRequest request) {
         SciencePaper paper = sciencePaperService.findOneById(paperDTO.getId());
@@ -80,6 +88,18 @@ public class OrderObjectService {
         return oo;
     }
 
+    private OrderObject createSubscriptionOrderObject(Magazine m, HttpServletRequest request) {
+        OrderObject oo = new OrderObject();
+        Subscription s = new Subscription();
+        s.setMagazine(m);
+        s = subRepo.save(s);
+        oo.setSubscription(s);
+        oo.setUserId(Utils.getUsernameFromRequest(request, tokenUtils));
+        oo.setAmount(calculateAmount(m));
+        oo.setOrderStatus(Enums.OrderStatus.PENDING);
+        return oo;
+    }
+
 
     private double calculateAmount(Magazine magazine) {
         double amount = 0;
@@ -93,6 +113,8 @@ public class OrderObjectService {
     public void finalizeOrder(FinalizeOrderDTO foDTO) {
         OrderObject o = orderObjectRepo.findById(foDTO.getNcOrderId()).get();
         o.setOrderStatus(foDTO.getOrderStatus());
+        o.getSubscription().setStartDate(new Date(System.currentTimeMillis()));
+        o.getSubscription().setEndDate(foDTO.getFinalDate());
         orderObjectRepo.save(o);
 
     }
