@@ -32,6 +32,10 @@ public class Magazine {
     @Column(name = "is_registered")
     private boolean isRegistered = false;
 
+    @Column(name = "open_access")
+    private boolean openAccess = false;
+
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "magazine_sciencefield",
             joinColumns = @JoinColumn(name = "magazine_id", referencedColumnName = "id"),
@@ -195,6 +199,14 @@ public class Magazine {
         this.sciencePapers = sciencePapers;
     }
 
+    public boolean isOpenAccess() {
+        return openAccess;
+    }
+
+    public void setOpenAccess(boolean openAccess) {
+        this.openAccess = openAccess;
+    }
+
     @Override
     public String toString() {
         return "Magazine{" +
@@ -205,6 +217,7 @@ public class Magazine {
                 ", isActive=" + isActive +
                 ", sellerId=" + sellerId +
                 ", isRegistered=" + isRegistered +
+                ", openAccess=" + openAccess +
                 ", scienceFields=" + scienceFields +
                 ", reviewers=" + reviewers +
                 ", chiefEditor=" + chiefEditor +

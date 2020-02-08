@@ -1,6 +1,6 @@
-insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered) values (1, "Naucni kutak", "111", "READERS", true, "milica", false);
-insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered) values (2, "Nauka danas", "222", "AUTHORS", true, "andrijana", false);
-insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered, seller_id) values (3, "Savremena psihologija", "333", "READERS", true, "vukasin", true, 1);
+insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered, open_access) values (1, "Naucni kutak", "111", "READERS", true, "milica", false, true);
+insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered, open_access) values (2, "Nauka danas", "222", "AUTHORS", true, "andrijana", false, false);
+insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered, seller_id, open_access) values (3, "Savremena psihologija", "333", "READERS", true, "vukasin", true, 1, false);
 
 insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id) values (1, 'Mape uma', 'Kljucni pojam', 'Abstrakt', 10, 'USD', 3);
 insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id) values (2, 'Kako prihvatiti odgovornost?', 'Kljucni pojam', 'Abstrakt', 20, 'USD', 3);
@@ -43,6 +43,10 @@ insert into user (username, password, first_name, last_name, city, country, emai
 values ("andrijana", "$2a$10$TWPesMnqNm66Z9vNd/b5UudKvezOzPiuYGjI36MvonEzfvUaN8FRq", "Andrijana", "Jeremic", "Novi Sad", "Srbija", "andrijana@gmail.com", false, true, "EDITOR", 2);
 
 
+insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type)
+values ("marko", "$2a$10$W8fc03eWKZ3wBK/IN4.TaOaFA/cjG.G/9z79qnOqXmZv6ByTvv1kG", "Marko", "Stevanov", "Novi Knezevac", "Srbija", "marko@gmail.com", false, true, "AUTHOR");
+
+
 
 insert into role values (1, 'ROLE_USER');
 insert into role values (2, 'ROLE_ADMIN');
@@ -65,6 +69,7 @@ insert into user_roles values ('djordjevic', 4);
 insert into user_roles values ('malencic', 4);
 insert into user_roles values ('milica', 3);
 insert into user_roles values ('andrijana', 3);
+insert into user_roles values ('marko', 5);
 
 insert into user_sciencefields values ('vukasin', 1);
 insert into user_sciencefields values ('vukasin', 2);
@@ -88,6 +93,10 @@ insert into user_sciencefields values ('milica', 3);
 insert into user_sciencefields values ('andrijana', 3);
 insert into user_sciencefields values ('andrijana', 4);
 insert into user_sciencefields values ('andrijana', 5);
+
+insert into user_sciencefields values ('marko', 1);
+insert into user_sciencefields values ('marko', 2);
+insert into user_sciencefields values ('marko', 3);
 
 
 
