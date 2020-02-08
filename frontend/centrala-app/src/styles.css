@@ -1,2 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/bootstrap-select/dist/css/bootstrap-select.css";
+
+
+form{
+    margin-top:20px;
+    width: 60%;
+    height: 60%;
+}
+
+input, select {
+    margin-bottom: 10px;
+    border: 1px solid grey;
+}

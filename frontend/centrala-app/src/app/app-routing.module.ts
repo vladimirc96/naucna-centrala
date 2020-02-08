@@ -18,6 +18,13 @@ import { RegistrationFailureComponent } from './registration/registration-failur
 import { MagazineListComponent } from './homepage/magazine-list/magazine-list.component';
 import { MagazineInfoComponent } from './homepage/magazine-info/magazine-info.component';
 import { OrdersComponent } from './homepage/orders/orders.component';
+import { AuthorComponent } from './homepage/author/author.component';
+import { AuthorTasksComponent } from './homepage/author/author-tasks/author-tasks.component';
+import { TextSubbmitingComponent } from './homepage/author/text-subbmiting/text-subbmiting.component';
+import { ChooseMagazineComponent } from './homepage/author/text-subbmiting/choose-magazine/choose-magazine.component';
+import { SciencePaperFormComponent } from './homepage/author/text-subbmiting/science-paper-form/science-paper-form.component';
+import { MembershipPaymentComponent } from './homepage/author/text-subbmiting/membership-payment/membership-payment.component';
+import { CoauthorFormComponent } from './homepage/author/coauthor-form/coauthor-form.component';
 
 const appRoutes: Routes = [
 	{ path: '', redirectTo: 'homepage/magazine-list', pathMatch: 'full'},
@@ -36,6 +43,15 @@ const appRoutes: Routes = [
 			{ path: 'magazines', component: MagazineFormComponent},
 			{ path: 'editorial-board/:id', component: EditorialBoardFormComponent },
 			{ path: 'magazine-correction/:id', component: MagazineCorrectionComponent }
+		]},
+		{ path: 'author', component: AuthorComponent, children: [
+			{ path: '', component: AuthorTasksComponent},
+			{ path: 'text-subbmiting', component: TextSubbmitingComponent, children: [
+				{path: '', component: ChooseMagazineComponent},
+				{path: 'science-paper-form/:processId', component: SciencePaperFormComponent},
+				{path: 'membership-payment', component: MembershipPaymentComponent}
+			]},
+			{ path: 'coauthor/:id', component: CoauthorFormComponent }
 		]}
 	] },
 	{ path: 'login', component: LoginComponent },

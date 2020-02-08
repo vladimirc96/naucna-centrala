@@ -42,5 +42,12 @@ export class RepositoryService {
     return this.httpClient.get('/api/repository/form/editorial-board/' + processInstanceId);
   }
   
+  getSciencePaperForm(processInstanceId){
+    return this.httpClient.get('/api/repository/form/science-paper/'.concat(processInstanceId));
+  }
+
+  getAddCoauthorTasks(){
+    return this.httpClient.get('/api/repository/tasks/coauthor');
+  }
   
 }

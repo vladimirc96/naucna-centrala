@@ -5,6 +5,8 @@ import com.upp.naucnacentrala.model.UserTokenState;
 import com.upp.naucnacentrala.security.CustomUserDetailsService;
 import com.upp.naucnacentrala.security.TokenUtils;
 import com.upp.naucnacentrala.security.auth.JwtAuthenticationRequest;
+import org.camunda.bpm.engine.IdentityService;
+import org.camunda.bpm.webapp.impl.security.auth.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +36,8 @@ public class AuthController {
     @Autowired
     public CustomUserDetailsService userDetailsService;
 
-
+    @Autowired
+    private IdentityService identityService;
 
     @RequestMapping(value="/login",method = RequestMethod.POST)
     public ResponseEntity<UserTokenState> loginUser(@RequestBody JwtAuthenticationRequest authenticationRequest, HttpServletResponse response, Device device, HttpServletRequest hr){
@@ -50,17 +53,21 @@ public class AuthController {
         if(user == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-
         String jwt = tokenUtils.generateToken(user.getUsername(), device);
         int expiresIn = 3600;
+
+        identityService.setAuthenticatedUserId(user.getUsername());
+        System.out.println("*************************************");
+        System.out.println("AUTENTIFIKOVANI KORISNIK - CAMUNDA : " + identityService.getCurrentAuthentication().getUserId());
+        System.out.println("*************************************");
 
         return ResponseEntity.ok(new UserTokenState(jwt,expiresIn));
     }
 
-    // proveriti jos da li je ovako dobro - istrazi
     @RequestMapping(value="/logout", method = RequestMethod.POST)
     public ResponseEntity<?> logOut(HttpServletRequest request, HttpServletResponse response){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        identityService.clearAuthentication();
         if (authentication != null)
             new SecurityContextLogoutHandler().logout(request, response, authentication);
 

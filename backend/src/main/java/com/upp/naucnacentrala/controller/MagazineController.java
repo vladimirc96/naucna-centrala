@@ -155,8 +155,4 @@ public class MagazineController {
         return new ResponseEntity<>("Ispravka je uspesna!", HttpStatus.OK);
     }
 
-
-
-
-
 }

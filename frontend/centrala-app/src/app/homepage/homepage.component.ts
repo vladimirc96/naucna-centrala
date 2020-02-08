@@ -14,6 +14,7 @@ export class HomepageComponent implements OnInit {
   isAdmin: boolean = false;
   isReviewer: boolean = false;
   isEditor: boolean = false;
+  isAuthor: boolean = false;
   isLoggedIn: boolean = false;
 
   ngOnInit() {
@@ -26,10 +27,16 @@ export class HomepageComponent implements OnInit {
       (user: any) => {
         if(user.role === 'ADMIN'){
           this.isAdmin = true;
+          console.log("ROLA: ADMIN");
         }else if(user.role === 'REVIEWER'){
           this.isReviewer = true;
+          console.log("ROLA: RECENZENT");
         }else if(user.role === 'EDITOR'){
           this.isEditor = true;
+          console.log("ROLA: UREDNIK");
+        }else if(user.role == 'AUTHOR'){
+          this.isAuthor = true;
+          console.log("ROLA: AUTOR");
         }
       }
     )
@@ -42,6 +49,7 @@ export class HomepageComponent implements OnInit {
     this.isAdmin = false;
     this.isEditor = false;
     this.isReviewer = false;
+    this.isAuthor = false;
   }
 
 }

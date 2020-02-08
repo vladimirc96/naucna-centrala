@@ -152,6 +152,9 @@ public class UserController {
             }else if(u instanceof Editor){
                 u = (Editor) u;
                 ui.setRole("EDITOR");
+            }else if(u instanceof  Author){
+                u = (Author) u;
+                ui.setRole("AUTHOR");
             }
             ui.setUsername(u.getUsername());
             return new ResponseEntity<UserInfoDTO>(ui, HttpStatus.OK);

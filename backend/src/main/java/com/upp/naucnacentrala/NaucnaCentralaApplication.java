@@ -15,8 +15,10 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.multipart.MultipartResolver;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.MultipartConfigElement;
 
 @SpringBootApplication
 public class NaucnaCentralaApplication {
@@ -24,6 +26,8 @@ public class NaucnaCentralaApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(NaucnaCentralaApplication.class, args);
 	}
+
+
 
 	@Bean
 	public FilterRegistrationBean corsFilterRegistration() {

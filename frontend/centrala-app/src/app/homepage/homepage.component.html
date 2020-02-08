@@ -2,6 +2,11 @@
   <a class="navbar-brand" [routerLink]="['']" style="color: white">Naucna centrala</a>
       <ul class="navbar-nav mr-auto">
 
+        <!-- ADMIN -->
+        <li class="nav-item" *ngIf="isAuthor">
+          <a class="nav-link" [routerLink]="['/homepage/author']">Radovi</a>
+        </li>
+        <!-- ADMIN -->
 
         <!-- ADMIN -->
         <li class="nav-item" *ngIf="isAdmin">

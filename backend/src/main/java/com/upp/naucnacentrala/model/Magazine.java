@@ -32,10 +32,6 @@ public class Magazine {
     @Column(name = "is_registered")
     private boolean isRegistered = false;
 
-    @Column(name = "open_access")
-    private boolean openAccess = false;
-
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "magazine_sciencefield",
             joinColumns = @JoinColumn(name = "magazine_id", referencedColumnName = "id"),
@@ -65,6 +61,9 @@ public class Magazine {
 
     @OneToMany(mappedBy = "magazine", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<SciencePaper> sciencePapers;
+
+    @OneToMany(mappedBy = "magazine", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Author> memberships;
 
     public Magazine() {
     }
@@ -199,12 +198,12 @@ public class Magazine {
         this.sciencePapers = sciencePapers;
     }
 
-    public boolean isOpenAccess() {
-        return openAccess;
+    public List<Author> getMemberships() {
+        return memberships;
     }
 
-    public void setOpenAccess(boolean openAccess) {
-        this.openAccess = openAccess;
+    public void setMemberships(List<Author> memberships) {
+        this.memberships = memberships;
     }
 
     @Override
@@ -217,7 +216,6 @@ public class Magazine {
                 ", isActive=" + isActive +
                 ", sellerId=" + sellerId +
                 ", isRegistered=" + isRegistered +
-                ", openAccess=" + openAccess +
                 ", scienceFields=" + scienceFields +
                 ", reviewers=" + reviewers +
                 ", chiefEditor=" + chiefEditor +

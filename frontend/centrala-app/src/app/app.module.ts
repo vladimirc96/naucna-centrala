@@ -27,6 +27,13 @@ import { RegistrationFailureComponent } from './registration/registration-failur
 import { MagazineListComponent } from './homepage/magazine-list/magazine-list.component';
 import { MagazineInfoComponent } from './homepage/magazine-info/magazine-info.component';
 import { OrdersComponent } from './homepage/orders/orders.component';
+import { AuthorComponent } from './homepage/author/author.component';
+import { AuthorTasksComponent } from './homepage/author/author-tasks/author-tasks.component';
+import { TextSubbmitingComponent } from './homepage/author/text-subbmiting/text-subbmiting.component';
+import { ChooseMagazineComponent } from './homepage/author/text-subbmiting/choose-magazine/choose-magazine.component';
+import { SciencePaperFormComponent } from './homepage/author/text-subbmiting/science-paper-form/science-paper-form.component';
+import { MembershipPaymentComponent } from './homepage/author/text-subbmiting/membership-payment/membership-payment.component';
+import { CoauthorFormComponent } from './homepage/author/coauthor-form/coauthor-form.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,6 +55,13 @@ import { OrdersComponent } from './homepage/orders/orders.component';
     MagazineListComponent,
     MagazineInfoComponent,
     OrdersComponent,
+    AuthorComponent,
+    AuthorTasksComponent,
+    TextSubbmitingComponent,
+    ChooseMagazineComponent,
+    SciencePaperFormComponent,
+    MembershipPaymentComponent,
+    CoauthorFormComponent,
   ],
   imports: [
     BrowserModule,

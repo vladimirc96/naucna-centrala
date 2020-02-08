@@ -169,6 +169,10 @@ public class MagazineService {
         return magazines;
     }
 
+    public Magazine findByName(String name){
+        return magazineRepo.findByName(name);
+    }
+
 
 
 }

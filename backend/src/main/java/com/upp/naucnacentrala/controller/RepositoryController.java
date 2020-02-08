@@ -1,7 +1,9 @@
 package com.upp.naucnacentrala.controller;
 
+import com.sun.xml.internal.ws.resources.HttpserverMessages;
 import com.upp.naucnacentrala.Utils;
 import com.upp.naucnacentrala.dto.FormFieldsDto;
+import com.upp.naucnacentrala.dto.TaskDto;
 import com.upp.naucnacentrala.model.Magazine;
 import com.upp.naucnacentrala.model.ScienceField;
 import com.upp.naucnacentrala.model.User;
@@ -21,6 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
@@ -187,6 +190,37 @@ public class RepositoryController {
 
         return new ResponseEntity<>(new FormFieldsDto(task.getId(), pi.getId(), properties), HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/form/science-paper/{processInstanceId}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<FormFieldsDto> getSciencePaperForm(@PathVariable("processInstanceId") String processInstanceId){
+        ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+        Task task = taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
+        TaskFormData tfd = formService.getTaskFormData(task.getId());
+        List<FormField> properties = tfd.getFormFields();
+        List<ScienceField> scienceFields = scienceFieldService.findAll();
+        for(FormField field : properties){
+            if(field.getId().equals("naucna_oblast")){
+                EnumFormType enumType = (EnumFormType) field.getType();
+                for(ScienceField scienceField: scienceFields){
+                    enumType.getValues().put(scienceField.getName(), scienceField.getName());
+                }
+            }
+        }
+        return new ResponseEntity<>(new FormFieldsDto(task.getId(), pi.getId(), properties), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/tasks/coauthor", method = RequestMethod.POST,produces = "application/json")
+    public ResponseEntity addCoauthorTasks(HttpServletRequest request) {
+        String username = Utils.getUsernameFromRequest(request, tokenUtils);
+        List<Task> tasks = taskService.createTaskQuery().taskName("Koautori").taskAssignee(username).list();
+        List<TaskDto> tasksDto = new ArrayList<>();
+        for(Task task: tasks){
+            TaskDto t = new TaskDto(task.getId(), task.getName(), task.getAssignee());
+            tasksDto.add(t);
+        }
+        return new ResponseEntity<>(tasksDto, HttpStatus.OK);
+    }
+
 
 
 }

@@ -1,0 +1,10 @@
+<div style="width: 100%; padding-top:15px" class="d-flex flex-row-reverse">
+    <button class="btn btn-primary" [routerLink]="['/homepage/author/text-subbmiting']">Podnošenje teksta</button>
+    </div>
+  
+    <h1>Zadaci:</h1>
+    <div class="wrapper" style="width: 100%; height: 100%;">
+        <table>
+            <tr *ngFor="let task of tasks" > <td>{{task.name}}</td><td>{{task.assignee}}</td><td><button (click)="claimTask(task.taskId)">Preuzmi</button></td></tr>
+        </table>
+    </div>

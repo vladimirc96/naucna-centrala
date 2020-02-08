@@ -1,13 +1,14 @@
 package com.upp.naucnacentrala.model;
 
 import javax.persistence.*;
+import java.sql.Blob;
 import java.util.List;
 
 @Entity
 public class SciencePaper {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "title")
@@ -19,6 +20,16 @@ public class SciencePaper {
     @Column(name = "paper_abstract")
     private String paperAbstract;
 
+    @Column(name = "pdf")
+    @Lob
+    private byte[] pdf;
+
+    @Column(name = "currency")
+    private String currency;
+
+    @Column(name = "price")
+    private double price;
+
     @ManyToOne
     private ScienceField scienceField;
 
@@ -28,11 +39,9 @@ public class SciencePaper {
     @OneToMany(mappedBy = "sciencePaper", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<OrderObject> orderObjects;
 
-    @Column(name = "currency")
-    private String currency;
+    @OneToMany(mappedBy = "sciencePaper", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Coauthor> coauthors;
 
-    @Column(name = "price")
-    private double price;
 
     public SciencePaper() {
     }
@@ -110,4 +119,19 @@ public class SciencePaper {
         this.orderObjects = orderObjects;
     }
 
+    public byte[] getPdf() {
+        return pdf;
+    }
+
+    public void setPdf(byte[] pdf) {
+        this.pdf = pdf;
+    }
+
+    public List<Coauthor> getCoauthors() {
+        return coauthors;
+    }
+
+    public void setCoauthors(List<Coauthor> coauthors) {
+        this.coauthors = coauthors;
+    }
 }

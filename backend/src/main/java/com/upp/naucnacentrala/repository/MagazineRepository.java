@@ -18,4 +18,6 @@ public interface MagazineRepository extends JpaRepository<Magazine, Long> {
 
     Optional<Magazine> findBySellerId(long sellerId);
 
+    Magazine findByName(String name);
+
 }
