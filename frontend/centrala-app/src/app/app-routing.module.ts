@@ -17,11 +17,13 @@ import { MagazineCorrectionComponent } from './homepage/editor/magazine-correcti
 import { RegistrationFailureComponent } from './registration/registration-failure/registration-failure.component';
 import { MagazineListComponent } from './homepage/magazine-list/magazine-list.component';
 import { MagazineInfoComponent } from './homepage/magazine-info/magazine-info.component';
+import { OrdersComponent } from './homepage/orders/orders.component';
 
 const appRoutes: Routes = [
 	{ path: '', redirectTo: 'homepage/magazine-list', pathMatch: 'full'},
 	{ path: 'homepage', component: HomepageComponent, children: [
 		{ path: 'magazine-list', component: MagazineListComponent},
+		{ path: 'orders', component: OrdersComponent},
 		{ path: 'magazine/:id', component: MagazineInfoComponent},
 		{ path: 'admin', component: AdminComponent, children: [
 			{ path: 'reviewer', component: ReviewerComponent },
