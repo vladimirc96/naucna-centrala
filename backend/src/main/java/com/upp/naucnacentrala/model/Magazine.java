@@ -62,8 +62,11 @@ public class Magazine {
     @OneToMany(mappedBy = "magazine", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<SciencePaper> sciencePapers;
 
-    @OneToMany(mappedBy = "magazine", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Author> memberships;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "memberships",
+            joinColumns = @JoinColumn(name = "magazine_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "author_username", referencedColumnName = "username"))
+    private List<Author> authors;
 
     public Magazine() {
     }
@@ -198,12 +201,17 @@ public class Magazine {
         this.sciencePapers = sciencePapers;
     }
 
-    public List<Author> getMemberships() {
-        return memberships;
+    public List<Author> getAuthors() {
+        return authors;
     }
 
-    public void setMemberships(List<Author> memberships) {
-        this.memberships = memberships;
+    public void setAuthors(List<Author> authors) {
+        this.authors = authors;
+    }
+
+    public void addSciencePaper(SciencePaper sciencePaper){
+        sciencePapers.add(sciencePaper);
+        sciencePaper.setMagazine(this);
     }
 
     @Override

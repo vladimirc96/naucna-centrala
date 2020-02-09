@@ -209,7 +209,7 @@ public class RepositoryController {
         return new ResponseEntity<>(new FormFieldsDto(task.getId(), pi.getId(), properties), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/tasks/coauthor", method = RequestMethod.POST,produces = "application/json")
+    @RequestMapping(value = "/tasks/coauthor", method = RequestMethod.GET,produces = "application/json")
     public ResponseEntity addCoauthorTasks(HttpServletRequest request) {
         String username = Utils.getUsernameFromRequest(request, tokenUtils);
         List<Task> tasks = taskService.createTaskQuery().taskName("Koautori").taskAssignee(username).list();
@@ -221,6 +221,15 @@ public class RepositoryController {
         return new ResponseEntity<>(tasksDto, HttpStatus.OK);
     }
 
-
-
+    @RequestMapping(value = "/tasks/review-paper", method = RequestMethod.GET,produces = "application/json")
+    public ResponseEntity reviewPaperTasks(HttpServletRequest request) {
+        String username = Utils.getUsernameFromRequest(request, tokenUtils);
+        List<Task> tasks = taskService.createTaskQuery().taskName("Pregled rada").taskAssignee(username).list();
+        List<TaskDto> tasksDto = new ArrayList<>();
+        for(Task task: tasks){
+            TaskDto t = new TaskDto(task.getId(), task.getName(), task.getAssignee());
+            tasksDto.add(t);
+        }
+        return new ResponseEntity<>(tasksDto, HttpStatus.OK);
+    }
 }

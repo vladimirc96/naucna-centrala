@@ -62,12 +62,13 @@ public class SciencePaperController {
     private SciencePaperService sciencePaperService;
 
     @RequestMapping(value = "/form", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<FormFieldsDto> getForm(){
+    public ResponseEntity<FormFieldsDto> getForm(HttpServletRequest request){
         ProcessInstance pi = runtimeService.startProcessInstanceByKey("Obrada_podnetog_teksta");
 
         Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).list().get(0);
         TaskFormData tfd = formService.getTaskFormData(task.getId());
         List<FormField> properties = tfd.getFormFields();
+        runtimeService.setVariable(pi.getId(), "authorId", Utils.getUsernameFromRequest(request, tokenUtils));
 
         List<MagazineDTO> magazines = magazineService.findAll();
         for(FormField field : properties){

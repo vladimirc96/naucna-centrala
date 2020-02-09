@@ -30,4 +30,11 @@ public class CoauthorService {
         return coauthorRepo.save(coauthor);
     }
 
+    public Coauthor save(Coauthor coauthor){
+        return coauthorRepo.save(coauthor);
+    }
+
+    public Coauthor findOneById(Long id){
+        return coauthorRepo.findOneById(id);
+    }
 }

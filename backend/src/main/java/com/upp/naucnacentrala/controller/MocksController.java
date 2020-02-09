@@ -39,13 +39,13 @@ public class MocksController {
     @Autowired
     FormService formService;
 
-    @RequestMapping(value = "/payment", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<FormFieldsDto> getForm(){
-        ProcessInstance pi = runtimeService.startProcessInstanceByKey("Uplata_clanarine_proces");
-        Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).list().get(0);
+    @RequestMapping(value = "/payment/{processInstanceId}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<FormFieldsDto> getForm(@PathVariable("processInstanceId") String processInstanceId){
+        ProcessInstance subprocess = runtimeService.createProcessInstanceQuery().superProcessInstanceId(processInstanceId).singleResult();
+        Task task = taskService.createTaskQuery().processInstanceId(subprocess.getId()).list().get(0);
         TaskFormData tfd = formService.getTaskFormData(task.getId());
         List<FormField> properties = tfd.getFormFields();
-        return new ResponseEntity<>(new FormFieldsDto(task.getId(), pi.getId(), properties), HttpStatus.OK);
+        return new ResponseEntity<>(new FormFieldsDto(task.getId(), subprocess.getId(), properties), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{taskId}", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")

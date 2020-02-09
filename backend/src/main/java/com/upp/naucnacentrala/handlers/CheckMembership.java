@@ -31,13 +31,10 @@ public class CheckMembership implements JavaDelegate {
         String username = (String) delegateExecution.getVariable("username");
         Magazine magazine = magazineService.findByName(formSubmissionDto.iterator().next().getFieldValue());
         delegateExecution.setVariable("uplacena_clanarina", false);
-        for(Author a: magazine.getMemberships()){
+        for(Author a: magazine.getAuthors()){
             if(a.getUsername().equals(username)){
                 delegateExecution.setVariable("uplacena_clanarina", true);
             }
         }
-
-
-
     }
 }

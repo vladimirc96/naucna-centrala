@@ -9,7 +9,7 @@ export class CoauthorService {
   constructor(private httpClient: HttpClient) { }
 
   save(taskId, dto){
-    return this.httpClient.post('/api/coauthors/'.concat(taskId), dto, {responseType: 'text'});
+    return this.httpClient.post('/api/coauthor/'.concat(taskId), dto, {responseType: 'text'});
   }
 
 }

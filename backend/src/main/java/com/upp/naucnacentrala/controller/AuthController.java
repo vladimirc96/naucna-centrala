@@ -6,7 +6,6 @@ import com.upp.naucnacentrala.security.CustomUserDetailsService;
 import com.upp.naucnacentrala.security.TokenUtils;
 import com.upp.naucnacentrala.security.auth.JwtAuthenticationRequest;
 import org.camunda.bpm.engine.IdentityService;
-import org.camunda.bpm.webapp.impl.security.auth.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,12 +54,6 @@ public class AuthController {
         }
         String jwt = tokenUtils.generateToken(user.getUsername(), device);
         int expiresIn = 3600;
-
-        identityService.setAuthenticatedUserId(user.getUsername());
-        System.out.println("*************************************");
-        System.out.println("AUTENTIFIKOVANI KORISNIK - CAMUNDA : " + identityService.getCurrentAuthentication().getUserId());
-        System.out.println("*************************************");
-
         return ResponseEntity.ok(new UserTokenState(jwt,expiresIn));
     }
 

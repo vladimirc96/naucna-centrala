@@ -2,6 +2,7 @@ package com.upp.naucnacentrala.model;
 
 import javax.persistence.*;
 import java.sql.Blob;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -37,11 +38,10 @@ public class SciencePaper {
     private Magazine magazine;
 
     @OneToMany(mappedBy = "sciencePaper", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<OrderObject> orderObjects;
+    private List<OrderObject> orderObjects = new ArrayList<>();
 
     @OneToMany(mappedBy = "sciencePaper", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Coauthor> coauthors;
-
+    private List<Coauthor> coauthors = new ArrayList<>();
 
     public SciencePaper() {
     }
@@ -133,5 +133,10 @@ public class SciencePaper {
 
     public void setCoauthors(List<Coauthor> coauthors) {
         this.coauthors = coauthors;
+    }
+
+    public void addCoauthor(Coauthor coauthor){
+        this.coauthors.add(coauthor);
+        coauthor.setSciencePaper(this);
     }
 }

@@ -25,6 +25,8 @@ import { ChooseMagazineComponent } from './homepage/author/text-subbmiting/choos
 import { SciencePaperFormComponent } from './homepage/author/text-subbmiting/science-paper-form/science-paper-form.component';
 import { MembershipPaymentComponent } from './homepage/author/text-subbmiting/membership-payment/membership-payment.component';
 import { CoauthorFormComponent } from './homepage/author/coauthor-form/coauthor-form.component';
+import { ReviewPaperComponent } from './homepage/editor/review-paper/review-paper.component';
+import { EditorPapersComponent } from './homepage/editor/editor-papers/editor-papers.component';
 
 const appRoutes: Routes = [
 	{ path: '', redirectTo: 'homepage/magazine-list', pathMatch: 'full'},
@@ -42,14 +44,16 @@ const appRoutes: Routes = [
 			{ path: '', component: EditorTasksComponent },
 			{ path: 'magazines', component: MagazineFormComponent},
 			{ path: 'editorial-board/:id', component: EditorialBoardFormComponent },
-			{ path: 'magazine-correction/:id', component: MagazineCorrectionComponent }
+			{ path: 'magazine-correction/:id', component: MagazineCorrectionComponent },
+			{ path: 'papers', component: EditorPapersComponent },
+			{ path: 'review-paper/:id', component: ReviewPaperComponent }
 		]},
 		{ path: 'author', component: AuthorComponent, children: [
 			{ path: '', component: AuthorTasksComponent},
 			{ path: 'text-subbmiting', component: TextSubbmitingComponent, children: [
 				{path: '', component: ChooseMagazineComponent},
 				{path: 'science-paper-form/:processId', component: SciencePaperFormComponent},
-				{path: 'membership-payment', component: MembershipPaymentComponent}
+				{path: 'membership-payment/:processId', component: MembershipPaymentComponent}
 			]},
 			{ path: 'coauthor/:id', component: CoauthorFormComponent }
 		]}

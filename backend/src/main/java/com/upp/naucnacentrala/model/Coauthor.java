@@ -67,4 +67,12 @@ public class Coauthor implements Serializable {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public SciencePaper getSciencePaper() {
+        return sciencePaper;
+    }
+
+    public void setSciencePaper(SciencePaper sciencePaper) {
+        this.sciencePaper = sciencePaper;
+    }
 }

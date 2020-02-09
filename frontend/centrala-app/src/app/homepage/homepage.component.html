@@ -2,11 +2,11 @@
   <a class="navbar-brand" [routerLink]="['']" style="color: white">Naucna centrala</a>
       <ul class="navbar-nav mr-auto">
 
-        <!-- ADMIN -->
+        <!-- AUTHOR -->
         <li class="nav-item" *ngIf="isAuthor">
           <a class="nav-link" [routerLink]="['/homepage/author']">Radovi</a>
         </li>
-        <!-- ADMIN -->
+        <!-- AUTHOR -->
 
         <!-- ADMIN -->
         <li class="nav-item" *ngIf="isAdmin">
@@ -21,11 +21,16 @@
       
         <!-- ADMIN -->
 
+        <!-- EDITOR -->
       <li class="nav-item active" *ngIf="isEditor">
           <a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink='/homepage/editor'>Casopisi</a>
       </li>
-
-      <li class="nav-item active">
+      <li class="nav-item active" *ngIf="isEditor">
+        <a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink='/homepage/editor/papers'>Radovi</a>
+    </li>
+        <!-- EDITOR -->
+      
+        <li class="nav-item active">
         <a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink='/homepage/orders'>Porudžbine</a>
     </li>
 

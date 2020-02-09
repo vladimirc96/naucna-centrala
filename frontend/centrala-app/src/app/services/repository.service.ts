@@ -49,5 +49,9 @@ export class RepositoryService {
   getAddCoauthorTasks(){
     return this.httpClient.get('/api/repository/tasks/coauthor');
   }
+
+  getReviewPaperTasks(){
+    return this.httpClient.get('/api/repository/tasks/review-paper');
+  }
   
 }

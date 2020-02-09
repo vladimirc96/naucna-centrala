@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { RepositoryService } from 'src/app/services/repository.service';
 import { SciencePaperService } from 'src/app/services/science-paper.service';
 
@@ -17,7 +17,7 @@ export class SciencePaperFormComponent implements OnInit {
   fileToUpload: File;
   naucneOblasti: any = [];
 
-  constructor(private route: ActivatedRoute, private repoService: RepositoryService, private sciencePaperService: SciencePaperService) {
+  constructor(private route: ActivatedRoute, private repoService: RepositoryService, private sciencePaperService: SciencePaperService, private router: Router) {
     this.route.params.subscribe(
       (params: Params) => {
         this.processId = params['processId'];
@@ -70,10 +70,10 @@ export class SciencePaperFormComponent implements OnInit {
       (response: any) => {
         this.sciencePaperService.savePdf(response, this.fileToUpload).subscribe(
           (success) => {
-            alert(success);
+            alert("Success");
+            this.router.navigate(['/homepage/author']);
           }
         );
-        alert(response);
       },
       (error) => {
         alert(error.message);

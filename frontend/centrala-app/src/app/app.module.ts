@@ -34,6 +34,8 @@ import { ChooseMagazineComponent } from './homepage/author/text-subbmiting/choos
 import { SciencePaperFormComponent } from './homepage/author/text-subbmiting/science-paper-form/science-paper-form.component';
 import { MembershipPaymentComponent } from './homepage/author/text-subbmiting/membership-payment/membership-payment.component';
 import { CoauthorFormComponent } from './homepage/author/coauthor-form/coauthor-form.component';
+import { EditorPapersComponent } from './homepage/editor/editor-papers/editor-papers.component';
+import { ReviewPaperComponent } from './homepage/editor/review-paper/review-paper.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,6 +64,8 @@ import { CoauthorFormComponent } from './homepage/author/coauthor-form/coauthor-
     SciencePaperFormComponent,
     MembershipPaymentComponent,
     CoauthorFormComponent,
+    EditorPapersComponent,
+    ReviewPaperComponent,
   ],
   imports: [
     BrowserModule,

@@ -53,8 +53,7 @@ export class ChooseMagazineComponent implements OnInit, AfterViewInit {
           this.router.navigate(['/homepage/author/text-subbmiting/science-paper-form/'.concat(this.formFieldsDto.processInstanceId)]);  
         }
         if(response.openAccess == true && response.membership == false){
-          // redirektuj na placanje
-          this.router.navigate(['/homepage/author/text-subbmiting/membership-payment']);
+          this.router.navigate(['/homepage/author/text-subbmiting/membership-payment/'.concat(this.formFieldsDto.processInstanceId)]);
         }
         if(response.openAccess == true && response.membership == true){
           this.router.navigate(['/homepage/author/text-subbmiting/science-paper-form/'.concat(this.formFieldsDto.processInstanceId)]); 

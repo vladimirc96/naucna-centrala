@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MockService } from 'src/app/services/mock.service';
 import { Route } from '@angular/compiler/src/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-membership-payment',
@@ -13,9 +13,15 @@ export class MembershipPaymentComponent implements OnInit {
   casopisi: any = [];
   formFieldsDto: any;
   formFields: any;
+  processId: any;
+  constructor(private mockService: MockService, private router: Router, private route: ActivatedRoute) {
+    this.route.params.subscribe(
+      (params: Params) => {
+        this.processId = params['processId'];
+      }
+    )
 
-  constructor(private mockService: MockService, private router: Router) {
-    this.mockService.startPaymentProcess().subscribe(
+    this.mockService.startPaymentProcess(this.processId).subscribe(
       (response: any) => {
         this.formFieldsDto = response;
         this.formFields = response.formFields;
@@ -40,9 +46,9 @@ export class MembershipPaymentComponent implements OnInit {
           dto.push({fieldId: property, fieldValue: value[property]});
     }
     this.mockService.payment(this.formFieldsDto.taskId, dto).subscribe(
-      
       (response: any) => {
-        this.router.navigate(['/homepage/author/text-subbmiting/science-paper-form']);
+        alert(response);
+        this.router.navigate(['/homepage/author/text-subbmiting/science-paper-form/'.concat(this.processId)]);
       }, 
       (error) => {
         alert(error.message);

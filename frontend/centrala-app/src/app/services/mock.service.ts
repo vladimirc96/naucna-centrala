@@ -9,8 +9,8 @@ export class MockService {
   constructor(private httpClient: HttpClient) { }
 
 
-  startPaymentProcess(){
-    return this.httpClient.get('/api/mocks/payment');
+  startPaymentProcess(processId){
+    return this.httpClient.get('/api/mocks/payment/'.concat(processId));
   }
 
   payment(taskId, dto){
