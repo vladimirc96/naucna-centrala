@@ -18,10 +18,9 @@ public class GetChiefEditor implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
-        List<FormSubmissionDto> magazineName = (List<FormSubmissionDto>) delegateExecution.getVariable("magazineName");
-        Magazine magazine = magazineService.findByName(magazineName.iterator().next().getFieldValue());
+        String magazineName = (String) delegateExecution.getVariable("magazineName");
+        Magazine magazine = magazineService.findByName(magazineName);
         delegateExecution.setVariable("chiefEditor", magazine.getChiefEditor().getUsername());
-
     }
 
 }

@@ -161,7 +161,7 @@ public class UserService {
         String salt = BCrypt.gensalt();
         String hash = BCrypt.hashpw(user.getUsername(), salt);
 
-        String path = "http://localhost:8440/users/verify/" + user.getUsername() + "/" + processId;
+        String path = "https://localhost:8600/users/verify/" + user.getUsername() + "/" + processId;
 
         runtimeService.setVariable(processId, "hashedValue", hash); // sacuvaj za kasniju proveru
 

@@ -30,8 +30,7 @@ public class MailService {
         mailEditor.setTo("flylivedrive@gmail.com");
         mailEditor.setFrom(environment.getProperty("spring.mail.username"));
         mailEditor.setSubject("Nov rad");
-        mailEditor.setText("Zdravo " + chiefEditor.getFirstName() + ",\n\nobaveštavamo Vas da je u sistemu prijavljen nov rad za časopis "
-                + chiefEditor.getMagazine().getName() + ".");
+        mailEditor.setText("Zdravo " + chiefEditor.getFirstName() + ",\n\nobaveštavamo Vas da je u sistemu prijavljen nov rad za časopis.");
 
 
         javaMailSender.send(mailAuthor);

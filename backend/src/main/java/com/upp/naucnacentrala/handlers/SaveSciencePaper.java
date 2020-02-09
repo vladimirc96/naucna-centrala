@@ -27,13 +27,7 @@ public class SaveSciencePaper implements JavaDelegate {
     public void execute(DelegateExecution delegateExecution) throws Exception {
         SciencePaper sciencePaper = sciencePaperService.findOneById((Long) delegateExecution.getVariable("sciencePaperId"));
         List<FormSubmissionDto> sciencePaperData = (List<FormSubmissionDto>) delegateExecution.getVariable("sciencePaperData");
-        List<FormSubmissionDto> magazineName = (List<FormSubmissionDto>) delegateExecution.getVariable("magazineName");
         ArrayList<Coauthor> coauthors = (ArrayList<Coauthor>) delegateExecution.getVariable("coauthorList");
-        Magazine magazine = magazineService.findByName(magazineName.iterator().next().getFieldValue());
-
         sciencePaper = sciencePaperService.create(sciencePaper, sciencePaperData, coauthors);
-        // uvrstavanje u magazin se radi na kraju
-        //magazine.addSciencePaper(sciencePaper);
-        //magazine = magazineService.save(magazine);
     }
 }

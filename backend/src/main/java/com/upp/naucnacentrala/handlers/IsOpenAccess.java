@@ -23,9 +23,8 @@ public class IsOpenAccess implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
-        List<FormSubmissionDto> magazineName = (List<FormSubmissionDto>) delegateExecution.getVariable("magazineName");
-        FormSubmissionDto name = magazineName.iterator().next();
-        Magazine magazine = magazineService.findByName(name.getFieldValue());
+        String magazineName = (String) delegateExecution.getVariable("magazineName");
+        Magazine magazine = magazineService.findByName(magazineName);
         if(magazine.getBillingType().name().equals("AUTHORS")){
             delegateExecution.setVariable("open_access", true);
         }else{

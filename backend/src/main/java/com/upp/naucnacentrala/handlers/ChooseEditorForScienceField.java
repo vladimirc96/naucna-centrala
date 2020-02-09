@@ -34,12 +34,12 @@ public class ChooseEditorForScienceField implements JavaDelegate {
         List<User> list = new ArrayList<>();
         for(Editor editor: editorList){
             for(ScienceField scienceField: editor.getScienceFields()){
-                if(scienceField.getName().equals(sciencePaper.getScienceField())){
+                if(scienceField.getName().equals(sciencePaper.getScienceField().getName())){
                     list.add(editor);
                 }
             }
         }
-        int randomNum = ThreadLocalRandom.current().nextInt(0, list.size() + 1);
+        int randomNum = ThreadLocalRandom.current().nextInt(0, list.size());
         if(!list.isEmpty()){
             System.out.println("************************************************");
             System.out.println("Izabrani urednik naucne oblasti: " + list.get(randomNum).getUsername());

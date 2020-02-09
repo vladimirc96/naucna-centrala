@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 public class AssignScienceFieldEditor implements TaskListener {
     @Override
     public void notify(DelegateTask delegateTask) {
-        delegateTask.setAssignee((String) delegateTask.getExecution().getVariable("sciencePaperEditor"));
+        System.out.println("*****************************************");
+        System.out.println("Asignee za izbor recenzenata: " + delegateTask.getExecution().getVariable("scienceFieldEditor"));
+        System.out.println("*****************************************");
+        delegateTask.setAssignee((String) delegateTask.getExecution().getVariable("scienceFieldEditor"));
     }
 }

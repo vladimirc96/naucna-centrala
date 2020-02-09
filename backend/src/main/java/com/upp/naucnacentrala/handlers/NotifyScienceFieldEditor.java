@@ -20,6 +20,8 @@ public class NotifyScienceFieldEditor implements JavaDelegate {
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
         Editor editor = (Editor) userService.findOneByUsername((String) delegateExecution.getVariable("scienceFieldEditor"));
-        mailService.notifyScienceFieldEditor(editor);
+        if(editor != null){
+            mailService.notifyScienceFieldEditor(editor);
+        }
     }
 }

@@ -33,6 +33,4 @@ public class Editor extends User {
         this.magazine = magazine;
     }
 
-
-
 }

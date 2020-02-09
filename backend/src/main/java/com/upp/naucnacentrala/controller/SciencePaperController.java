@@ -166,6 +166,17 @@ public class SciencePaperController {
         return new ResponseEntity(runtimeService.getVariable(processInstanceId, "sciencePaperId"), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/choose-reviewers/{taskId}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<String> chooseReviewers(@RequestBody List<FormSubmissionDto> reviewersData, @PathVariable("taskId") String taskId){
+        HashMap<String, Object> map = Utils.mapListToDto(reviewersData);
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        String processInstanceId = task.getProcessInstanceId();
+        runtimeService.setVariable(processInstanceId,  "reviewersData", reviewersData);
+        formService.submitTaskForm(taskId, map);
+        return new ResponseEntity("Success", HttpStatus.OK);
+    }
+
+
 
 
 }

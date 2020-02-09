@@ -25,10 +25,11 @@ insert into magazine_sciencefield values (2,1);
 insert into magazine_sciencefield values (2,3);
 insert into magazine_sciencefield values (3,5);
 
+
 insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type)
 values ("vlada", "$2a$10$Ybft/Pph5.11ESjhvMCWnuyWliLcGlsKRRTPxbTtwlE00j31OZdf6", "Vladimir", "Cvetanovic", "Novi Sad", "Srbija", "dovla@gmail.com", false, true, "ADMIN");
-insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type, magazine_id)
-values ("vukasin", "$2a$10$3u5vuAP6GogQOyE5JQMTOOBIVB874JoCxtcE2s15H1JBVidraPUCW", "Vukasin", "Jovic", "Novi Sad", "Srbija", "vukasin@gmail.com", false, true, "EDITOR", 3);
+insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type)
+values ("vukasin", "$2a$10$3u5vuAP6GogQOyE5JQMTOOBIVB874JoCxtcE2s15H1JBVidraPUCW", "Vukasin", "Jovic", "Novi Sad", "Srbija", "vukasin@gmail.com", false, true, "EDITOR");
 
 insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type)
 values ("lazic", "$2a$10$LiTcSs1SsKYHcAjAQLejqe/VPI4YsxkHLEC8OaujOR6ShPM81sV4q", "Milan", "Lazic", "Novi Sad", "Srbija", "lazic@gmail.com", false, true, "REVIEWER");
@@ -37,15 +38,16 @@ values ("djordjevic", "$2a$10$XbOz9hcDf83PMdfm1JeHRO9JwcMCtalZVC1oiCnbhT/0sVF4A8
 insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type)
 values ("malencic", "$2a$10$B/xUXG0aVTMB5Ppcvx6dO.ZdCYL.nSSNk01KWK2h7Wzo6ph9gJlu2", "Nikola", "Malencic", "Novi Sad", "Srbija", "malencic@gmail.com", false, true, "REVIEWER");
 
-insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type, magazine_id)
-values ("milica", "$2a$10$iHLUEnk5gYMa50EclC.cEu0UTBIM2wyNAloS/59yC.MN/cAe88NeS", "Milica", "Makaric", "Novi Sad", "Srbija", "milica@gmail.com", false, true, "EDITOR", 1);
-insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type, magazine_id)
-values ("andrijana", "$2a$10$TWPesMnqNm66Z9vNd/b5UudKvezOzPiuYGjI36MvonEzfvUaN8FRq", "Andrijana", "Jeremic", "Novi Sad", "Srbija", "andrijana@gmail.com", false, true, "EDITOR", 2);
+insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type)
+values ("milica", "$2a$10$iHLUEnk5gYMa50EclC.cEu0UTBIM2wyNAloS/59yC.MN/cAe88NeS", "Milica", "Makaric", "Novi Sad", "Srbija", "milica@gmail.com", false, true, "EDITOR");
+insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type)
+values ("andrijana", "$2a$10$TWPesMnqNm66Z9vNd/b5UudKvezOzPiuYGjI36MvonEzfvUaN8FRq", "Andrijana", "Jeremic", "Novi Sad", "Srbija", "andrijana@gmail.com", false, true, "EDITOR");
 
 
 insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type)
 values ("marko", "$2a$10$W8fc03eWKZ3wBK/IN4.TaOaFA/cjG.G/9z79qnOqXmZv6ByTvv1kG", "Marko", "Stevanov", "Novi Knezevac", "Srbija", "marko@gmail.com", false, true, "AUTHOR");
-
+insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type, magazine_id)
+values ("fedor", "$2a$10$IAbZueonfhyWHGKtSCtDtuSkxN6qbiHj4tmCKvMUjSvWi8otZIIQq", "Fedor", "Markovljev", "Novi Sad", "Srbija", "fedor@gmail.com", false, true, "EDITOR", 1);
 
 
 insert into role values (1, 'ROLE_USER');
@@ -70,6 +72,7 @@ insert into user_roles values ('malencic', 4);
 insert into user_roles values ('milica', 3);
 insert into user_roles values ('andrijana', 3);
 insert into user_roles values ('marko', 5);
+insert into user_roles values ('fedor', 3);
 
 insert into user_sciencefields values ('vukasin', 1);
 insert into user_sciencefields values ('vukasin', 2);
@@ -97,6 +100,10 @@ insert into user_sciencefields values ('andrijana', 5);
 insert into user_sciencefields values ('marko', 1);
 insert into user_sciencefields values ('marko', 2);
 insert into user_sciencefields values ('marko', 3);
+
+insert into user_sciencefields values ('fedor', 1);
+insert into user_sciencefields values ('fedor', 3);
+insert into user_sciencefields values ('fedor', 5);
 
 
 insert into memberships (magazine_id, author_username) values (2, 'marko');

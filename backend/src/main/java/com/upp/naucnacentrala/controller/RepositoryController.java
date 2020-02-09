@@ -254,6 +254,35 @@ public class RepositoryController {
         return new ResponseEntity<>(tasksDto, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/tasks/choose-reviewer",  method = RequestMethod.GET,produces = "application/json")
+    public ResponseEntity chooseReviewerTasks(HttpServletRequest request) {
+        String username = Utils.getUsernameFromRequest(request, tokenUtils);
+        List<Task> tasks = taskService.createTaskQuery().taskName("Izbor recenzenata").taskAssignee(username).list();
+        List<TaskDto> tasksDto = new ArrayList<>();
+        for(Task task: tasks){
+            TaskDto t = new TaskDto(task.getId(), task.getName(), task.getAssignee());
+            tasksDto.add(t);
+        }
+        return new ResponseEntity<>(tasksDto, HttpStatus.OK);
+    }
 
+    @RequestMapping(value = "/form/choose-reviewers/{taskId}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<FormFieldsDto> getChooseReviwersForm(@PathVariable("taskId") String taskId){
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
+        TaskFormData tfd = formService.getTaskFormData(task.getId());
+
+        List<User> reviewers = userService.findAllReviewers();
+        List<FormField> properties = tfd.getFormFields();
+        for(FormField field: properties){
+            if(field.getId().equals("recenzenti")){
+                EnumFormType enumType = (EnumFormType) field.getType();
+                for(User user: reviewers){
+                    enumType.getValues().put(user.getUsername(), user.getFirstName() + " " + user.getLastName() + ", " + user.getUsername());
+                }
+            }
+        }
+        return new ResponseEntity<>(new FormFieldsDto(task.getId(), pi.getId(), properties), HttpStatus.OK);
+    }
 
 }

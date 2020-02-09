@@ -1,11 +1,12 @@
 package com.upp.naucnacentrala.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @DiscriminatorValue("REVIEWER")
-public class Reviewer extends User{
+public class Reviewer extends User {
 
     @Column(name = "title")
     private String title;
