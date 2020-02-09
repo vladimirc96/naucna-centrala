@@ -11,7 +11,8 @@ import { KPService } from 'src/app/services/kp.service';
 })
 export class EditorTasksComponent implements OnInit {
 
-  tasks = [];
+  magazineCorrectionTasks = [];
+  
   magazineList: any = [];
   emptyMagazineList: boolean = false;
   retHref: any;
@@ -21,7 +22,7 @@ export class EditorTasksComponent implements OnInit {
   ngOnInit() {
     this.magazineService.getMagazineCorrectionTasks().subscribe(
       (response: any) => {
-        this.tasks = response;
+        this.magazineCorrectionTasks = response;
       }
     ),
     (error) => {
@@ -36,7 +37,6 @@ export class EditorTasksComponent implements OnInit {
         alert(error.message);
       }
     )
-
   }
 
   claimTask(taskId){
@@ -46,6 +46,8 @@ export class EditorTasksComponent implements OnInit {
       }
     )
   }
+
+
 
   onRegisterMagazine(id) {
 

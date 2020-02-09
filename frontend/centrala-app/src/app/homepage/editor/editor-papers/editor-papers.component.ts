@@ -11,26 +11,40 @@ export class EditorPapersComponent implements OnInit {
   
   formFieldsDto = null;
   formFields = [];
-  tasks = [];
+  chooseReviewerTasks = [];
+  paperReviewTasks = [];
 
   constructor(private repoService: RepositoryService, private router: Router) { 
+    this.repoService.getChooseReviewerTasks().subscribe(
+      (response: any) => {
+        this.chooseReviewerTasks = response;
+      },
+      (error) => { alert(error.message) }
+    )
+
     this.repoService.getReviewPaperTasks().subscribe(
       (response: any) => {
-        this.tasks = response;
+        this.paperReviewTasks = response;
       },
-      (error) => {
-        alert(error.message);
-      }
+      (error) => { alert(error.message) }
     )
   }
 
   ngOnInit() {
   }
 
-  claimTask(taskId){
+  claimPaperReviweTask(taskId){
     this.repoService.claimTask(taskId).subscribe(
       (success) => {
         this.router.navigate(['/homepage/editor/review-paper/' + taskId]);
+      }
+    )
+  }
+
+  claimChooseReviewerTask(taskId){
+    this.repoService.claimTask(taskId).subscribe(
+      (success) => {
+        this.router.navigate(['/homepage/editor/choose-reviwers/'.concat(taskId)]);
       }
     )
   }

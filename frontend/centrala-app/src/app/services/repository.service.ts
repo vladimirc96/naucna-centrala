@@ -62,4 +62,12 @@ export class RepositoryService {
     return this.httpClient.get('/api/repository/tasks/paper-correction');
   }
 
+  getChooseReviewerTasks(){
+    return this.httpClient.get('/api/repository/tasks/choose-reviewer');
+  }
+
+  getChooseReviwersForm(taskId){
+    return this.httpClient.get('/api/repository/form/choose-reviewers/'.concat(taskId));
+  }
+
 }

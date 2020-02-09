@@ -30,7 +30,7 @@ export class MagazineCorrectionComponent implements OnInit {
         this.taskId = params['id'];
       }
     )
-    this.magazineService.getMagazineCorrectionForm(this.taskId).subscribe(
+    this.repoService.getMagazineCorrectionForm(this.taskId).subscribe(
       (response: any) => {
           this.formFieldsDto = response;
           this.formFields = response.formFields;
