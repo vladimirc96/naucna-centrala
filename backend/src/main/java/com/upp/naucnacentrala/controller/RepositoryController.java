@@ -232,4 +232,13 @@ public class RepositoryController {
         }
         return new ResponseEntity<>(tasksDto, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/form/paper-format/{processInstanceId}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<FormFieldsDto> getPaperFormatForm(@PathVariable("processInstanceId") String processInstanceId){
+        ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+        Task task = taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
+        TaskFormData tfd = formService.getTaskFormData(task.getId());
+        List<FormField> properties = tfd.getFormFields();
+        return new ResponseEntity<>(new FormFieldsDto(task.getId(), pi.getId(), properties), HttpStatus.OK);
+    }
 }

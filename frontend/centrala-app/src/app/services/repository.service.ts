@@ -53,5 +53,9 @@ export class RepositoryService {
   getReviewPaperTasks(){
     return this.httpClient.get('/api/repository/tasks/review-paper');
   }
+
+  getPaperFormatForm(processId){
+    return this.httpClient.get('/api/repository/form/paper-format/'.concat(processId));
+  }
   
 }

@@ -20,13 +20,16 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartResolver;
-
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.core.io.Resource;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -119,5 +122,39 @@ public class SciencePaperController {
         return new ResponseEntity<>("Success", HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/paper-review/{taskId}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<String> paperReview(@RequestBody List<FormSubmissionDto> reviewPaperData, @PathVariable("taskId") String taskId){
+        HashMap<String, Object> map = Utils.mapListToDto(reviewPaperData);
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        String processInstanceId = task.getProcessInstanceId();
+        formService.submitTaskForm(taskId, map);
+        String value = Utils.getFormFieldValue(reviewPaperData, "relevantnost_rada");
+        if(value.equals("ne")){
+            return new ResponseEntity<>("Rad nije relevantan.", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Rad je relevantan.", HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/pdf-download-url/{processInstanceId}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<String> getPdfDownloadUrl(@PathVariable("processInstanceId") String processInstanceId, HttpServletRequest request){
+        SciencePaper sciencePaper = sciencePaperService.findOneById((Long) runtimeService.getVariable(processInstanceId, "sciencePaperId"));
+        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+        .path("/api/science-paper/download/")
+        .path(sciencePaper.getId().toString())
+        .toUriString();
+        return new ResponseEntity<>(fileDownloadUri, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/download/{sciencePaperId}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<Resource> downloadFile(@PathVariable("sciencePaperId") String sciecnePaperId) {
+        System.out.println("************************************************");
+        System.out.println("DOWNLOAD PDF METODA");
+        System.out.println("************************************************");
+        SciencePaper sciencePaper = sciencePaperService.findOneById(Long.parseLong(sciecnePaperId));
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + sciencePaper.getTitle() + "\"")
+                .body(new ByteArrayResource(sciencePaper.getPdf()));
+    }
 
 }

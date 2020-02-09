@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RepositoryService } from 'src/app/services/repository.service';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { SciencePaperService } from 'src/app/services/science-paper.service';
 
 @Component({
   selector: 'app-review-paper',
@@ -12,8 +13,8 @@ export class ReviewPaperComponent implements OnInit {
   taskId: any;
   formFieldsDto = null;
   formFields = [];
-  relevantost = [];
-  constructor(private repoService: RepositoryService, private route: ActivatedRoute) {
+  relevantnost = [];
+  constructor(private sciencePaperService: SciencePaperService, private repoService: RepositoryService, private route: ActivatedRoute, private router: Router) {
     this.route.params.subscribe(
       (params: Params) => {
         this.taskId = params['id'];
@@ -26,7 +27,7 @@ export class ReviewPaperComponent implements OnInit {
         this.formFields = response.formFields;
         this.formFields.forEach((field) => {
           if(field.type.name=='enum'){
-            this.relevantost = Object.keys(field.type.values);
+            this.relevantnost = Object.keys(field.type.values);
           }
         })
       },
@@ -45,6 +46,16 @@ export class ReviewPaperComponent implements OnInit {
     for(var property in value){
         dto.push({fieldId: property, fieldValue: value[property]});
     }
+
+    this.sciencePaperService.paperReview(this.taskId, dto).subscribe(
+      (response) => {
+        if(response == 'Rad je relevantan.'){
+          this.router.navigate(['/homepage/editor/paper-format/'.concat(this.formFieldsDto.processInstanceId)]);
+        }else{
+          this.router.navigate(['/homepage']);
+        }
+      }
+    )
 
   }
 

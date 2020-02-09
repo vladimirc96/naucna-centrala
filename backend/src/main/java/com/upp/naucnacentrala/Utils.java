@@ -31,6 +31,14 @@ public class Utils {
         return username;
     }
 
+    public static String getFormFieldValue(List<FormSubmissionDto> list, String name){
+        for(FormSubmissionDto dto: list){
+            if(dto.getFieldId().equals(name)){
+                return dto.getFieldValue();
+            }
+        }
+        return null;
+    }
 
 
 }

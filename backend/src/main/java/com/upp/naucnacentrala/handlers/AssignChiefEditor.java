@@ -5,7 +5,7 @@ import org.camunda.bpm.engine.delegate.TaskListener;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AssignPaperReview implements TaskListener {
+public class AssignChiefEditor implements TaskListener {
 
     @Override
     public void notify(DelegateTask delegateTask) {

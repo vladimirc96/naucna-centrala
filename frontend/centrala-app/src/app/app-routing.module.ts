@@ -27,6 +27,7 @@ import { MembershipPaymentComponent } from './homepage/author/text-subbmiting/me
 import { CoauthorFormComponent } from './homepage/author/coauthor-form/coauthor-form.component';
 import { ReviewPaperComponent } from './homepage/editor/review-paper/review-paper.component';
 import { EditorPapersComponent } from './homepage/editor/editor-papers/editor-papers.component';
+import { PaperFormatComponent } from './homepage/editor/paper-format/paper-format.component';
 
 const appRoutes: Routes = [
 	{ path: '', redirectTo: 'homepage/magazine-list', pathMatch: 'full'},
@@ -46,7 +47,8 @@ const appRoutes: Routes = [
 			{ path: 'editorial-board/:id', component: EditorialBoardFormComponent },
 			{ path: 'magazine-correction/:id', component: MagazineCorrectionComponent },
 			{ path: 'papers', component: EditorPapersComponent },
-			{ path: 'review-paper/:id', component: ReviewPaperComponent }
+			{ path: 'review-paper/:id', component: ReviewPaperComponent },
+			{ path: 'paper-format/:processId', component: PaperFormatComponent }
 		]},
 		{ path: 'author', component: AuthorComponent, children: [
 			{ path: '', component: AuthorTasksComponent},

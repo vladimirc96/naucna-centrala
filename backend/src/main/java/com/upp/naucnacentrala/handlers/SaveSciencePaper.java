@@ -31,8 +31,9 @@ public class SaveSciencePaper implements JavaDelegate {
         ArrayList<Coauthor> coauthors = (ArrayList<Coauthor>) delegateExecution.getVariable("coauthorList");
         Magazine magazine = magazineService.findByName(magazineName.iterator().next().getFieldValue());
 
-        sciencePaper = sciencePaperService.create(sciencePaper, sciencePaperData, coauthors, magazine);
-        magazine.addSciencePaper(sciencePaper);
-        magazine = magazineService.save(magazine);
+        sciencePaper = sciencePaperService.create(sciencePaper, sciencePaperData, coauthors);
+        // uvrstavanje u magazin se radi na kraju
+        //magazine.addSciencePaper(sciencePaper);
+        //magazine = magazineService.save(magazine);
     }
 }

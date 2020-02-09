@@ -24,13 +24,13 @@ public class MailService {
         mailAuthor.setTo("flylivedrive@gmail.com");
         mailAuthor.setFrom(environment.getProperty("spring.mail.username"));
         mailAuthor.setSubject("Nov rad");
-        mailAuthor.setText("Zdravo " + author.getFirstName() + ",\n\n uspešno ste prijavili rad.");
+        mailAuthor.setText("Zdravo " + author.getFirstName() + ",\n\nuspešno ste prijavili rad.");
 
         SimpleMailMessage mailEditor = new SimpleMailMessage();
         mailEditor.setTo("flylivedrive@gmail.com");
         mailEditor.setFrom(environment.getProperty("spring.mail.username"));
         mailEditor.setSubject("Nov rad");
-        mailEditor.setText("Zdravo " + chiefEditor.getFirstName() + ",\n\n obaveštavamo Vas da je u sistemu prijavljen nov rad za časopis "
+        mailEditor.setText("Zdravo " + chiefEditor.getFirstName() + ",\n\nobaveštavamo Vas da je u sistemu prijavljen nov rad za časopis "
                 + chiefEditor.getMagazine().getName() + ".");
 
 
@@ -39,4 +39,12 @@ public class MailService {
     }
 
 
+    public void paperNotAppropriate(Author author) {
+        SimpleMailMessage mailAuthor = new SimpleMailMessage();
+        mailAuthor.setTo("flylivedrive@gmail.com");
+        mailAuthor.setFrom(environment.getProperty("spring.mail.username"));
+        mailAuthor.setSubject("Neprikladan rad");
+        mailAuthor.setText("Zdravo " + author.getFirstName() + ",\n\nobaveštavamo Vas da rad koji ste prijavili nije tematski priklada za časopis.");
+        javaMailSender.send(mailAuthor);
+    }
 }

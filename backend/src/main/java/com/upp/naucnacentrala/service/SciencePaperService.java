@@ -36,11 +36,15 @@ public class SciencePaperService {
         return sciencePaperRepository.save(sciencePaper);
     }
 
+    public void remove(SciencePaper sciencePaper){
+        sciencePaperRepository.delete(sciencePaper);
+    }
+
     public SciencePaper findOneById(Long id){
         return sciencePaperRepository.findOneById(id);
     }
 
-    public SciencePaper create(SciencePaper sciencePaper,List<FormSubmissionDto> sciencePaperData, ArrayList<Coauthor> coauthorList, Magazine magazine) {
+    public SciencePaper create(SciencePaper sciencePaper,List<FormSubmissionDto> sciencePaperData, ArrayList<Coauthor> coauthorList) {
         for(FormSubmissionDto dto: sciencePaperData){
             if(dto.getFieldId().equals("naslov_rada")){
                 sciencePaper.setTitle(dto.getFieldValue());
@@ -70,6 +74,8 @@ public class SciencePaperService {
         }
         return sciencePaperRepository.save(sciencePaper);
     }
+
+
 
 
 }

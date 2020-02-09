@@ -93,27 +93,15 @@
     <bpmn:userTask id="Pregled_rada" name="Pregled rada">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="naslov_rada" label="Naslov rada:" type="string">
-            <camunda:validation>
-              <camunda:constraint name="readonly" />
-            </camunda:validation>
-          </camunda:formField>
-          <camunda:formField id="apstrakt" label="Apstrakt:" type="string">
-            <camunda:validation>
-              <camunda:constraint name="readonly" />
-            </camunda:validation>
-          </camunda:formField>
-          <camunda:formField id="kljucni_pojam" label="Kljucni pojmovi:" type="string">
-            <camunda:validation>
-              <camunda:constraint name="readonly" />
-            </camunda:validation>
-          </camunda:formField>
+          <camunda:formField id="naslov_pregled" label="Naslov rada:" type="string" defaultValue="${naslov_rada}" />
+          <camunda:formField id="apstrakt_pregled" label="Apstrakt:" type="string" defaultValue="${apstrakt}" />
+          <camunda:formField id="kljucni_pojam_pregled" label="Kljucni pojmovi:" type="string" defaultValue="${kljucni_pojam}" />
           <camunda:formField id="relevantnost_rada" label="Da li je rad relevantan?" type="enum">
             <camunda:value id="da" name="Da" />
             <camunda:value id="ne" name="Ne" />
           </camunda:formField>
         </camunda:formData>
-        <camunda:taskListener class="com.upp.naucnacentrala.handlers.AssignPaperReview" event="create" />
+        <camunda:taskListener class="com.upp.naucnacentrala.handlers.AssignChiefEditor" event="create" />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1umrawf</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1yytk0m</bpmn:outgoing>
@@ -134,7 +122,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_1mq97ke" sourceRef="ExclusiveGateway_0vrkftj" targetRef="Task_0v6fhxj">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${relevantnost_rada== "da"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:userTask id="Task_0v6fhxj" name="Dobro formatiran rad?" camunda:assignee="${glavni_urednik}">
+    <bpmn:userTask id="Task_0v6fhxj" name="Provera formata rada">
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="formatiranost_rada" label="Da li je rad dobro formatiran?" type="enum">
@@ -142,6 +130,7 @@
             <camunda:value id="ne" name="Ne" />
           </camunda:formField>
         </camunda:formData>
+        <camunda:taskListener class="com.upp.naucnacentrala.handlers.AssignChiefEditor" event="create" />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1mq97ke</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0plg4jc</bpmn:outgoing>

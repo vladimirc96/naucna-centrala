@@ -26,4 +26,12 @@ export class SciencePaperService {
     return this.httpClient.put('/api/science-paper/'.concat(sciencePaperId), formData, {responseType: 'text'});
   }
 
+  paperReview(taskId, dto){
+    return this.httpClient.put('/api/science-paper/paper-review/'.concat(taskId), dto, {responseType: 'text'});
+  }
+
+  getPdfDownloadUrl(processId){
+    return this.httpClient.get('/api/science-paper/pdf-download-url/'.concat(processId), {responseType: 'text'});
+  }
+
 }
