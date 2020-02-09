@@ -46,7 +46,6 @@ export class ReviewPaperComponent implements OnInit {
     for(var property in value){
         dto.push({fieldId: property, fieldValue: value[property]});
     }
-
     this.sciencePaperService.paperReview(this.taskId, dto).subscribe(
       (response) => {
         if(response == 'Rad je relevantan.'){

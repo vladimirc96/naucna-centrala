@@ -241,4 +241,19 @@ public class RepositoryController {
         List<FormField> properties = tfd.getFormFields();
         return new ResponseEntity<>(new FormFieldsDto(task.getId(), pi.getId(), properties), HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/tasks/paper-correction", method = RequestMethod.GET,produces = "application/json")
+    public ResponseEntity paperCorrectionTasks(HttpServletRequest request) {
+        String username = Utils.getUsernameFromRequest(request, tokenUtils);
+        List<Task> tasks = taskService.createTaskQuery().taskName("Pregled komentara urednika").taskAssignee(username).list();
+        List<TaskDto> tasksDto = new ArrayList<>();
+        for(Task task: tasks){
+            TaskDto t = new TaskDto(task.getId(), task.getName(), task.getAssignee());
+            tasksDto.add(t);
+        }
+        return new ResponseEntity<>(tasksDto, HttpStatus.OK);
+    }
+
+
+
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RepositoryService } from 'src/app/services/repository.service';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SciencePaperService } from 'src/app/services/science-paper.service';
 
 @Component({
@@ -16,21 +16,12 @@ export class PaperFormatComponent implements OnInit {
   downloadUrl: any;
   formatiranost = [];
 
-  constructor(private repoService: RepositoryService, private sciencePaperService: SciencePaperService, private route: ActivatedRoute) {     
+  constructor(private repoService: RepositoryService, private sciencePaperService: SciencePaperService, private route: ActivatedRoute, private router: Router) {     
       this.route.params.subscribe(
       (params: Params) => {
         this.processId = params['processId'];
-        this.sciencePaperService.getPdfDownloadUrl(params['processId']).subscribe(
-          (response) => {
-            this.downloadUrl = response;
-          },
-          (error) => {
-            alert(error.message);
-          }
-        )
       }
     )
-
     this.repoService.getPaperFormatForm(this.processId).subscribe(
       (response: any) => {
         this.formFieldsDto = response;
@@ -47,5 +38,37 @@ export class PaperFormatComponent implements OnInit {
   ngOnInit() {
   }
 
+  onSubmit(value, form){
+    var dto = new Array();
+    for(var property in value){
+        dto.push({fieldId: property, fieldValue: value[property]});
+    }
+
+    this.sciencePaperService.paperFormat(this.formFieldsDto.taskId, dto).subscribe(
+      (response) => {
+        alert(response);
+        this.router.navigate(['/homepage']);
+      },
+      (error) => {
+        alert(error.message);
+      }
+    )
+
+  }
+
+  onDownload(){
+    this.sciencePaperService.download(this.processId).subscribe(
+      (response:any) => {
+          alert("Skinut pdf!");
+          var blob = new Blob([response], {type: 'application/pdf'});
+          var url= window.URL.createObjectURL(blob);
+          console.log(url);
+          window.open(url, "_blank");
+      },
+      (error) => {
+        alert(error.message);
+      }
+    )
+  }
 
 }

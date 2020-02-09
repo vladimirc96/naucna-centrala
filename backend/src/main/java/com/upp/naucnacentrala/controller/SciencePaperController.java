@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.core.io.Resource;
 import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,6 +65,9 @@ public class SciencePaperController {
     @Autowired
     private SciencePaperService sciencePaperService;
 
+    @Autowired
+    private ServletContext servletContext;
+
     @RequestMapping(value = "/form", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<FormFieldsDto> getForm(HttpServletRequest request){
         ProcessInstance pi = runtimeService.startProcessInstanceByKey("Obrada_podnetog_teksta");
@@ -92,7 +96,7 @@ public class SciencePaperController {
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
         String processInstanceId = task.getProcessInstanceId();
         String name = Utils.getUsernameFromRequest(request, tokenUtils);
-        runtimeService.setVariable(processInstanceId, "magazineName", magazine);
+        runtimeService.setVariable(processInstanceId, "magazineName", Utils.getFormFieldValue(magazine, "casopis"));
         runtimeService.setVariable(processInstanceId, "username", name);
 
         formService.submitTaskForm(taskId, map);
@@ -107,6 +111,7 @@ public class SciencePaperController {
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
         String processInstanceId = task.getProcessInstanceId();
         SciencePaper sciencePaper = new SciencePaper();
+        sciencePaper.setPdfName(Utils.getFormFieldValue(sciencePaperData, "pdf"));
         sciencePaper = sciencePaperService.save(sciencePaper);
         runtimeService.setVariable(processInstanceId, "sciencePaperData", sciencePaperData);
         runtimeService.setVariable(processInstanceId, "sciencePaperId", sciencePaper.getId());
@@ -135,26 +140,32 @@ public class SciencePaperController {
         return new ResponseEntity<>("Rad je relevantan.", HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/pdf-download-url/{processInstanceId}", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<String> getPdfDownloadUrl(@PathVariable("processInstanceId") String processInstanceId, HttpServletRequest request){
+    @RequestMapping(value = "/download/{processInstanceId}", method = RequestMethod.GET)
+    public ResponseEntity<Resource> downloadFile(@PathVariable("processInstanceId") String processInstanceId) {
         SciencePaper sciencePaper = sciencePaperService.findOneById((Long) runtimeService.getVariable(processInstanceId, "sciencePaperId"));
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-        .path("/api/science-paper/download/")
-        .path(sciencePaper.getId().toString())
-        .toUriString();
-        return new ResponseEntity<>(fileDownloadUri, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/download/{sciencePaperId}", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<Resource> downloadFile(@PathVariable("sciencePaperId") String sciecnePaperId) {
-        System.out.println("************************************************");
-        System.out.println("DOWNLOAD PDF METODA");
-        System.out.println("************************************************");
-        SciencePaper sciencePaper = sciencePaperService.findOneById(Long.parseLong(sciecnePaperId));
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + sciencePaper.getTitle() + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + sciencePaper.getPdfName() + "\"")
                 .body(new ByteArrayResource(sciencePaper.getPdf()));
     }
+
+    @RequestMapping(value = "/paper-format/{taskId}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<String> paperFormat(@RequestBody List<FormSubmissionDto> paperFormatData, @PathVariable("taskId") String taskId){
+        HashMap<String, Object> map = Utils.mapListToDto(paperFormatData);
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        formService.submitTaskForm(taskId, map);
+        return new ResponseEntity("Success", HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/paper-correction/{taskId}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<String> paperCorrection(@RequestBody List<FormSubmissionDto> paperCorrectionData, @PathVariable("taskId") String taskId){
+        HashMap<String, Object> map = Utils.mapListToDto(paperCorrectionData);
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        String processInstanceId = task.getProcessInstanceId();
+        formService.submitTaskForm(taskId, map);
+        return new ResponseEntity(runtimeService.getVariable(processInstanceId, "sciencePaperId"), HttpStatus.OK);
+    }
+
+
 
 }

@@ -30,8 +30,19 @@ export class SciencePaperService {
     return this.httpClient.put('/api/science-paper/paper-review/'.concat(taskId), dto, {responseType: 'text'});
   }
 
-  getPdfDownloadUrl(processId){
-    return this.httpClient.get('/api/science-paper/pdf-download-url/'.concat(processId), {responseType: 'text'});
+  download(processId){
+    const httpOptions = {
+      'responseType'  : 'arraybuffer' as 'json'
+    };
+    return this.httpClient.get('/api/science-paper/download/'.concat(processId), httpOptions);
+  }
+
+  paperFormat(taskId, dto){
+    return this.httpClient.put('/api/science-paper/paper-format/'.concat(taskId), dto, {responseType: 'text'});
+  }
+
+  paperCorrection(taskId, dto){
+    return this.httpClient.put('/api/science-paper/paper-correction/'.concat(taskId), dto, {responseType: 'text'});
   }
 
 }

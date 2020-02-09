@@ -52,15 +52,15 @@ export class SciencePaperFormComponent implements OnInit {
     reader.readAsDataURL(this.fileToUpload);
     console.log("URL "+this.fileUrl);
     console.log("file "+this.fileToUpload);
+    console.log("filename " + this.fileToUpload.name);
 }
 
   onSubmit(value, form){
     let dto = new Array();
-    const formData = new FormData();
     for(var property in value){
       if(property == 'pdf'){
-        continue;
-      }    
+        dto.push({fieldId: property, fieldValue: this.fileToUpload.name});  
+      }
       dto.push({fieldId: property, fieldValue: value[property]});
     }
 

@@ -31,6 +31,9 @@ public class SciencePaper {
     @Column(name = "price")
     private double price;
 
+    @Column(name = "pdf_name")
+    private String pdfName;
+
     @ManyToOne
     private ScienceField scienceField;
 
@@ -125,6 +128,14 @@ public class SciencePaper {
 
     public void setPdf(byte[] pdf) {
         this.pdf = pdf;
+    }
+
+    public String getPdfName() {
+        return pdfName;
+    }
+
+    public void setPdfName(String pdfName) {
+        this.pdfName = pdfName;
     }
 
     public List<Coauthor> getCoauthors() {

@@ -9,14 +9,24 @@ import { Router } from '@angular/router';
 })
 export class AuthorTasksComponent implements OnInit {
 
-  tasks: any = [];
+  tasksCoauthor: any = [];
+  tasksPaperCorrection: any = [];
 
   constructor(private repoService: RepositoryService, private router: Router) { }
 
   ngOnInit() {
     this.repoService.getAddCoauthorTasks().subscribe(
       (response: any) => {
-        this.tasks = response;
+        this.tasksCoauthor = response;
+      },
+      (error) => {
+        alert(error.message);
+      }
+    )
+
+    this.repoService.getPaperCorrectionTasks().subscribe(
+      (response: any) => {
+        this.tasksPaperCorrection = response;
       },
       (error) => {
         alert(error.message);
@@ -24,10 +34,21 @@ export class AuthorTasksComponent implements OnInit {
     )
   }
 
-  claimTask(taskId){
+  claimTaskCoauthor(taskId){
     this.repoService.claimTask(taskId).subscribe(
       (success) => {
         this.router.navigate(['/homepage/author/coauthor/'.concat(taskId)]);
+      }
+    ),
+    (error) => {
+      alert(error.message);
+    }
+  }
+
+  claimTaskPaperCorrection(taskId){
+    this.repoService.claimTask(taskId).subscribe(
+      (success) => {
+        this.router.navigate(['/homepage/author/paper-correction/'.concat(taskId)]);
       }
     ),
     (error) => {

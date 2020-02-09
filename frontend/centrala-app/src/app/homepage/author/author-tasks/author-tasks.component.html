@@ -5,6 +5,9 @@
     <h1>Zadaci:</h1>
     <div class="wrapper" style="width: 100%; height: 100%;">
         <table>
-            <tr *ngFor="let task of tasks" > <td>{{task.name}}</td><td>{{task.assignee}}</td><td><button (click)="claimTask(task.taskId)">Preuzmi</button></td></tr>
+            <tr *ngFor="let task of tasksCoauthor" > <td>{{task.name}}</td><td>{{task.assignee}}</td><td><button (click)="claimTaskCoauthor(task.taskId)">Preuzmi</button></td></tr>
+        </table>
+        <table>
+            <tr *ngFor="let task of tasksPaperCorrection" > <td>{{task.name}}</td><td>{{task.assignee}}</td><td><button (click)="claimTaskPaperCorrection(task.taskId)">Preuzmi</button></td></tr>
         </table>
     </div>

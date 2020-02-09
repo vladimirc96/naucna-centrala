@@ -37,6 +37,7 @@ import { CoauthorFormComponent } from './homepage/author/coauthor-form/coauthor-
 import { EditorPapersComponent } from './homepage/editor/editor-papers/editor-papers.component';
 import { ReviewPaperComponent } from './homepage/editor/review-paper/review-paper.component';
 import { PaperFormatComponent } from './homepage/editor/paper-format/paper-format.component';
+import { PaperCorrectionComponent } from './homepage/author/paper-correction/paper-correction.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -68,6 +69,7 @@ import { PaperFormatComponent } from './homepage/editor/paper-format/paper-forma
     EditorPapersComponent,
     ReviewPaperComponent,
     PaperFormatComponent,
+    PaperCorrectionComponent,
   ],
   imports: [
     BrowserModule,

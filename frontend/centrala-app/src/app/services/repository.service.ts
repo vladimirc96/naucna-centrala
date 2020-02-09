@@ -58,4 +58,8 @@ export class RepositoryService {
     return this.httpClient.get('/api/repository/form/paper-format/'.concat(processId));
   }
   
+  getPaperCorrectionTasks(){
+    return this.httpClient.get('/api/repository/tasks/paper-correction');
+  }
+
 }
