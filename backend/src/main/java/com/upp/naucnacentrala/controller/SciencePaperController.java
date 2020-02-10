@@ -144,7 +144,7 @@ public class SciencePaperController {
     public ResponseEntity<Resource> downloadFile(@PathVariable("processInstanceId") String processInstanceId) {
         SciencePaper sciencePaper = sciencePaperService.findOneById((Long) runtimeService.getVariable(processInstanceId, "sciencePaperId"));
         return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_PDF)
+                .contentType(MediaType.parseMediaType("application/pdf"))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + sciencePaper.getPdfName() + "\"")
                 .body(new ByteArrayResource(sciencePaper.getPdf()));
     }
