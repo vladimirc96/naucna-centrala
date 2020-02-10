@@ -3,11 +3,9 @@ package com.upp.naucnacentrala.controller;
 import com.sun.xml.internal.ws.resources.HttpserverMessages;
 import com.upp.naucnacentrala.Utils;
 import com.upp.naucnacentrala.dto.FormFieldsDto;
+import com.upp.naucnacentrala.dto.MagazineDTO;
 import com.upp.naucnacentrala.dto.TaskDto;
-import com.upp.naucnacentrala.model.Magazine;
-import com.upp.naucnacentrala.model.ScienceField;
-import com.upp.naucnacentrala.model.SciencePaper;
-import com.upp.naucnacentrala.model.User;
+import com.upp.naucnacentrala.model.*;
 import com.upp.naucnacentrala.security.TokenUtils;
 import com.upp.naucnacentrala.service.MagazineService;
 import com.upp.naucnacentrala.service.ScienceFieldService;
@@ -171,7 +169,6 @@ public class RepositoryController {
         List<FormField> properties = tfd.getFormFields();
         Long magazineId = (Long) runtimeService.getVariable(processInstanceId, "magazineId");
         Magazine magazine = magazineService.findOneById(magazineId);
-
         List<User> reviewers = userService.findAllByMagazineScienceFields(magazine.getScienceFields(), "REVIEWER");
         for(FormField field : properties){
             if(field.getId().equals("recenzenti")){
@@ -182,11 +179,24 @@ public class RepositoryController {
                 break;
             }
         }
+
+        List<Magazine> magazines = magazineService.getAll();
         List<User> editors = userService.findAllByMagazineScienceFields(magazine.getScienceFields(), "EDITOR");
+        List<User> notChiefEditorList = new ArrayList<>();
+        // prvo proveri da li je neko od urednika glavni urednik za casopis ili urednik naucne oblasti za casopis
+        for(User user: editors){
+            boolean isChiefEditor = false;
+            for(Magazine magazineTemp: magazines){
+                if(magazineTemp.getChiefEditor().getUsername().equals(user.getUsername())){
+                    isChiefEditor = true;
+                }
+            }
+            if(isChiefEditor==false && ((Editor) user).getMagazine() == null) notChiefEditorList.add(user);
+        }
         for(FormField field : properties){
             if(field.getId().equals("urednici")){
                 EnumFormType enumType = (EnumFormType) field.getType();
-                for(User user: editors){
+                for(User user: notChiefEditorList){
                     enumType.getValues().put(user.getUsername(), user.getFirstName() + " " + user.getLastName() + ", " + user.getUsername());
                 }
                 break;

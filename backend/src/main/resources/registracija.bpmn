@@ -132,7 +132,7 @@
       <bpmn:incoming>SequenceFlow_0im4dpt</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_0im4dpt" sourceRef="ExclusiveGateway_0yg43r9" targetRef="EndEvent_0daaxec">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isReviewerSet==true}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isReviewerSet==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="ExclusiveGateway_14mu8y6">
       <bpmn:incoming>SequenceFlow_19k4ks2</bpmn:incoming>

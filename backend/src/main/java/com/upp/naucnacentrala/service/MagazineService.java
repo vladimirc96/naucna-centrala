@@ -173,6 +173,10 @@ public class MagazineService {
         return magazineRepo.findByName(name);
     }
 
+    public List<Magazine> getAll(){
+        return magazineRepo.findAll();
+    }
+
 
 
 }

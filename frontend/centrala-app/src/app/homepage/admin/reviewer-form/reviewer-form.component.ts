@@ -55,7 +55,7 @@ export class ReviewerFormComponent implements OnInit {
 
     this.adminService.setReviewer(dto, this.formFieldsDto.taskId).subscribe(
       (response) => {
-        alert("Korsnik je postao recenzent!");
+        alert(response);
         this.router.navigate(['/admin']);
       },
       (error) => { alert(error.message) }

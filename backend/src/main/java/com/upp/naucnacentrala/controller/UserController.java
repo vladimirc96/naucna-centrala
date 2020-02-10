@@ -129,11 +129,11 @@ public class UserController {
         boolean isValid = BCrypt.checkpw(username, hashedValue);
         if(!isValid){
             userService.removeById(username);
-            rv.setUrl("http://localhost:4200/registration-failure");
+            rv.setUrl("http://localhost:4201/registration-failure");
             return rv;
         }
         runtimeService.setVariable(processId, "isVerified", true);
-        rv.setUrl("http://localhost:4200/registration-success");
+        rv.setUrl("http://localhost:4201/registration-success");
         return rv;
     }
 
