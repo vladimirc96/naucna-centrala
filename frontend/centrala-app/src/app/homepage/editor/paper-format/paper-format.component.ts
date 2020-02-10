@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RepositoryService } from 'src/app/services/repository.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SciencePaperService } from 'src/app/services/science-paper.service';
+import { ValidationService } from 'src/app/services/validation.service';
 
 @Component({
   selector: 'app-paper-format',
@@ -16,7 +17,7 @@ export class PaperFormatComponent implements OnInit {
   downloadUrl: any;
   formatiranost = [];
 
-  constructor(private repoService: RepositoryService, private sciencePaperService: SciencePaperService, private route: ActivatedRoute, private router: Router) {     
+  constructor(private repoService: RepositoryService, private sciencePaperService: SciencePaperService, private route: ActivatedRoute, private router: Router, private validationService: ValidationService) {     
       this.route.params.subscribe(
       (params: Params) => {
         this.processId = params['processId'];
@@ -39,6 +40,11 @@ export class PaperFormatComponent implements OnInit {
   }
 
   onSubmit(value, form){
+
+    if(!this.validationService.validate(this.formFieldsDto.formFields, form)){
+      return;
+    }
+
     var dto = new Array();
     for(var property in value){
         dto.push({fieldId: property, fieldValue: value[property]});

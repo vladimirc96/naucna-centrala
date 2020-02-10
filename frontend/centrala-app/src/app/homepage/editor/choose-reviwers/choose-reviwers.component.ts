@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SciencePaperService } from 'src/app/services/science-paper.service';
 import { RepositoryService } from 'src/app/services/repository.service';
 import { ActivatedRoute, Router, Params } from '@angular/router';
+import { ValidationService } from 'src/app/services/validation.service';
 
 @Component({
   selector: 'app-choose-reviwers',
@@ -15,7 +16,7 @@ export class ChooseReviwersComponent implements OnInit {
   formFields = [];
   recenzenti = [];
   
-  constructor(private sciencePaperService: SciencePaperService, private repoService: RepositoryService, private route: ActivatedRoute, private router: Router) { 
+  constructor(private sciencePaperService: SciencePaperService, private repoService: RepositoryService, private route: ActivatedRoute, private router: Router, private validationService: ValidationService) { 
     this.route.params.subscribe(
       (params: Params) => {
         this.taskId = params['id'];
@@ -43,6 +44,11 @@ export class ChooseReviwersComponent implements OnInit {
 
 
   onSubmit(value, form){
+
+    if(!this.validationService.validate(this.formFieldsDto.formFields, form)){
+      return;
+    }
+
     var dto = new Array();
     for(var property in value){
       if(property === 'recenzenti'){
@@ -53,7 +59,13 @@ export class ChooseReviwersComponent implements OnInit {
       }
     }
 
-    
+    this.sciencePaperService.chooseReviewers(this.taskId, dto).subscribe(
+      (response: any) => {
+        alert(response);
+        this.router.navigate(['/homepage/editor']);
+      },
+      (error) => { alert(error.message) }
+    )
 
   }
 

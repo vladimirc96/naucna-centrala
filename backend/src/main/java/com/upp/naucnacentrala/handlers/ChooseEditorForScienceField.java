@@ -39,8 +39,8 @@ public class ChooseEditorForScienceField implements JavaDelegate {
                 }
             }
         }
-        int randomNum = ThreadLocalRandom.current().nextInt(0, list.size());
         if(!list.isEmpty()){
+            int randomNum = ThreadLocalRandom.current().nextInt(0, list.size());
             System.out.println("************************************************");
             System.out.println("Izabrani urednik naucne oblasti: " + list.get(randomNum).getUsername());
             System.out.println("************************************************");

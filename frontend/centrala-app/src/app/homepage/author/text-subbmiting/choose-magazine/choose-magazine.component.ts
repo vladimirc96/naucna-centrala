@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   templateUrl: './choose-magazine.component.html',
   styleUrls: ['./choose-magazine.component.css']
 })
-export class ChooseMagazineComponent implements OnInit, AfterViewInit {
+export class ChooseMagazineComponent implements OnInit {
 
   @ViewChild('f', { static: true })form: NgForm;
 
@@ -35,12 +35,12 @@ export class ChooseMagazineComponent implements OnInit, AfterViewInit {
   ngOnInit() {
   }
 
-  ngAfterViewInit(): void {
-    //this.validationService.addValidations(this.formFields, this.form);
-  }
-
   onSubmit(value, form){
-    console.log(this.formFieldsDto);    
+
+    if(!this.validationService.validate(this.formFieldsDto.formFields, form)){
+      return;
+    }
+
     let dto = new Array();
 
     for(var property in value){
@@ -62,11 +62,7 @@ export class ChooseMagazineComponent implements OnInit, AfterViewInit {
       }, 
       (error) => {
         alert(error.message);
-      }
-
-    )
-
-
+      });
   }
 
 

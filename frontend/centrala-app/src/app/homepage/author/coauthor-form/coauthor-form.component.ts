@@ -3,6 +3,7 @@ import { RepositoryService } from 'src/app/services/repository.service';
 import { SciencePaperService } from 'src/app/services/science-paper.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { CoauthorService } from 'src/app/services/coauthor.service';
+import { ValidationService } from 'src/app/services/validation.service';
 
 @Component({
   selector: 'app-coauthor-form',
@@ -16,7 +17,7 @@ export class CoauthorFormComponent implements OnInit {
   formFields = [];
 
   constructor(private coauthorService: CoauthorService,private repoService: RepositoryService, private sciencePaperService: SciencePaperService,
-     private route: ActivatedRoute, private router: Router) {
+     private route: ActivatedRoute, private router: Router, private validationService: ValidationService) {
 
     this.route.params.subscribe(
       (params: Params) => {
@@ -40,6 +41,11 @@ export class CoauthorFormComponent implements OnInit {
   }
 
   onSubmit(value, form){
+
+    if(!this.validationService.validate(this.formFieldsDto.formFields, form)){
+      return;
+    }
+
     let dto = new Array();
     for(var property in value){
       dto.push({fieldId: property, fieldValue: value[property]});

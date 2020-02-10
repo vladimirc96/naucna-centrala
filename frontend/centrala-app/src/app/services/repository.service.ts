@@ -70,4 +70,16 @@ export class RepositoryService {
     return this.httpClient.get('/api/repository/form/choose-reviewers/'.concat(taskId));
   }
 
+  getChiefEditorReviewingTasks(){
+    return this.httpClient.get('/api/repository/tasks/chief-editor-reviewing');
+  }
+
+  getChiefEditorChoiceForm(processId){
+    return this.httpClient.get('/api/repository/form/chief-editor-choice/'.concat(processId));
+  }
+
+  getChiefEditorChoiceTasks(){
+    return this.httpClient.get('/api/repository/tasks/chief-editor-choice');
+  }
+
 }

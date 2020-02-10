@@ -13,6 +13,8 @@ export class EditorPapersComponent implements OnInit {
   formFields = [];
   chooseReviewerTasks = [];
   paperReviewTasks = [];
+  chiefEditorRevieweingTasks = [];
+  chiefEditorChoiceTasks = [];
 
   constructor(private repoService: RepositoryService, private router: Router) { 
     this.repoService.getChooseReviewerTasks().subscribe(
@@ -28,6 +30,21 @@ export class EditorPapersComponent implements OnInit {
       },
       (error) => { alert(error.message) }
     )
+
+    this.repoService.getChiefEditorReviewingTasks().subscribe(
+      (response: any) => {
+        this.chiefEditorRevieweingTasks = response;
+      },
+      (error) => { alert(error.message) }
+    )
+
+    this.repoService.getChiefEditorChoiceTasks().subscribe(
+      (response: any) => {
+        this.chiefEditorChoiceTasks = response;
+      },
+      (error) => { alert(error.message) }
+    )
+
   }
 
   ngOnInit() {
@@ -49,5 +66,20 @@ export class EditorPapersComponent implements OnInit {
     )
   }
 
+  claimChiefEditorReviewTask(taskId){
+    this.repoService.claimTask(taskId).subscribe(
+      (success) => {
+        this.router.navigate(['/homepage/editor/chief-editor-review/'.concat(taskId)]);
+      }
+    )
+  }
+
+  claimChiefEditorChoiceTask(taskId){
+    this.repoService.claimTask(taskId).subscribe(
+      (success) => {
+        this.router.navigate(['/homepage/editor/chief-editor-choice/'.concat(taskId)]);
+      }
+    )
+  }
 
 }

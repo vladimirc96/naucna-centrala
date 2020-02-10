@@ -1,20 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { RepositoryService } from 'src/app/services/repository.service';
-import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SciencePaperService } from 'src/app/services/science-paper.service';
+import { RepositoryService } from 'src/app/services/repository.service';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { ValidationService } from 'src/app/services/validation.service';
 
 @Component({
-  selector: 'app-review-paper',
-  templateUrl: './review-paper.component.html',
-  styleUrls: ['./review-paper.component.css']
+  selector: 'app-chief-editor-review',
+  templateUrl: './chief-editor-review.component.html',
+  styleUrls: ['./chief-editor-review.component.css']
 })
-export class ReviewPaperComponent implements OnInit {
+export class ChiefEditorReviewComponent implements OnInit {
 
   taskId: any;
   formFieldsDto = null;
   formFields = [];
-  relevantnost = [];
+  odluka = [];
+
   constructor(private sciencePaperService: SciencePaperService, private repoService: RepositoryService, private route: ActivatedRoute, private router: Router, private validationService: ValidationService) {
     this.route.params.subscribe(
       (params: Params) => {
@@ -28,7 +29,7 @@ export class ReviewPaperComponent implements OnInit {
         this.formFields = response.formFields;
         this.formFields.forEach((field) => {
           if(field.type.name=='enum'){
-            this.relevantnost = Object.keys(field.type.values);
+            this.odluka = Object.keys(field.type.values);
           }
         })
       },
@@ -36,14 +37,13 @@ export class ReviewPaperComponent implements OnInit {
         alert(error.message);
       }
     )
-
    }
 
   ngOnInit() {
   }
 
   onSubmit(value, form){
-    
+
     if(!this.validationService.validate(this.formFieldsDto.formFields, form)){
       return;
     }
@@ -52,15 +52,14 @@ export class ReviewPaperComponent implements OnInit {
     for(var property in value){
         dto.push({fieldId: property, fieldValue: value[property]});
     }
-    this.sciencePaperService.paperReview(this.taskId, dto).subscribe(
-      (response) => {
-        if(response == 'Rad je relevantan.'){
-          this.router.navigate(['/homepage/editor/paper-format/'.concat(this.formFieldsDto.processInstanceId)]);
-        }else{
-          this.router.navigate(['/homepage']);
-        }
+
+    this.sciencePaperService.chiefEditorReview(this.taskId, dto).subscribe(
+      (response: any) => {
+        alert(response);
+        this.router.navigate(['/homepage/editor-papers']);
       }
-    )
+    ),
+    (error) => { alert(error.message) }
 
   }
 

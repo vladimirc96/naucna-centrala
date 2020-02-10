@@ -30,6 +30,8 @@ import { EditorPapersComponent } from './homepage/editor/editor-papers/editor-pa
 import { PaperFormatComponent } from './homepage/editor/paper-format/paper-format.component';
 import { PaperCorrectionComponent } from './homepage/author/paper-correction/paper-correction.component';
 import { ChooseReviwersComponent } from './homepage/editor/choose-reviwers/choose-reviwers.component';
+import { ChiefEditorReviewComponent } from './homepage/editor/chief-editor-review/chief-editor-review.component';
+import { ChiefEditorChoiceComponent } from './homepage/editor/chief-editor-choice/chief-editor-choice.component';
 
 const appRoutes: Routes = [
 	{ path: '', redirectTo: 'homepage/magazine-list', pathMatch: 'full'},
@@ -51,7 +53,9 @@ const appRoutes: Routes = [
 			{ path: 'papers', component: EditorPapersComponent },
 			{ path: 'review-paper/:id', component: ReviewPaperComponent },
 			{ path: 'paper-format/:processId', component: PaperFormatComponent },
-			{ path: 'choose-reviwers/:id', component: ChooseReviwersComponent }
+			{ path: 'choose-reviwers/:id', component: ChooseReviwersComponent },
+			{ path: 'chief-editor-review/:id', component: ChiefEditorReviewComponent },
+			{ path: 'chief-editor-choice/:id', component: ChiefEditorChoiceComponent }
 		]},
 		{ path: 'author', component: AuthorComponent, children: [
 			{ path: '', component: AuthorTasksComponent},

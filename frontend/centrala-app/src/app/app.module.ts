@@ -39,6 +39,8 @@ import { ReviewPaperComponent } from './homepage/editor/review-paper/review-pape
 import { PaperFormatComponent } from './homepage/editor/paper-format/paper-format.component';
 import { PaperCorrectionComponent } from './homepage/author/paper-correction/paper-correction.component';
 import { ChooseReviwersComponent } from './homepage/editor/choose-reviwers/choose-reviwers.component';
+import { ChiefEditorReviewComponent } from './homepage/editor/chief-editor-review/chief-editor-review.component';
+import { ChiefEditorChoiceComponent } from './homepage/editor/chief-editor-choice/chief-editor-choice.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -72,6 +74,8 @@ import { ChooseReviwersComponent } from './homepage/editor/choose-reviwers/choos
     PaperFormatComponent,
     PaperCorrectionComponent,
     ChooseReviwersComponent,
+    ChiefEditorReviewComponent,
+    ChiefEditorChoiceComponent,
   ],
   imports: [
     BrowserModule,

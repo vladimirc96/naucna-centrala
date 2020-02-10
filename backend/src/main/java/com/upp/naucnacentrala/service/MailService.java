@@ -73,4 +73,22 @@ public class MailService {
         mailEditor.setText("Zdravo " + editor.getFirstName() + ",\n\nobaveštavamo Vas da je u sistemu prijavljen nov rad.");
         javaMailSender.send(mailEditor);
     }
+
+    public void notifyAboutRefusal(Author author) {
+        SimpleMailMessage mailAuthor = new SimpleMailMessage();
+        mailAuthor.setTo("flylivedrive@gmail.com");
+        mailAuthor.setFrom(environment.getProperty("spring.mail.username"));
+        mailAuthor.setSubject("Odluka o prihvaćanju rada");
+        mailAuthor.setText("Zdravo " + author.getFirstName() + ",\n\nnažalost Vas obaveštavamo da je rad koji ste priložili odbijen od strane glavnog urednika.");
+        javaMailSender.send(mailAuthor);
+    }
+
+    public void notifyAboutAcceptance(Author author) {
+        SimpleMailMessage mailAuthor = new SimpleMailMessage();
+        mailAuthor.setTo("flylivedrive@gmail.com");
+        mailAuthor.setFrom(environment.getProperty("spring.mail.username"));
+        mailAuthor.setSubject("Odluka o prihvaćanju rada");
+        mailAuthor.setText("Zdravo " + author.getFirstName() + ",\n\nobaveštavamo Vas da je rad koji ste priložili prihvaćen od strane glavnog urednika.");
+        javaMailSender.send(mailAuthor);
+    }
 }

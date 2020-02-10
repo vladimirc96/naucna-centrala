@@ -176,7 +176,25 @@ public class SciencePaperController {
         return new ResponseEntity("Success", HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/chief-editor-review/{taskId}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<String> chiefEditorReview(@RequestBody List<FormSubmissionDto> chiefEditorReviewData, @PathVariable("taskId") String taskId){
+        HashMap<String, Object> map = Utils.mapListToDto(chiefEditorReviewData);
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        String processInstanceId = task.getProcessInstanceId();
+        runtimeService.setVariable(processInstanceId,  "chiefEditorReviewData", chiefEditorReviewData);
+        formService.submitTaskForm(taskId, map);
+        return new ResponseEntity("Success", HttpStatus.OK);
+    }
 
+    @RequestMapping(value = "/chief-editor-choice/{taskId}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<String> chiefEditorChoice(@RequestBody List<FormSubmissionDto> choiceData, @PathVariable("taskId") String taskId){
+        HashMap<String, Object> map = Utils.mapListToDto(choiceData);
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        String processInstanceId = task.getProcessInstanceId();
+        runtimeService.setVariable(processInstanceId,  "choiceData", choiceData);
+        formService.submitTaskForm(taskId, map);
+        return new ResponseEntity("Success", HttpStatus.OK);
+    }
 
 
 }

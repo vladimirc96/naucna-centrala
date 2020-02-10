@@ -1,9 +1,7 @@
 <div class="wrapper">
     <div class="d-flex justify-content-center">
       <form #f="ngForm" (ngSubmit)="onSubmit(f.value, f)" ngNativateValidate> 
-        <div>
-          <button type="button" class="btn btn-primary" (click)="onDownload()">Skinite PDF za pregled</button>
-      </div>    
+  
         <div *ngFor="let field of formFields">
         
           <label for={{field.id}}> {{field.label}} </label>
@@ -15,9 +13,14 @@
           </select>
         </div>
         
-    <div class="d-flex justify-content-center">
-      <button type="submit" class="btn btn-primary">Potvrdi</button>
+    <div class="d-flex" style="width: 100%">
+      <div class="d-flex justify-content-start" style="width: 50%;">
+        <button type="button" class="btn btn-primary" (click)="onDownload()">Skinite PDF za pregled</button>
       </div>
+      <div class="d-flex justify-content-end" style="width: 50%;">
+        <button type="submit" class="btn btn-primary">Potvrdi</button>
+      </div>    
+    </div>
       </form>
 
     </div>

@@ -6,10 +6,12 @@ import com.upp.naucnacentrala.dto.FormFieldsDto;
 import com.upp.naucnacentrala.dto.TaskDto;
 import com.upp.naucnacentrala.model.Magazine;
 import com.upp.naucnacentrala.model.ScienceField;
+import com.upp.naucnacentrala.model.SciencePaper;
 import com.upp.naucnacentrala.model.User;
 import com.upp.naucnacentrala.security.TokenUtils;
 import com.upp.naucnacentrala.service.MagazineService;
 import com.upp.naucnacentrala.service.ScienceFieldService;
+import com.upp.naucnacentrala.service.SciencePaperService;
 import com.upp.naucnacentrala.service.UserService;
 import org.camunda.bpm.engine.*;
 import org.camunda.bpm.engine.form.FormField;
@@ -58,6 +60,9 @@ public class RepositoryController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private SciencePaperService sciencePaperService;
 
     @RequestMapping(value = "/tasks/claim/{taskId}", method = RequestMethod.POST,produces = "application/json")
     public ResponseEntity claim(@PathVariable String taskId, HttpServletRequest request) {
@@ -271,13 +276,21 @@ public class RepositoryController {
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
         ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
         TaskFormData tfd = formService.getTaskFormData(task.getId());
-
+        SciencePaper sciencePaper = sciencePaperService.findOneById((Long) runtimeService.getVariable(pi.getId(), "sciencePaperId"));
         List<User> reviewers = userService.findAllReviewers();
+        List<User> reviewerList = new ArrayList<>();
+        for(User reviewer: reviewers){
+            for(ScienceField scienceField: reviewer.getScienceFields()){
+                if(scienceField.getName().equals(sciencePaper.getScienceField().getName())){
+                    reviewerList.add(reviewer);
+                }
+            }
+        }
         List<FormField> properties = tfd.getFormFields();
         for(FormField field: properties){
             if(field.getId().equals("recenzenti")){
                 EnumFormType enumType = (EnumFormType) field.getType();
-                for(User user: reviewers){
+                for(User user: reviewerList){
                     enumType.getValues().put(user.getUsername(), user.getFirstName() + " " + user.getLastName() + ", " + user.getUsername());
                 }
             }
@@ -285,4 +298,27 @@ public class RepositoryController {
         return new ResponseEntity<>(new FormFieldsDto(task.getId(), pi.getId(), properties), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/tasks/chief-editor-reviewing",  method = RequestMethod.GET,produces = "application/json")
+    public ResponseEntity chiefEditorReviewingTasks(HttpServletRequest request) {
+        String username = Utils.getUsernameFromRequest(request, tokenUtils);
+        List<Task> tasks = taskService.createTaskQuery().taskName("Recenziranje od strane glavnog urednika").taskAssignee(username).list();
+        List<TaskDto> tasksDto = new ArrayList<>();
+        for(Task task: tasks){
+            TaskDto t = new TaskDto(task.getId(), task.getName(), task.getAssignee());
+            tasksDto.add(t);
+        }
+        return new ResponseEntity<>(tasksDto, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/tasks/chief-editor-choice", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity chiefEditorChoiceTasks(HttpServletRequest request){
+        String username = Utils.getUsernameFromRequest(request, tokenUtils);
+        List<Task> tasks = taskService.createTaskQuery().taskName("Pregled i donosenje odluke").taskAssignee(username).list();
+        List<TaskDto> tasksDto = new ArrayList<>();
+        for(Task task: tasks){
+            TaskDto t = new TaskDto(task.getId(), task.getName(), task.getAssignee());
+            tasksDto.add(t);
+        }
+        return new ResponseEntity<>(tasksDto, HttpStatus.OK);
+    }
 }

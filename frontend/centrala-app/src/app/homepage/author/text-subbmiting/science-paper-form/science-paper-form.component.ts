@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { RepositoryService } from 'src/app/services/repository.service';
 import { SciencePaperService } from 'src/app/services/science-paper.service';
+import { ValidationService } from 'src/app/services/validation.service';
 
 @Component({
   selector: 'app-science-paper-form',
@@ -17,7 +18,7 @@ export class SciencePaperFormComponent implements OnInit {
   fileToUpload: File;
   naucneOblasti: any = [];
 
-  constructor(private route: ActivatedRoute, private repoService: RepositoryService, private sciencePaperService: SciencePaperService, private router: Router) {
+  constructor(private route: ActivatedRoute, private repoService: RepositoryService, private sciencePaperService: SciencePaperService, private router: Router, private validationService: ValidationService) {
     this.route.params.subscribe(
       (params: Params) => {
         this.processId = params['processId'];
@@ -56,6 +57,11 @@ export class SciencePaperFormComponent implements OnInit {
 }
 
   onSubmit(value, form){
+
+    if(!this.validationService.validate(this.formFieldsDto.formFields, form)){
+      return;
+    }
+
     let dto = new Array();
     for(var property in value){
       if(property == 'pdf'){
@@ -63,8 +69,6 @@ export class SciencePaperFormComponent implements OnInit {
       }
       dto.push({fieldId: property, fieldValue: value[property]});
     }
-
-    console.log(dto);
 
     this.sciencePaperService.save(this.formFieldsDto.taskId, dto).subscribe(
       (response: any) => {

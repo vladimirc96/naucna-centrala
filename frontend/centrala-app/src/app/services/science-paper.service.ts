@@ -45,4 +45,16 @@ export class SciencePaperService {
     return this.httpClient.put('/api/science-paper/paper-correction/'.concat(taskId), dto, {responseType: 'text'});
   }
 
+  chiefEditorReview(taskId, dto){
+    return this.httpClient.put('/api/science-paper/chief-editor-review/'.concat(taskId), dto, {responseType: 'text'});
+  }
+
+  chiefEditorChoice(taskId, dto){
+    return this.httpClient.put('/api/science-paper/chief-editor-choice/'.concat(taskId), dto, {responseType: 'text'});
+  }
+
+  chooseReviewers(taskId, dto){
+    return this.httpClient.put('/api/science-paper/choose-reviewers/'.concat(taskId), dto, {responseType: 'text'});
+  }
+
 }
