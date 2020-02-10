@@ -108,7 +108,7 @@ execution.setVariable("aktivan",isActive);</bpmn:script>
           <camunda:formField id="naucne_oblasti_stare" label="Naucne oblasti" type="string" defaultValue="${oldScienceFields}" />
           <camunda:formField id="naucne_oblasti_ispravka" label="Ispravka naucnih oblasti *" type="enum" />
           <camunda:formField id="urednici_stari" label="Urednici" type="string" defaultValue="${oldEditors}" />
-          <camunda:formField id="urednici_ispravka" label="Ispravka urednika *" type="enum" />
+          <camunda:formField id="urednici_ispravka" label="Ispravka urednika " type="enum" />
           <camunda:formField id="recenzenti_stari" label="Recenzenti" type="string" defaultValue="${oldReviewers}" />
           <camunda:formField id="recenzenti_ispravka" label="Recenzenti ispravka *" type="enum" />
           <camunda:formField id="komentar" label="Komentar" type="string" defaultValue="${komentar_uredniku}" />
