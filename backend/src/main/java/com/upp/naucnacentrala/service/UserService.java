@@ -171,6 +171,10 @@ public class UserService {
         javaMailSender.send(mail);
     }
 
+    public List<User> findAllByMagazineId(Long id){
+        return userRepo.findAllMagazineId(id);
+    }
+
 //    public List<Reviewer> findAllByMagazineScienceFields(List<ScienceField> scienceFields){
 //        List<Reviewer> reviewers = findAllReviewers();
 //        List<Reviewer> reviewerList = new ArrayList<>();

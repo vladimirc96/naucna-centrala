@@ -14,7 +14,7 @@ export class OrdersComponent implements OnInit {
 	constructor(private ordersService: OrderService) {}
 
 	ngOnInit() {
-		this.ordersService.getAllOrders().subscribe(
+		this.ordersService.getAllOrdersByUsername().subscribe(
 			(res: any[]) => {
 				this.orders = res;
 			}, err => console.log(err.error)

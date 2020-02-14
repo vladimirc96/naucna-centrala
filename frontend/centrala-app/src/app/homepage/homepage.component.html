@@ -29,19 +29,12 @@
         <a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink='/homepage/editor/papers'>Radovi</a>
     </li>
         <!-- EDITOR -->
-      
-        <li class="nav-item active">
-        <a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink='/homepage/orders'>Porudžbine</a>
-    </li>
-
-
       </ul>
   <div class="d-flex flex-row-reverse">
-    
+    <button class="btn" href="#" *ngIf="isLoggedIn && isCustomer">Moj profil</button>
     <button class="btn" [routerLink]="['/registration']" *ngIf="!isLoggedIn">Registracija</button>
     <button class="btn" [routerLink]="['/login']" *ngIf="!isLoggedIn">Prijava</button>
     <button class="btn" (click)="logOut()" *ngIf="isLoggedIn">Odjava</button>
-    
   </div>
   </nav>
   

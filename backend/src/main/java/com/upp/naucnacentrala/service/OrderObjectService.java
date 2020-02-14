@@ -46,6 +46,10 @@ public class OrderObjectService {
         return orderObjectRepo.findAll().stream().map(o -> OrderDTO.formDto(o)).collect(Collectors.toList());
     }
 
+    public List<OrderDTO> findAllByUserId(String username){
+        return orderObjectRepo.findAllByUserId(username).stream().map(o -> OrderDTO.formDto(o)).collect(Collectors.toList());
+    }
+
     public InitOrderResponseDTO create(MagazineDTO magazineDTO, HttpServletRequest request){
         Magazine magazine = magazineService.findOneById(magazineDTO.getId());
         OrderObject orderObject = createOrderObject(magazine, request);

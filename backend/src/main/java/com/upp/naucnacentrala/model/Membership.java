@@ -13,11 +13,12 @@ public class Membership {
     @Column(name = "end_date")
     private Date endDate;
 
+    @Column(name = "username")
+    private String username;
+
     @ManyToOne
     private Magazine magazine;
 
-    @ManyToOne
-    private Author author;
 
     public Membership() {
     }
@@ -44,13 +45,5 @@ public class Membership {
 
     public void setMagazine(Magazine magazine) {
         this.magazine = magazine;
-    }
-
-    public Author getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Author author) {
-        this.author = author;
     }
 }

@@ -1,4 +1,4 @@
-insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered) values (1, "Naucni kutak", "111", "READERS", true, "milica", false);
+insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered, seller_id) values (1, "Naucni kutak", "111", "READERS", true, "milica", true, 3);
 insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered) values (2, "Nauka danas", "222", "AUTHORS", true, "andrijana", false);
 insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered, seller_id) values (3, "Savremena psihologija", "333", "AUTHORS", true, "vukasin", true, 1);
 
@@ -48,6 +48,8 @@ insert into user (username, password, first_name, last_name, city, country, emai
 values ("marko", "$2a$10$W8fc03eWKZ3wBK/IN4.TaOaFA/cjG.G/9z79qnOqXmZv6ByTvv1kG", "Marko", "Stevanov", "Novi Knezevac", "Srbija", "marko@gmail.com", false, true, "AUTHOR");
 insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type, magazine_id)
 values ("fedor", "$2a$10$IAbZueonfhyWHGKtSCtDtuSkxN6qbiHj4tmCKvMUjSvWi8otZIIQq", "Fedor", "Markovljev", "Novi Sad", "Srbija", "fedor@gmail.com", false, true, "EDITOR", 1);
+insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type)
+values ("aleksa", "$2a$10$nG2PjMA09Mx/L5BiLdIfJ.y1O9B2fi5rBhYl8AfiCh3.lBwrc4ePG", "Aleksandar", "Markovljev", "Novi Sad", "Srbija", "aleksa@gmail.com", false, true, "CUSTOMER");
 
 
 insert into role values (1, 'ROLE_USER');
@@ -55,6 +57,7 @@ insert into role values (2, 'ROLE_ADMIN');
 insert into role values (3, 'ROLE_EDITOR');
 insert into role values (4, 'ROLE_REVIEWER');
 insert into role values (5, 'ROLE_AUTHOR');
+insert into role values (6, 'ROLE_CUSTOMER');
 
 
 /* admin privilegije */
@@ -73,6 +76,7 @@ insert into user_roles values ('milica', 3);
 insert into user_roles values ('andrijana', 3);
 insert into user_roles values ('marko', 5);
 insert into user_roles values ('fedor', 3);
+insert into user_roles values ('aleksa', 6);
 
 insert into user_sciencefields values ('vukasin', 1);
 insert into user_sciencefields values ('vukasin', 2);
@@ -106,7 +110,7 @@ insert into user_sciencefields values ('fedor', 3);
 insert into user_sciencefields values ('fedor', 5);
 
 
-insert into memberships (magazine_id, author_username) values (2, 'marko');
+insert into membership (id, end_date, magazine_id, username) values (1,'2020-09-20 00:00:00',2, 'aleksa');
 
 
 

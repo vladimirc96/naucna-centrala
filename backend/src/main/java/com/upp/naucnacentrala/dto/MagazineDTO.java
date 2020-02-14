@@ -33,6 +33,7 @@ public class MagazineDTO {
         this.setSciencePaperDTOList(sciencePapers);
     }
 
+
     public Long getId() {
         return id;
     }

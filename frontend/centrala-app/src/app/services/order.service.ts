@@ -24,4 +24,8 @@ export class OrderService {
     return this.httpClient.get('/api/orders/');
   }
 
+  getAllOrdersByUsername(){
+    return this.httpClient.get('/api/orders/all-by-user');
+  }
+
 }

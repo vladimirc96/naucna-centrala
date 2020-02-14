@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
 
   this.authService.login(userDTO).subscribe(
     (success) => {
-      this.router.navigate(["/homepage"]);
+      this.router.navigate([""]);
     }, 
     (error) => {
       alert(error);

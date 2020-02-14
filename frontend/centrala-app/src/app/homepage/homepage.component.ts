@@ -15,6 +15,7 @@ export class HomepageComponent implements OnInit {
   isReviewer: boolean = false;
   isEditor: boolean = false;
   isAuthor: boolean = false;
+  isCustomer: boolean = false;
   isLoggedIn: boolean = false;
 
   ngOnInit() {
@@ -37,6 +38,8 @@ export class HomepageComponent implements OnInit {
         }else if(user.role == 'AUTHOR'){
           this.isAuthor = true;
           console.log("ROLA: AUTOR");
+        }else if(user.role == 'CUSTOMER'){
+          this.isCustomer = true;
         }
       }
     )
@@ -50,6 +53,7 @@ export class HomepageComponent implements OnInit {
     this.isEditor = false;
     this.isReviewer = false;
     this.isAuthor = false;
+    this.isCustomer = false;
   }
 
 }

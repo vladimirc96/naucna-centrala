@@ -3,6 +3,7 @@ package com.upp.naucnacentrala.handlers;
 import com.upp.naucnacentrala.dto.FormSubmissionDto;
 import com.upp.naucnacentrala.model.Author;
 import com.upp.naucnacentrala.model.Magazine;
+import com.upp.naucnacentrala.model.User;
 import com.upp.naucnacentrala.security.TokenUtils;
 import com.upp.naucnacentrala.service.MagazineService;
 import com.upp.naucnacentrala.service.UserService;
@@ -31,7 +32,9 @@ public class CheckMembership implements JavaDelegate {
         String username = (String) delegateExecution.getVariable("username");
         Magazine magazine = magazineService.findByName(magazineName);
         delegateExecution.setVariable("uplacena_clanarina", false);
-        for(Author a: magazine.getAuthors()){
+        List<User> authors = userService.findAllByMagazineId(magazine.getId());
+        for(User a: authors){
+            System.out.println("AUTHOR " + a.getUsername());
             if(a.getUsername().equals(username)){
                 delegateExecution.setVariable("uplacena_clanarina", true);
             }

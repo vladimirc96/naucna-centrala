@@ -155,6 +155,9 @@ public class UserController {
             }else if(u instanceof  Author){
                 u = (Author) u;
                 ui.setRole("AUTHOR");
+            }else if(u instanceof Customer){
+                u = (Customer) u;
+                ui.setRole("CUSTOMER");
             }
             ui.setUsername(u.getUsername());
             return new ResponseEntity<UserInfoDTO>(ui, HttpStatus.OK);
