@@ -9,15 +9,17 @@ public class FinalizeOrderDTO {
     private Enums.OrderStatus orderStatus;
     private long ncOrderId;
     private Date finalDate;
+    private Long agreementId;
 
     public FinalizeOrderDTO() {
     }
 
-    public FinalizeOrderDTO(long activeOrderId, Enums.OrderStatus orderStatus, long ncOrderId, Date finalDate) {
+    public FinalizeOrderDTO(long activeOrderId, Enums.OrderStatus orderStatus, long ncOrderId, Date finalDate, Long agreementId) {
         this.activeOrderId = activeOrderId;
         this.orderStatus = orderStatus;
         this.ncOrderId = ncOrderId;
         this.finalDate = finalDate;
+        this.agreementId = agreementId;
     }
 
     public long getActiveOrderId() {
@@ -50,5 +52,13 @@ public class FinalizeOrderDTO {
 
     public void setFinalDate(Date finalDate) {
         this.finalDate = finalDate;
+    }
+
+    public Long getAgreementId() {
+        return agreementId;
+    }
+
+    public void setAgreementId(Long agreementId) {
+        this.agreementId = agreementId;
     }
 }

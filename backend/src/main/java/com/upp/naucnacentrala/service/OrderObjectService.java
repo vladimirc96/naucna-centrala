@@ -3,10 +3,7 @@ package com.upp.naucnacentrala.service;
 import com.upp.naucnacentrala.Utils;
 import com.upp.naucnacentrala.client.OrderClient;
 import com.upp.naucnacentrala.dto.*;
-import com.upp.naucnacentrala.model.Magazine;
-import com.upp.naucnacentrala.model.OrderObject;
-import com.upp.naucnacentrala.model.SciencePaper;
-import com.upp.naucnacentrala.model.Subscription;
+import com.upp.naucnacentrala.model.*;
 import com.upp.naucnacentrala.model.enums.Enums;
 import com.upp.naucnacentrala.repository.OrderObjectRepository;
 import com.upp.naucnacentrala.repository.SubscriptionRepository;
@@ -16,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,6 +40,9 @@ public class OrderObjectService {
 
     @Autowired
     private SubscriptionRepository subRepo;
+
+    @Autowired
+    private MembershipService membershipService;
 
     public List<OrderDTO> getAllOrders() {
         return orderObjectRepo.findAll().stream().map(o -> OrderDTO.formDto(o)).collect(Collectors.toList());
@@ -117,14 +119,22 @@ public class OrderObjectService {
     public void finalizeOrder(FinalizeOrderDTO foDTO) {
         OrderObject o = orderObjectRepo.findById(foDTO.getNcOrderId()).get();
         o.setOrderStatus(foDTO.getOrderStatus());
-
-        if (o.getOrderType() == Enums.OrderType.ORDER_SUBSCRIPTION) {
+        if (o.getOrderType() == Enums.OrderType.ORDER_SUBSCRIPTION && o.getMagazine() != null) {
+            Magazine magazine = magazineService.findOneById(o.getMagazine().getId());
             o.getSubscription().setStartDate(new Date(System.currentTimeMillis()));
             o.getSubscription().setEndDate(foDTO.getFinalDate());
-
+            Date endDate = foDTO.getFinalDate();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String dejt = dateFormat.format(endDate);
+            Membership membership = new Membership();
+            membership.setUsername(o.getUserId());
+            membership.setEndDate(dejt);
+            membership.setAgreementId(foDTO.getAgreementId());
+            membership.setMagazine(magazine);
+            membershipService.save(membership);
+            magazineService.save(magazine);
         }
         orderObjectRepo.save(o);
-
     }
 
 }

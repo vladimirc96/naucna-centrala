@@ -27,4 +27,7 @@ public class MembershipService {
         membershipRepo.delete(membership);
     }
 
+    public Membership save(Membership membership) {
+        return membershipRepo.save(membership);
+    }
 }
