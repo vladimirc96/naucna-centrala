@@ -16,6 +16,9 @@ public class Membership {
     @Column(name = "username")
     private String username;
 
+    @Column(name = "agreement_id")
+    private Long agreementId;
+
     @ManyToOne
     private Magazine magazine;
 
@@ -45,5 +48,21 @@ public class Membership {
 
     public void setMagazine(Magazine magazine) {
         this.magazine = magazine;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Long getAgreementId() {
+        return agreementId;
+    }
+
+    public void setAgreementId(Long agreementId) {
+        this.agreementId = agreementId;
     }
 }

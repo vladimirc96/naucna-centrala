@@ -26,4 +26,12 @@ export class KPService {
     return this.httpClient.get('/api/kp/getPlans/'.concat(magazienId), {responseType: 'text'});
   }
 
+  getUserAgreements() {
+    return this.httpClient.get('/api/kp/getUserAgreements/');
+  }
+
+  cancelAgreement(agrID, sellerID) {
+    return this.httpClient.get('/api/kp/cancelAgreement/'.concat(agrID).concat("/").concat(sellerID), {responseType: 'text'});
+  }
+
 }

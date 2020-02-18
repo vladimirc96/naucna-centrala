@@ -26,7 +26,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RegistrationFailureComponent } from './registration/registration-failure/registration-failure.component';
 import { MagazineListComponent } from './homepage/magazine-list/magazine-list.component';
 import { MagazineInfoComponent } from './homepage/magazine-info/magazine-info.component';
-import { OrdersComponent } from './homepage/orders/orders.component';
+import { OrdersComponent } from './homepage/user-profile/orders/orders.component';
 import { AuthorComponent } from './homepage/author/author.component';
 import { AuthorTasksComponent } from './homepage/author/author-tasks/author-tasks.component';
 import { TextSubbmitingComponent } from './homepage/author/text-subbmiting/text-subbmiting.component';
@@ -41,6 +41,8 @@ import { PaperCorrectionComponent } from './homepage/author/paper-correction/pap
 import { ChooseReviwersComponent } from './homepage/editor/choose-reviwers/choose-reviwers.component';
 import { ChiefEditorReviewComponent } from './homepage/editor/chief-editor-review/chief-editor-review.component';
 import { ChiefEditorChoiceComponent } from './homepage/editor/chief-editor-choice/chief-editor-choice.component';
+import { UserProfileComponent } from './homepage/user-profile/user-profile.component';
+import { SubscriptionsComponent } from './homepage/user-profile/subscriptions/subscriptions.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -76,6 +78,8 @@ import { ChiefEditorChoiceComponent } from './homepage/editor/chief-editor-choic
     ChooseReviwersComponent,
     ChiefEditorReviewComponent,
     ChiefEditorChoiceComponent,
+    UserProfileComponent,
+    SubscriptionsComponent,
   ],
   imports: [
     BrowserModule,

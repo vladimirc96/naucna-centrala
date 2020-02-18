@@ -1,10 +1,7 @@
 package com.upp.naucnacentrala.controller;
 
 import com.upp.naucnacentrala.client.RegistrationClient;
-import com.upp.naucnacentrala.dto.KPRegistrationDTO;
-import com.upp.naucnacentrala.dto.MagazineDTO;
-import com.upp.naucnacentrala.dto.MagazineInfoDTO;
-import com.upp.naucnacentrala.dto.StringDTO;
+import com.upp.naucnacentrala.dto.*;
 import com.upp.naucnacentrala.model.Magazine;
 import com.upp.naucnacentrala.service.KPService;
 import com.upp.naucnacentrala.model.SciencePaper;
@@ -57,6 +54,16 @@ public class KPController {
     @RequestMapping(value = "/getPlans/{magazineId}", method = RequestMethod.GET)
     public ResponseEntity<?> getBillingPlans(@PathVariable("magazineId") long magazineId){
         return new ResponseEntity<>(kpService.getMagazinePlans(magazineId), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/getUserAgreements", method = RequestMethod.GET)
+    public ResponseEntity<List<AgreementDTO>> getUserAgreements(HttpServletRequest request){
+        return new ResponseEntity<List<AgreementDTO>>(kpService.getUserAgreements(request), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/cancelAgreement/{agrID}/{sellerID}", method = RequestMethod.GET)
+    public ResponseEntity<String> cancelAgreement(@PathVariable("agrID") long agrID, @PathVariable("sellerID") long sellerID){
+        return new ResponseEntity<String>(kpService.cancelAgreement(agrID, sellerID), HttpStatus.OK);
     }
 
 }

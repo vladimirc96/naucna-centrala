@@ -19,5 +19,12 @@ public class MembershipService {
         return membershipRepo.findAll();
     }
 
+    public Membership findByAgrAndCas(Long magazineId, Long agreementId){
+        return membershipRepo.findByAgrAndCas(magazineId, agreementId);
+    }
+
+    public void delete(Membership membership){
+        membershipRepo.delete(membership);
+    }
 
 }

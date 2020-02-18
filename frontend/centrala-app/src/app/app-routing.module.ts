@@ -17,7 +17,7 @@ import { MagazineCorrectionComponent } from './homepage/editor/magazine-correcti
 import { RegistrationFailureComponent } from './registration/registration-failure/registration-failure.component';
 import { MagazineListComponent } from './homepage/magazine-list/magazine-list.component';
 import { MagazineInfoComponent } from './homepage/magazine-info/magazine-info.component';
-import { OrdersComponent } from './homepage/orders/orders.component';
+import { OrdersComponent } from './homepage/user-profile/orders/orders.component';
 import { AuthorComponent } from './homepage/author/author.component';
 import { AuthorTasksComponent } from './homepage/author/author-tasks/author-tasks.component';
 import { TextSubbmitingComponent } from './homepage/author/text-subbmiting/text-subbmiting.component';
@@ -32,10 +32,19 @@ import { PaperCorrectionComponent } from './homepage/author/paper-correction/pap
 import { ChooseReviwersComponent } from './homepage/editor/choose-reviwers/choose-reviwers.component';
 import { ChiefEditorReviewComponent } from './homepage/editor/chief-editor-review/chief-editor-review.component';
 import { ChiefEditorChoiceComponent } from './homepage/editor/chief-editor-choice/chief-editor-choice.component';
+import { UserProfileComponent } from './homepage/user-profile/user-profile.component';
+import { Subscriber } from 'rxjs';
+import { SubscriptionsComponent } from './homepage/user-profile/subscriptions/subscriptions.component';
 
 const appRoutes: Routes = [
 	{ path: '', redirectTo: 'homepage/magazine-list', pathMatch: 'full'},
 	{ path: 'homepage', component: HomepageComponent, children: [
+		{ path: 'user-profile', component: UserProfileComponent, children: [
+			{ path: '', redirectTo: 'orders', pathMatch: 'full' },
+			{ path: 'subscriptions', component: SubscriptionsComponent },
+			{ path: 'orders', component: OrdersComponent }
+		] },
+
 		{ path: 'magazine-list', component: MagazineListComponent},
 		{ path: 'orders', component: OrdersComponent},
 		{ path: 'magazine/:id', component: MagazineInfoComponent},
@@ -45,6 +54,7 @@ const appRoutes: Routes = [
 			{ path: 'magazines', component: MagazinesComponent},
 			{ path: 'check-magazine-data/:id', component: CheckMagazineDataComponent}
 		]},
+
 		{ path: 'editor', component: EditorComponent, children: [
 			{ path: '', component: EditorTasksComponent },
 			{ path: 'magazines', component: MagazineFormComponent},
@@ -57,6 +67,7 @@ const appRoutes: Routes = [
 			{ path: 'chief-editor-review/:id', component: ChiefEditorReviewComponent },
 			{ path: 'chief-editor-choice/:id', component: ChiefEditorChoiceComponent }
 		]},
+
 		{ path: 'author', component: AuthorComponent, children: [
 			{ path: '', component: AuthorTasksComponent},
 			{ path: 'text-subbmiting', component: TextSubbmitingComponent, children: [
@@ -69,6 +80,7 @@ const appRoutes: Routes = [
 			{ path: 'paper-correction/:id', component: PaperCorrectionComponent }
 		]}
 	] },
+	
 	{ path: 'login', component: LoginComponent },
 	{ path: 'registration', component: RegistrationComponent},
 	{ path: 'registration-success', component: RegistrationSuccessComponent },

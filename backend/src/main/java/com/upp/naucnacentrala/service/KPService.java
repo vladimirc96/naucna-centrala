@@ -1,10 +1,13 @@
 package com.upp.naucnacentrala.service;
 
+import com.upp.naucnacentrala.Utils;
 import com.upp.naucnacentrala.client.RegistrationClient;
 import com.upp.naucnacentrala.dto.*;
 import com.upp.naucnacentrala.model.Magazine;
+import com.upp.naucnacentrala.model.Membership;
 import com.upp.naucnacentrala.model.SciencePaper;
 import com.upp.naucnacentrala.repository.MagazineRepository;
+import com.upp.naucnacentrala.security.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -37,6 +40,14 @@ public class KPService {
     @Autowired
     OrderObjectService orderObjectService;
 
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    MembershipService membershipService;
+
+    @Autowired
+    private TokenUtils tokenUtils;
 
     public KPRegistrationDTO initRegistration(MagazineDTO magazineDTO) {
 
@@ -60,7 +71,7 @@ public class KPService {
     }
 
     public void changeRegistrationStatus(KPRegistrationDTO kprDTO) {
-        Magazine m = magazineRepository.findBySellerId(kprDTO.getSellerId()).get();
+        Magazine m = magazineRepository.findBySellerId(kprDTO.getSellerId());
         // isStatus lmao fucking shit but who cares
         m.setRegistered(kprDTO.isStatus());
         magazineRepository.save(m);
@@ -109,4 +120,29 @@ public class KPService {
 
        return text.getHref();
     }
+
+    public List<AgreementDTO> getUserAgreements(HttpServletRequest request) {
+        String korisnik = Utils.getUsernameFromRequest(request, tokenUtils);
+
+        ResponseEntity response = restTemplate.getForEntity("https://localhost:8500/paypal-service/paypal/getUserAgreements/" + korisnik,
+                AgreementListDTO.class);
+        AgreementListDTO al = (AgreementListDTO) response.getBody();
+        List<AgreementDTO> lista = al.getAgreements();
+        return lista;
+    }
+
+    public String cancelAgreement(long agrID, long sellerID) {
+        ResponseEntity response = restTemplate.getForEntity("https://localhost:8500/paypal-service/paypal/cancelAgreement/" + agrID,
+                String.class);
+        String ret = (String) response.getBody();
+        if(ret.equals("done")) {
+            Magazine magazine = magazineService.findBySellerId(sellerID);
+            Membership membership = membershipService.findByAgrAndCas(magazine.getId(), agrID);
+            if(membership != null) {
+                membershipService.delete(membership);
+            }
+        }
+        return ret;
+    }
+
 }

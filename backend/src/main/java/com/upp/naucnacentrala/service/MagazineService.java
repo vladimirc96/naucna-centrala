@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MagazineService {
@@ -178,5 +179,7 @@ public class MagazineService {
     }
 
 
-
+    public Magazine findBySellerId(long sellerID) {
+        return magazineRepo.findBySellerId(sellerID);
+    }
 }
