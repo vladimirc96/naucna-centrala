@@ -3,15 +3,13 @@
     <table class="table table-sm" *ngIf="orders">
         <thead>
           <tr>
-            <th scope="col">ID</th>
+            <th scope="col">#</th>
             <th scope="col">Kupac</th>
             <th scope="col">Prodavac ID</th>
             <th scope="col">Iznos</th>
             <th scope="col">Artikal</th>
             <th scope="col">Tip porudžbine</th>
             <th scope="col">Status porudžbine</th>
-            <th scope="col">Početak pretplate</th>
-            <th scope="col">Završetak pretplate</th>
           </tr>
         </thead>
         <tbody>
@@ -37,9 +35,6 @@
             </td>
             <td>{{ o.orderType }}</td>
             <td>{{ o.orderStatus }}</td>
-            
-            <td><span *ngIf="o.subscription">{{ o.subscription.startDate  | date}}</span></td>
-            <td><span *ngIf="o.subscription">{{ o.subscription.endDate  | date }}</span></td>
         </tr>
           
         </tbody>
