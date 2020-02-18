@@ -51,4 +51,8 @@ export class MagazineService {
     return this.httpClient.get('/api/magazines/get-by-editor');
   }
 
+  checkIsSubbed(casID) {
+    return this.httpClient.get('/api/magazines/isSubbed/'.concat(casID), {responseType: 'text'});
+  }
+
 }

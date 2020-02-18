@@ -28,6 +28,7 @@ export class AuthService {
         return this.http.post('/api/auth/logout',null).subscribe(
             success => {
                 localStorage.removeItem('currentUser');
+                localStorage.removeItem('role');
                 this.router.navigate(['']);
            }, error => alert('Error while trying to logout.')
         )

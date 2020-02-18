@@ -9,13 +9,15 @@ import com.upp.naucnacentrala.model.enums.Enums;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
 public class OrderClient {
 
-    private final static String returnUrl = "https://localhost:8600/orders/finalize";
+    private final static String returnUrl = "https://192.168.43.134:8600/orders/finalize";
+    private final static String BACKEND_URL = "https://192.168.43.124:8500";
 
     @Autowired
     RestTemplate restTemplate;
@@ -28,7 +30,7 @@ public class OrderClient {
             initOrderRequestDTO.setTitle("Subscription for: " + initOrderRequestDTO.getTitle());
         }
         HttpEntity<InitOrderRequestDTO> httpEntity = new HttpEntity<>(initOrderRequestDTO);
-        ResponseEntity<InitOrderResponseDTO> responseEntity = restTemplate.postForEntity("https://localhost:8500/sellers/active-order/init", httpEntity, InitOrderResponseDTO.class);
+        ResponseEntity<InitOrderResponseDTO> responseEntity = restTemplate.postForEntity(this.BACKEND_URL + "/sellers/active-order/init", httpEntity, InitOrderResponseDTO.class);
         return responseEntity.getBody();
     }
 
@@ -37,10 +39,7 @@ public class OrderClient {
                 paper.getMagazine().getSellerId(), orderObject.getAmount(), this.returnUrl, orderObject.getOrderType(), orderObject.getOrderStatus());
 
         HttpEntity<InitOrderRequestDTO> httpEntity = new HttpEntity<>(initOrderRequestDTO);
-        ResponseEntity<InitOrderResponseDTO> responseEntity = restTemplate.postForEntity("https://localhost:8500/sellers/active-order/init", httpEntity, InitOrderResponseDTO.class);
+        ResponseEntity<InitOrderResponseDTO> responseEntity = restTemplate.postForEntity(this.BACKEND_URL + "/sellers/active-order/init", httpEntity, InitOrderResponseDTO.class);
         return responseEntity.getBody();
     }
-
-
-
 }

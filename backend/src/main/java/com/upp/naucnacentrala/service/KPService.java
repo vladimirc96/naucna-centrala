@@ -1,6 +1,7 @@
 package com.upp.naucnacentrala.service;
 
 import com.upp.naucnacentrala.Utils;
+import com.upp.naucnacentrala.client.KPClient;
 import com.upp.naucnacentrala.client.RegistrationClient;
 import com.upp.naucnacentrala.dto.*;
 import com.upp.naucnacentrala.model.Magazine;
@@ -45,6 +46,9 @@ public class KPService {
 
     @Autowired
     MembershipService membershipService;
+
+    @Autowired
+    KPClient kpClient;
 
     @Autowired
     private TokenUtils tokenUtils;
@@ -106,34 +110,28 @@ public class KPService {
         }
         double roundAmount = Math.round(amount * 100.0) / 100.0;
         MagazineInfoDTO magazineDTO = new MagazineInfoDTO(m.getName(), m.getIssn(), currency, roundAmount, m.getSellerId());
-        ResponseEntity response = restTemplate.postForEntity("https://localhost:8500/sellers/sellers/createPlan", new HttpEntity<>(magazineDTO),
-                String.class);
+        ResponseEntity response = kpClient.createPlan(magazineDTO);
         StringDTO text = new StringDTO((String) response.getBody());
         return text;
     }
 
     public String getMagazinePlans(long magId) {
         Magazine m = magazineService.findOneById(magId);
-        ResponseEntity response = restTemplate.getForEntity("https://localhost:8500/sellers/sellers/getPlans/" + m.getSellerId(),
-                String.class);
+        ResponseEntity response = kpClient.getMagazinePlans(m);
         StringDTO text = new StringDTO((String) response.getBody());
-
        return text.getHref();
     }
 
     public List<AgreementDTO> getUserAgreements(HttpServletRequest request) {
         String korisnik = Utils.getUsernameFromRequest(request, tokenUtils);
-
-        ResponseEntity response = restTemplate.getForEntity("https://localhost:8500/paypal-service/paypal/getUserAgreements/" + korisnik,
-                AgreementListDTO.class);
+        ResponseEntity response = kpClient.getUserAgreements(korisnik);
         AgreementListDTO al = (AgreementListDTO) response.getBody();
         List<AgreementDTO> lista = al.getAgreements();
         return lista;
     }
 
     public String cancelAgreement(long agrID, long sellerID) {
-        ResponseEntity response = restTemplate.getForEntity("https://localhost:8500/paypal-service/paypal/cancelAgreement/" + agrID,
-                String.class);
+        ResponseEntity response = kpClient.cancelAgreement(agrID);
         String ret = (String) response.getBody();
         if(ret.equals("done")) {
             Magazine magazine = magazineService.findBySellerId(sellerID);

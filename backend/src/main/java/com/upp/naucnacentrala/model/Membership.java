@@ -11,7 +11,7 @@ public class Membership {
     private Long id;
 
     @Column(name = "end_date")
-    private Date endDate;
+    private String endDate;
 
     @Column(name = "username")
     private String username;
@@ -34,11 +34,11 @@ public class Membership {
         this.id = id;
     }
 
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 

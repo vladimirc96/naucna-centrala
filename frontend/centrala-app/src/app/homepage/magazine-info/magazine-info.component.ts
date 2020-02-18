@@ -14,7 +14,8 @@ export class MagazineInfoComponent implements OnInit {
   magazineId: any;
   magazine: any;
   retHref: any;
-
+  pretplacen: boolean = false;
+  ulogovanKorisnik: boolean = false;
 
   constructor(private magazineService: MagazineService, private route: ActivatedRoute, private kpService: KPService, private orderService: OrderService) {
     this.route.params.subscribe(
@@ -30,11 +31,29 @@ export class MagazineInfoComponent implements OnInit {
     this.magazineService.get(this.magazineId).subscribe(
       (response) => {
         this.magazine = response;
+        var role = localStorage.getItem('role');
+        if(role == 'CUSTOMER'){
+          this.ulogovanKorisnik = true;
+          this.daLiJePretplacen(this.magazineId);
+        }
       },
       (error) => {
         alert(error.message);
       }
     )
+  }
+
+  daLiJePretplacen(magazineId) {
+    this.magazineService.checkIsSubbed(magazineId).subscribe(
+      (res) => {
+        var jelJe = res;
+        if(jelJe === "Subbed") {
+          this.pretplacen = true;
+        }
+      }, err => {
+        alert("error pretplacen");
+      }
+    );
   }
 
   onKupi(){

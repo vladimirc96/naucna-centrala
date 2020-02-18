@@ -20,14 +20,20 @@ import org.camunda.bpm.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import spinjar.com.fasterxml.jackson.databind.ser.std.EnumSerializer;
 import sun.misc.Request;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
+import java.lang.reflect.Member;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -39,9 +45,6 @@ public class MagazineController {
 
     @Autowired
     private RuntimeService runtimeService;
-
-    @Autowired
-    private RepositoryService repositoryService;
 
     @Autowired
     TaskService taskService;
@@ -61,6 +64,9 @@ public class MagazineController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    RestTemplate restTemplate;
+
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<List<MagazineDTO>> getAll(){
@@ -75,6 +81,38 @@ public class MagazineController {
     @RequestMapping(value = "/{magazineId}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<MagazineDTO> get(@PathVariable("magazineId") String magazineId){
         return new ResponseEntity<>(magazineService.findOneDto(Long.parseLong(magazineId)), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/isSubbed/{magazineId}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<String> checkIfSubbed(@PathVariable("magazineId") Long magazineId, HttpServletRequest request) throws ParseException {
+        Magazine magazine = magazineService.findOneById(magazineId);
+        String korisnik = Utils.getUsernameFromRequest(request, tokenUtils);
+
+        for(Membership membership : magazine.getMemberships()) {
+            if(membership.getUsername().equals(korisnik)) {
+                if(checkDates(membership.getEndDate())) {
+                    if(membership.getAgreementId() == 0) {
+                        return new ResponseEntity<String>("Subbed", HttpStatus.OK);
+                    } else {
+                        ResponseEntity response = restTemplate.getForEntity("https://192.168.43.124:8500/paypal-service/paypal/AgreementExistsOnPP/" + membership.getAgreementId(),
+                                String.class);
+                        String retVal = (String) response.getBody();
+                        if(retVal.equals("exists")) {
+                            return new ResponseEntity<String>("Subbed", HttpStatus.OK);
+                        } else {
+                            magazine.getMemberships().remove(membership);
+                            magazineService.save(magazine);
+                            return new ResponseEntity<String>("notSubbed", HttpStatus.OK);
+                        }
+                    }
+                } else {
+                    magazine.getMemberships().remove(membership);
+                    magazineService.save(magazine);
+                    return new ResponseEntity<String>("notSubbed", HttpStatus.OK);
+                }
+            }
+        }
+        return new ResponseEntity<String>("notSubbed", HttpStatus.OK);
     }
 
 
@@ -154,5 +192,19 @@ public class MagazineController {
         formService.submitTaskForm(taskId, map);
         return new ResponseEntity<>("Ispravka je uspesna!", HttpStatus.OK);
     }
+
+    public boolean checkDates(String dateClanarine) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String dt = sdf.format(date);
+
+        Date today = sdf.parse(dt);
+        Date sub = sdf.parse(dateClanarine);
+        if(today.compareTo(sub) > 0) {
+            return false;
+        }
+        return true;
+    }
+
 
 }
