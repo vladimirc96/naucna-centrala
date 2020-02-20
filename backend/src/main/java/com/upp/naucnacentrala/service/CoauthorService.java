@@ -2,7 +2,7 @@ package com.upp.naucnacentrala.service;
 
 import com.upp.naucnacentrala.dto.FormSubmissionDto;
 import com.upp.naucnacentrala.model.Coauthor;
-import com.upp.naucnacentrala.repository.CoauthorRepository;
+import com.upp.naucnacentrala.repository.jpa.CoauthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

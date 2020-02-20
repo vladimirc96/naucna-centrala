@@ -8,10 +8,8 @@ import org.camunda.bpm.engine.delegate.ExecutionListener;
 import org.camunda.bpm.engine.identity.Group;
 import org.camunda.bpm.engine.identity.User;
 import org.camunda.bpm.engine.runtime.Execution;
-import org.camunda.spin.Spin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import spinjar.com.minidev.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;

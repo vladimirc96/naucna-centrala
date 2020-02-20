@@ -1,7 +1,7 @@
 package com.upp.naucnacentrala.service;
 
 import com.upp.naucnacentrala.model.Role;
-import com.upp.naucnacentrala.repository.RoleRepository;
+import com.upp.naucnacentrala.repository.jpa.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

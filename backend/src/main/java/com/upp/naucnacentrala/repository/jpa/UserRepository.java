@@ -1,4 +1,4 @@
-package com.upp.naucnacentrala.repository;
+package com.upp.naucnacentrala.repository.jpa;
 
 import com.upp.naucnacentrala.dto.FormSubmissionDto;
 import com.upp.naucnacentrala.model.Reviewer;

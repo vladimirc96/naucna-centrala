@@ -2,26 +2,25 @@ package com.upp.naucnacentrala.service;
 
 import com.upp.naucnacentrala.dto.FormSubmissionDto;
 import com.upp.naucnacentrala.model.Coauthor;
-import com.upp.naucnacentrala.model.Magazine;
 import com.upp.naucnacentrala.model.ScienceField;
 import com.upp.naucnacentrala.model.SciencePaper;
-import com.upp.naucnacentrala.repository.SciencePaperRepository;
-import org.hibernate.Hibernate;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import com.upp.naucnacentrala.repository.jpa.SciencePaperRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.provider.HibernateUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class SciencePaperService {
 
+    private final String path = System.getProperty("directory") + "\\src\\main\\resources\\files";
+    private final Path storageLocation = Paths.get(this.path);
 
     @Autowired
     SciencePaperRepository sciencePaperRepository;
@@ -69,13 +68,18 @@ public class SciencePaperService {
     public SciencePaper savePdf(MultipartFile file, SciencePaper sciencePaper){
         try {
             sciencePaper.setPdf(file.getBytes());
+            // sacuvaj pdf u resources folderu
+            Files.deleteIfExists(this.storageLocation.resolve(sciencePaper.getPdfName()));
+            Files.copy(file.getInputStream(), this.storageLocation.resolve(sciencePaper.getPdfName()));
         } catch (IOException e) {
             e.printStackTrace();
         }
         return sciencePaperRepository.save(sciencePaper);
     }
 
-
-
+    public String getPath(Long id){
+        SciencePaper sciencePaper = sciencePaperRepository.findOneById(id);
+        return this.path + "\\" + sciencePaper.getPdfName();
+    }
 
 }

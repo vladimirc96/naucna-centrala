@@ -7,18 +7,14 @@ import com.upp.naucnacentrala.dto.*;
 import com.upp.naucnacentrala.model.Magazine;
 import com.upp.naucnacentrala.model.Membership;
 import com.upp.naucnacentrala.model.SciencePaper;
-import com.upp.naucnacentrala.repository.MagazineRepository;
+import com.upp.naucnacentrala.repository.jpa.MagazineRepository;
 import com.upp.naucnacentrala.security.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.BadRequestException;
 import java.util.List;
 
 @Service

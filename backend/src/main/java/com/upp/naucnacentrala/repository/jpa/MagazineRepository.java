@@ -1,4 +1,4 @@
-package com.upp.naucnacentrala.repository;
+package com.upp.naucnacentrala.repository.jpa;
 
 import com.upp.naucnacentrala.model.Magazine;
 import com.upp.naucnacentrala.model.ScienceField;

@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.5.RELEASE</version>
+		<version>2.2.4.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.upp</groupId>
@@ -76,28 +76,31 @@
 			<artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>org.camunda.spin</groupId>
-			<artifactId>camunda-spin-core</artifactId>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.camunda.spin</groupId>-->
+<!--			<artifactId>camunda-spin-core</artifactId>-->
+<!--		</dependency>-->
 
-		<dependency>
-			<groupId>org.camunda.spin</groupId>
-			<artifactId>camunda-spin-dataformat-all</artifactId>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.camunda.spin</groupId>-->
+<!--			<artifactId>camunda-spin-dataformat-all</artifactId>-->
+<!--		</dependency>-->
 
-		<dependency>
-			<groupId>org.camunda.bpm</groupId>
-			<artifactId>camunda-engine-plugin-spin</artifactId>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.camunda.bpm</groupId>-->
+<!--			<artifactId>camunda-engine-plugin-spin</artifactId>-->
+<!--		</dependency>-->
 
-		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
-			<version>2.9.8</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-elasticsearch</artifactId>
+			<version>3.2.4.RELEASE</version>
+		</dependency>
 
 	</dependencies>
 
@@ -112,6 +115,7 @@
 		</dependency>
 		</dependencies>
 	</dependencyManagement>
+
 
 	<build>
 		<plugins>

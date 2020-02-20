@@ -4,13 +4,12 @@ import com.upp.naucnacentrala.dto.FormSubmissionDto;
 import com.upp.naucnacentrala.dto.MagazineDTO;
 import com.upp.naucnacentrala.model.*;
 import com.upp.naucnacentrala.model.enums.BillingType;
-import com.upp.naucnacentrala.repository.MagazineRepository;
+import com.upp.naucnacentrala.repository.jpa.MagazineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MagazineService {

@@ -24,7 +24,6 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import spinjar.com.fasterxml.jackson.databind.ser.std.EnumSerializer;
 import sun.misc.Request;
 
 import javax.servlet.http.HttpServletRequest;

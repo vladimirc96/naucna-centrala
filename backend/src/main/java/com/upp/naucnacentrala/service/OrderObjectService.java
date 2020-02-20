@@ -5,10 +5,9 @@ import com.upp.naucnacentrala.client.OrderClient;
 import com.upp.naucnacentrala.dto.*;
 import com.upp.naucnacentrala.model.*;
 import com.upp.naucnacentrala.model.enums.Enums;
-import com.upp.naucnacentrala.repository.OrderObjectRepository;
-import com.upp.naucnacentrala.repository.SubscriptionRepository;
+import com.upp.naucnacentrala.repository.jpa.OrderObjectRepository;
+import com.upp.naucnacentrala.repository.jpa.SubscriptionRepository;
 import com.upp.naucnacentrala.security.TokenUtils;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

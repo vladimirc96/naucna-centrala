@@ -2,10 +2,8 @@ package com.upp.naucnacentrala.service;
 
 import com.upp.naucnacentrala.dto.FormSubmissionDto;
 import com.upp.naucnacentrala.model.*;
-import com.upp.naucnacentrala.repository.ScienceFieldRepository;
-import com.upp.naucnacentrala.repository.UserRepository;
+import com.upp.naucnacentrala.repository.jpa.UserRepository;
 import org.camunda.bpm.engine.RuntimeService;
-import org.joda.time.ReadableInstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.MailException;
@@ -14,7 +12,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
