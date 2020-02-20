@@ -26,6 +26,11 @@ insert into magazine_sciencefield values (2,3);
 insert into magazine_sciencefield values (3,5);
 
 
+insert into magazine_reviewers values (3,'lazic');
+insert into magazine_reviewers values (3,'djordjevic');
+insert into magazine_reviewers values (3,'malencic');
+
+
 insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type)
 values ("vlada", "$2a$10$Ybft/Pph5.11ESjhvMCWnuyWliLcGlsKRRTPxbTtwlE00j31OZdf6", "Vladimir", "Cvetanovic", "Novi Sad", "Srbija", "dovla@gmail.com", false, true, "ADMIN");
 insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type)

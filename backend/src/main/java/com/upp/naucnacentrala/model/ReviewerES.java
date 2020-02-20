@@ -1,16 +1,17 @@
 package com.upp.naucnacentrala.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.elasticsearch.common.geo.GeoPoint;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.data.elasticsearch.annotations.GeoPointField;
 
-import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
 
-@Document(indexName = "reviwers", type = "reviewer", shards = 1, replicas = 0)
+@Document(indexName = "reviewers", type = "reviewer", shards = 1, replicas = 0)
 public class ReviewerES {
 
     @Id
@@ -29,8 +30,8 @@ public class ReviewerES {
     @GeoPointField
     private GeoPoint location;
 
-    @Field(type = FieldType.Nested, store = true)
-    private List<ScienceField> scienceFields = new ArrayList<>();
+    @Field(type = FieldType.Text, store = true)
+    private List<String> scienceFields = new ArrayList<>();
 
     @Field(type = FieldType.Nested, store = true)
     private List<SciencePaperES> sciencePapers = new ArrayList<>();
@@ -38,7 +39,7 @@ public class ReviewerES {
     public ReviewerES() {
     }
 
-    public ReviewerES(String id, String firstName, String lastName, String email, GeoPoint location, List<ScienceField> scienceFields, List<SciencePaperES> sciencePapers) {
+    public ReviewerES(String id, String firstName, String lastName, String email, GeoPoint location, List<String> scienceFields, List<SciencePaperES> sciencePapers) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -88,12 +89,14 @@ public class ReviewerES {
         this.location = location;
     }
 
-    public List<ScienceField> getScienceFields() {
+    public List<String> getScienceFields() {
         return scienceFields;
     }
 
     public void setScienceFields(List<ScienceField> scienceFields) {
-        this.scienceFields = scienceFields;
+        for(ScienceField scienceField: scienceFields){
+            this.scienceFields.add(scienceField.getName());
+        }
     }
 
     public List<SciencePaperES> getSciencePapers() {

@@ -2,10 +2,9 @@ package com.upp.naucnacentrala.controller;
 
 import com.upp.naucnacentrala.Utils;
 import com.upp.naucnacentrala.dto.*;
-import com.upp.naucnacentrala.model.Coauthor;
-import com.upp.naucnacentrala.model.SciencePaper;
-import com.upp.naucnacentrala.model.SciencePaperES;
+import com.upp.naucnacentrala.model.*;
 import com.upp.naucnacentrala.service.SciencePaperService;
+import com.upp.naucnacentrala.service.elasticsearch.ReviewerESService;
 import com.upp.naucnacentrala.service.elasticsearch.SciencePaperESService;
 import org.camunda.bpm.engine.*;
 import org.camunda.bpm.engine.form.FormField;
@@ -14,6 +13,7 @@ import org.camunda.bpm.engine.impl.form.type.EnumFormType;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.origin.SystemEnvironmentOrigin;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +49,9 @@ public class MocksController {
     @Autowired
     private SciencePaperESService sciencePaperESService;
 
+    @Autowired
+    private ReviewerESService reviewerESService;
+
     @RequestMapping(value = "/payment/{processInstanceId}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<FormFieldsDto> getForm(@PathVariable("processInstanceId") String processInstanceId){
         ProcessInstance subprocess = runtimeService.createProcessInstanceQuery().superProcessInstanceId(processInstanceId).singleResult();
@@ -68,7 +71,7 @@ public class MocksController {
 
     // cuvanje rada na ES
     @RequestMapping(value = "/savePaper/{sciencePaperId}", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
-    private ResponseEntity<String> save(@PathVariable("sciencePaperId") Long id){
+    private ResponseEntity<SciencePaperDTO> save(@PathVariable("sciencePaperId") Long id){
         SciencePaper sciencePaper = sciencePaperService.findOneById(id);
         List<Coauthor> coauthorList = new ArrayList<>();
         for(Coauthor coauthor: sciencePaper.getCoauthors()){
@@ -93,9 +96,32 @@ public class MocksController {
         sciencePaperES.setDoi("10." + prefix + "/" + suffix);
 
         sciencePaperES = sciencePaperESService.save(sciencePaperES);
-        System.out.println("SACUVAN NA ES");
-        System.out.println("*********************");
-        return new ResponseEntity<>("uspesno", HttpStatus.OK);
+        SciencePaperDTO sciencePaperDTO = new SciencePaperDTO();
+        sciencePaperDTO.setId(Long.parseLong(sciencePaperES.getId()));
+        sciencePaperDTO.setMagazine(new MagazineInfoDTO());
+        sciencePaperDTO.setTitle(sciencePaperES.getTitle());
+        sciencePaperDTO.setKeyTerm(sciencePaperES.getKeyTerms());
+        sciencePaperDTO.setPaperAbstract(sciencePaperES.getPaperAbastract());
+
+        Magazine magazine = sciencePaper.getMagazine();
+        List<ReviewerES> reviewerESList = new ArrayList<>();
+        for(Reviewer reviewer: magazine.getReviewers()){
+            System.out.println("***************************************");
+            System.out.println("REVIWER ID: " + reviewer.getUsername());
+            System.out.println("SCIENCEFIELD LIST: " + reviewer.getScienceFields().size());
+            System.out.println("***************************************");
+            ReviewerES reviewerES = new ReviewerES();
+            reviewerES.setScienceFields(reviewer.getScienceFields());
+            reviewerES.setFirstName(reviewer.getFirstName());
+            reviewerES.setLastName(reviewer.getLastName());
+            reviewerES.setEmail(reviewer.getEmail());
+            reviewerES.setId(reviewer.getUsername());
+            reviewerES.getSciencePapers().add(sciencePaperES);
+            reviewerES.setLocation(null);
+            reviewerES = reviewerESService.save(reviewerES);
+        }
+
+        return new ResponseEntity<>(sciencePaperDTO, HttpStatus.OK);
     }
     @RequestMapping(value = "/getPaper/{sciencePaperId}", method = RequestMethod.GET, produces = "application/json")
     private ResponseEntity<SciencePaperDTO> getPaper(@PathVariable("sciencePaperId") String id){
@@ -108,7 +134,5 @@ public class MocksController {
         sciencePaperDTO.setPaperAbstract(sciencePaperES.getPaperAbastract());
         return new ResponseEntity<>(sciencePaperDTO, HttpStatus.OK);
     }
-
-
 
 }

@@ -1,9 +1,8 @@
 package com.upp.naucnacentrala.handlers;
 
-import com.upp.naucnacentrala.model.Coauthor;
-import com.upp.naucnacentrala.model.SciencePaper;
-import com.upp.naucnacentrala.model.SciencePaperES;
+import com.upp.naucnacentrala.model.*;
 import com.upp.naucnacentrala.service.SciencePaperService;
+import com.upp.naucnacentrala.service.elasticsearch.ReviewerESService;
 import com.upp.naucnacentrala.service.elasticsearch.SciencePaperESService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -22,6 +21,9 @@ public class AddDOI implements JavaDelegate {
 
     @Autowired
     private SciencePaperESService sciencePaperESService;
+
+    @Autowired
+    private ReviewerESService reviewerESService;
 
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
@@ -50,6 +52,18 @@ public class AddDOI implements JavaDelegate {
         sciencePaperES = sciencePaperESService.save(sciencePaperES);
 
         // sacuvaj recenzente
+        Magazine magazine = sciencePaper.getMagazine();
+        List<ReviewerES> reviewerESList = new ArrayList<>();
+        for(Reviewer reviewer: magazine.getReviewers()){
+            ReviewerES reviewerES = new ReviewerES();
+            reviewerES.setScienceFields(reviewer.getScienceFields());
+            reviewerES.setFirstName(reviewer.getFirstName());
+            reviewerES.setLastName(reviewer.getLastName());
+            reviewerES.setEmail(reviewer.getEmail());
+            reviewerES.setId(reviewer.getUsername());
+            reviewerES.getSciencePapers().add(sciencePaperES);
+            reviewerES = reviewerESService.save(reviewerES);
+        }
 
     }
 }

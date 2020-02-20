@@ -25,6 +25,7 @@ public class ElasticSearchConfiguration {
 
         final Settings settings = Settings.builder()
                 .put("client.transport.sniff", true)
+                .put("transport.host", "0.0.0.0")
                 .put("cluster.name", "my-magazine").build();
         transportClient = new PreBuiltTransportClient(settings);
         try {
