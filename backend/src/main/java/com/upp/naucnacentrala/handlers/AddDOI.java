@@ -42,7 +42,7 @@ public class AddDOI implements JavaDelegate {
         sciencePaperES.setId(sciencePaper.getId().toString());
         sciencePaperES.setKeyTerms(sciencePaper.getKeyTerm());
         sciencePaperES.setTitle(sciencePaper.getTitle());
-        sciencePaperES.setPaperAbastract(sciencePaper.getPaperAbstract());
+        sciencePaperES.setPaperAbstract(sciencePaper.getPaperAbstract());
         sciencePaperES.setScienceField(sciencePaper.getScienceField().getName());
         sciencePaperES.setMagazineName(sciencePaper.getMagazine().getName());
         sciencePaperES.setFilePath(sciencePaperService.getPath(sciencePaper.getId()));

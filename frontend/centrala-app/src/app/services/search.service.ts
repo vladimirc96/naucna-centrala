@@ -7,4 +7,14 @@ import { HttpClient } from '@angular/common/http';
 export class SearchService {
 
   constructor(private httpClient: HttpClient) { }
+
+
+  simpleQuery(dto){
+    return this.httpClient.post('/api/search/match', dto);
+  }
+
+  boolQuery(dto){
+    return this.httpClient.post('/api/search/boolean', dto);
+  }
+
 }

@@ -28,7 +28,7 @@ public class SciencePaperES {
     private String keyTerms;
 
     @Field(type = FieldType.Text, store = true)
-    private String paperAbastract;
+    private String paperAbstract;
 
     @Field(type = FieldType.Text, store = true)
     private String scienceField;
@@ -51,7 +51,7 @@ public class SciencePaperES {
         this.title = title;
         this.magazineName = magazineName;
         this.keyTerms = keyTerms;
-        this.paperAbastract = paperAbastract;
+        this.paperAbstract = paperAbastract;
         this.scienceField = scienceField;
         this.text = text;
         this.filePath = filePath;
@@ -98,12 +98,12 @@ public class SciencePaperES {
         this.keyTerms = keyTerms;
     }
 
-    public String getPaperAbastract() {
-        return paperAbastract;
+    public String getPaperAbstract() {
+        return paperAbstract;
     }
 
-    public void setPaperAbastract(String paperAbastract) {
-        this.paperAbastract = paperAbastract;
+    public void setPaperAbstract(String paperAbstract) {
+        this.paperAbstract = paperAbstract;
     }
 
     public String getScienceField() {

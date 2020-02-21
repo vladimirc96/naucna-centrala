@@ -4,13 +4,17 @@ public class SearchSciencePaperDTO {
 
     private String id;
     private String title;
+    private String currency;
+    private double price;
 
     public SearchSciencePaperDTO() {
     }
 
-    public SearchSciencePaperDTO(String id, String title) {
+    public SearchSciencePaperDTO(String id, String title, String currency, double price) {
         this.id = id;
         this.title = title;
+        this.currency = currency;
+        this.price = price;
     }
 
     public String getId() {
@@ -27,5 +31,21 @@ public class SearchSciencePaperDTO {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

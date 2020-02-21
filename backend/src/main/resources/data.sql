@@ -2,7 +2,7 @@ insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_reg
 insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered) values (2, "Nauka danas", "222", "AUTHORS", true, "andrijana", false);
 insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered, seller_id) values (3, "Savremena psihologija", "333", "AUTHORS", true, "vukasin", true, 1);
 
-insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id, science_field_id, pdf_name) values (1, 'Mape uma', 'Kljucni pojam', 'Abstrakt', 10, 'USD', 3, 5, 'Naucna Centrala.pdf');
+insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id, science_field_id, pdf_name) values (1, 'Mape uma', 'Ključni pojam', 'Abstrakt', 10, 'USD', 3, 5, 'Naucna Centrala.pdf');
 insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id, science_field_id) values (2, 'Kako prihvatiti odgovornost?', 'Kljucni pojam', 'Abstrakt', 20, 'USD', 3, 5);
 
 insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id, science_field_id) values (3, 'Matematicka analiza', 'Kljucni pojam', 'Abstrakt', 20, 'USD', 1, 1);
