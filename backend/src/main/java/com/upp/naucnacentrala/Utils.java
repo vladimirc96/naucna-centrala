@@ -2,7 +2,9 @@ package com.upp.naucnacentrala;
 
 import com.upp.naucnacentrala.dto.FormSubmissionDto;
 import com.upp.naucnacentrala.model.Reviewer;
+import com.upp.naucnacentrala.model.SciencePaper;
 import com.upp.naucnacentrala.security.TokenUtils;
+import com.upp.naucnacentrala.service.SciencePaperService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;

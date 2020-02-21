@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -71,17 +72,17 @@ public class MocksController {
 
     // cuvanje rada na ES
     @RequestMapping(value = "/savePaper/{sciencePaperId}", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
-    private ResponseEntity<SciencePaperDTO> save(@PathVariable("sciencePaperId") Long id){
+    private ResponseEntity<SciencePaperDTO> save(@PathVariable("sciencePaperId") Long id) throws UnsupportedEncodingException {
         SciencePaper sciencePaper = sciencePaperService.findOneById(id);
         List<Coauthor> coauthorList = new ArrayList<>();
         for(Coauthor coauthor: sciencePaper.getCoauthors()){
             coauthorList.add(coauthor);
         }
 
-        System.out.println("*********************");
-        System.out.println("INICIjALIZACIJA ES OBJEKTA");
         // sacuvaj u elastic-u rad
         SciencePaperES sciencePaperES = new SciencePaperES();
+        String text = sciencePaperESService.parsePDF(sciencePaper);
+        sciencePaperES.setText(text);
         sciencePaperES.setCoauthors(coauthorList);
         sciencePaperES.setId(sciencePaper.getId().toString());
         sciencePaperES.setKeyTerms(sciencePaper.getKeyTerm());
@@ -106,10 +107,6 @@ public class MocksController {
         Magazine magazine = sciencePaper.getMagazine();
         List<ReviewerES> reviewerESList = new ArrayList<>();
         for(Reviewer reviewer: magazine.getReviewers()){
-            System.out.println("***************************************");
-            System.out.println("REVIWER ID: " + reviewer.getUsername());
-            System.out.println("SCIENCEFIELD LIST: " + reviewer.getScienceFields().size());
-            System.out.println("***************************************");
             ReviewerES reviewerES = new ReviewerES();
             reviewerES.setScienceFields(reviewer.getScienceFields());
             reviewerES.setFirstName(reviewer.getFirstName());

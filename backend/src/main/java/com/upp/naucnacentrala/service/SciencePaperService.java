@@ -5,21 +5,30 @@ import com.upp.naucnacentrala.model.Coauthor;
 import com.upp.naucnacentrala.model.ScienceField;
 import com.upp.naucnacentrala.model.SciencePaper;
 import com.upp.naucnacentrala.repository.jpa.SciencePaperRepository;
+import org.apache.commons.io.IOUtils;
+import org.apache.pdfbox.io.RandomAccessFile;
+import org.apache.pdfbox.pdfparser.PDFParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import sun.nio.cs.ISO_8859_2;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 @Service
 public class SciencePaperService {
 
-    private final String path = System.getProperty("directory") + "\\src\\main\\resources\\files";
+    private final String path = "C:\\GITHUB\\naucna-centrala\\backend\\src\\main\\resources\\files";
     private final Path storageLocation = Paths.get(this.path);
 
     @Autowired
@@ -77,7 +86,7 @@ public class SciencePaperService {
         return sciencePaperRepository.save(sciencePaper);
     }
 
-    public String getPath(Long id){
+    public String getPath(Long id) throws UnsupportedEncodingException {
         SciencePaper sciencePaper = sciencePaperRepository.findOneById(id);
         return this.path + "\\" + sciencePaper.getPdfName();
     }

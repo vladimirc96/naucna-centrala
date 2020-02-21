@@ -119,6 +119,9 @@ public class SciencePaperES {
     }
 
     public void setText(String text) {
+        if(text == null){
+            this.text = "";
+        }
         this.text = text;
     }
 
