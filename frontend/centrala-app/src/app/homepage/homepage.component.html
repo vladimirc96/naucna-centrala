@@ -31,10 +31,12 @@
         <!-- EDITOR -->
       </ul>
   <div class="d-flex flex-row-reverse">
-    <button class="btn" [routerLink]="['/registration']" *ngIf="!isLoggedIn">Registracija</button>
+   
+    <button class="btn" [routerLink]="['/registration']" *ngIf="!isLoggedIn"> Registracija</button>
     <button class="btn" [routerLink]="['/login']" *ngIf="!isLoggedIn">Prijava</button>
     <button class="btn" (click)="logOut()" *ngIf="isLoggedIn">Odjava</button>
     <button class="btn" [routerLink]="['/homepage/user-profile']" *ngIf="isLoggedIn && isCustomer">Moj profil</button>
+    <button class="btn" [routerLink]="['/homepage/search']"><span style="margin-right: 5px;"><i class="fa fa-search" aria-hidden="true"></i></span>Pretraga</button>
   </div>
   </nav>
   

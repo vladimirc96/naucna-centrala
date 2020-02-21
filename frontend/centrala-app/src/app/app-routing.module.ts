@@ -35,10 +35,13 @@ import { ChiefEditorChoiceComponent } from './homepage/editor/chief-editor-choic
 import { UserProfileComponent } from './homepage/user-profile/user-profile.component';
 import { Subscriber } from 'rxjs';
 import { SubscriptionsComponent } from './homepage/user-profile/subscriptions/subscriptions.component';
+import { SearchComponent } from './homepage/search/search.component';
 
 const appRoutes: Routes = [
 	{ path: '', redirectTo: 'homepage/magazine-list', pathMatch: 'full'},
 	{ path: 'homepage', component: HomepageComponent, children: [
+		{ path: 'search', component: SearchComponent },
+
 		{ path: 'user-profile', component: UserProfileComponent, children: [
 			{ path: '', redirectTo: 'orders', pathMatch: 'full' },
 			{ path: 'subscriptions', component: SubscriptionsComponent },

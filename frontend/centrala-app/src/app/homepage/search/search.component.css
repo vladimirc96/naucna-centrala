@@ -1,0 +1,14 @@
+.wrapper{
+    height: 100%;
+    width: 100%;
+}
+
+form{
+    height: 100%;
+    width: 100%;
+    margin-top:40px
+}
+
+.form-group{
+    margin-top:5px
+}

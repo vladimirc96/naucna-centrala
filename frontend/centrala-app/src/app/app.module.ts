@@ -43,6 +43,7 @@ import { ChiefEditorReviewComponent } from './homepage/editor/chief-editor-revie
 import { ChiefEditorChoiceComponent } from './homepage/editor/chief-editor-choice/chief-editor-choice.component';
 import { UserProfileComponent } from './homepage/user-profile/user-profile.component';
 import { SubscriptionsComponent } from './homepage/user-profile/subscriptions/subscriptions.component';
+import { SearchComponent } from './homepage/search/search.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -80,6 +81,7 @@ import { SubscriptionsComponent } from './homepage/user-profile/subscriptions/su
     ChiefEditorChoiceComponent,
     UserProfileComponent,
     SubscriptionsComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,
