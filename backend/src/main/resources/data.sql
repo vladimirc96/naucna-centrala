@@ -2,14 +2,20 @@ insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_reg
 insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered) values (2, "Nauka danas", "222", "AUTHORS", true, "andrijana", false);
 insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered, seller_id) values (3, "Savremena psihologija", "333", "AUTHORS", true, "vukasin", true, 1);
 
-insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id, science_field_id, pdf_name) values (1, 'Mape uma', 'Ključni pojam', 'Abstrakt', 10, 'USD', 3, 5, 'Naucna Centrala.pdf');
-insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id, science_field_id) values (2, 'Kako prihvatiti odgovornost?', 'Kljucni pojam', 'Abstrakt', 20, 'USD', 3, 5);
+insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id, science_field_id, author_id, pdf_name)
+values (1, 'Mape uma', 'Ključni pojam', 'Abstrakt', 10, 'USD', 3, 5, 'marko', 'Naucna Centrala.pdf');
+insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id, science_field_id, author_id, pdf_name)
+values (2, 'Kako prihvatiti odgovornost?', 'Ključni pojam', 'Abstrakt', 20, 'USD', 3, 5, 'marko', 'Naucna Centrala.pdf');
 
-insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id, science_field_id) values (3, 'Matematicka analiza', 'Kljucni pojam', 'Abstrakt', 20, 'USD', 1, 1);
-insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id, science_field_id) values (4, 'Algoritmi', 'Kljucni pojam', 'Abstrakt', 20, 'USD', 1, 1);
+insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id, science_field_id, author_id, pdf_name)
+values (3, 'Matematička analiza', 'Kljucni pojam', 'Abstrakt', 20, 'USD', 1, 1, 'dusan', 'Naucna Centrala.pdf');
+insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id, science_field_id, author_id, pdf_name)
+values (4, 'Algoritmi', 'Ključni pojam', 'Abstrakt', 20, 'USD', 1, 1, 'dusan', 'Naucna Centrala.pdf');
 
-insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id, science_field_id) values (5, 'Prepoznavanja objekata - Python', 'Kljucni pojam', 'Abstrakt', 20, 'USD', 2, 2);
-insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id, science_field_id) values (6, 'Globalno zagrevanje', 'Kljucni pojam', 'Abstrakt', 20, 'USD', 2, 4);
+insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id, science_field_id, author_id, pdf_name)
+values (5, 'Prepoznavanja objekata - Python', 'Ključni pojam', 'Abstrakt', 20, 'USD', 2, 2, 'deja', 'Naucna Centrala.pdf');
+insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id, science_field_id, author_id, pdf_name)
+values (6, 'Globalno zagrevanje', 'Ključni pojam', 'Abstrakt', 20, 'USD', 2, 4, 'deja', 'Naucna Centrala.pdf');
 
 
 insert into science_field values (1, 'Matematika');
@@ -51,6 +57,12 @@ values ("andrijana", "$2a$10$TWPesMnqNm66Z9vNd/b5UudKvezOzPiuYGjI36MvonEzfvUaN8F
 
 insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type)
 values ("marko", "$2a$10$W8fc03eWKZ3wBK/IN4.TaOaFA/cjG.G/9z79qnOqXmZv6ByTvv1kG", "Marko", "Stevanov", "Novi Knezevac", "Srbija", "marko@gmail.com", false, true, "AUTHOR");
+insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type)
+values ("dusan", "$2a$10$6Xqg7sgnkfi/uMj76cP3seG3ITiyDTbF5g4E0KxN/F2yvitLeuxly", "Dusan", "Kenjic", "Novi Knezevac", "Srbija", "dusan@gmail.com", false, true, "AUTHOR");
+insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type)
+values ("deja", "$2a$10$i2nHdx5fnh0VK.mBOSWpyuC8t2fHKgVarAUc3L3D0m80B93fJ7c8S", "Dejan", "Bordjoski", "Novi Knezevac", "Srbija", "dejan@gmail.com", false, true, "AUTHOR");
+
+
 insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type, magazine_id)
 values ("fedor", "$2a$10$IAbZueonfhyWHGKtSCtDtuSkxN6qbiHj4tmCKvMUjSvWi8otZIIQq", "Fedor", "Markovljev", "Novi Sad", "Srbija", "fedor@gmail.com", false, true, "EDITOR", 1);
 insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type)

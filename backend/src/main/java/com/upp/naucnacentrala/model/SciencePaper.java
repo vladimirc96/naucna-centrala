@@ -34,6 +34,10 @@ public class SciencePaper {
     @Column(name = "pdf_name")
     private String pdfName;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id")
+    private Author author;
+
     @ManyToOne
     private ScienceField scienceField;
 
@@ -149,5 +153,13 @@ public class SciencePaper {
     public void addCoauthor(Coauthor coauthor){
         this.coauthors.add(coauthor);
         coauthor.setSciencePaper(this);
+    }
+
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 }

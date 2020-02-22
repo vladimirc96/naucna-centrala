@@ -58,7 +58,7 @@ export class SimpleComponent implements OnInit {
     }else if(event == "Naslov rada"){
       this.fieldId = "title";
     }else if(event == "Ime i prezime autora"){
-      this.fieldId = "imePrezimeAutora";
+      this.fieldId = "author";
     }else if(event == "Ključni pojam"){
       this.fieldId = "keyTerms";
     }else if(event == "Sadržaj PDF-a"){

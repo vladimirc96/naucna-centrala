@@ -4,6 +4,7 @@ import com.upp.naucnacentrala.Utils;
 import com.upp.naucnacentrala.dto.*;
 import com.upp.naucnacentrala.model.*;
 import com.upp.naucnacentrala.service.SciencePaperService;
+import com.upp.naucnacentrala.service.UserService;
 import com.upp.naucnacentrala.service.elasticsearch.ReviewerESService;
 import com.upp.naucnacentrala.service.elasticsearch.SciencePaperESService;
 import org.camunda.bpm.engine.*;
@@ -53,6 +54,9 @@ public class MocksController {
     @Autowired
     private ReviewerESService reviewerESService;
 
+    @Autowired
+    private UserService userService;
+
     @RequestMapping(value = "/payment/{processInstanceId}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<FormFieldsDto> getForm(@PathVariable("processInstanceId") String processInstanceId){
         ProcessInstance subprocess = runtimeService.createProcessInstanceQuery().superProcessInstanceId(processInstanceId).singleResult();
@@ -89,6 +93,8 @@ public class MocksController {
         int prefix = rand.nextInt(1000) + 1;
         int suffix = rand.nextInt(1000) + 1;
         sciencePaperES.setDoi("10." + prefix + "/" + suffix);
+        Author author = (Author) userService.findOneByUsername(sciencePaper.getAuthor().getUsername());
+        sciencePaperES.setAuthor(author.getFirstName() + " " + author.getLastName());
 
         sciencePaperES = sciencePaperESService.save(sciencePaperES);
         SciencePaperDTO sciencePaperDTO = new SciencePaperDTO();

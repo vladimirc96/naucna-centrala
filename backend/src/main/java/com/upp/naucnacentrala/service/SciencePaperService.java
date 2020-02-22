@@ -1,6 +1,7 @@
 package com.upp.naucnacentrala.service;
 
 import com.upp.naucnacentrala.dto.FormSubmissionDto;
+import com.upp.naucnacentrala.model.Author;
 import com.upp.naucnacentrala.model.Coauthor;
 import com.upp.naucnacentrala.model.ScienceField;
 import com.upp.naucnacentrala.model.SciencePaper;
@@ -52,7 +53,7 @@ public class SciencePaperService {
         return sciencePaperRepository.findOneById(id);
     }
 
-    public SciencePaper create(SciencePaper sciencePaper,List<FormSubmissionDto> sciencePaperData, ArrayList<Coauthor> coauthorList) {
+    public SciencePaper create(SciencePaper sciencePaper,List<FormSubmissionDto> sciencePaperData, ArrayList<Coauthor> coauthorList, Author author) {
         for(FormSubmissionDto dto: sciencePaperData){
             if(dto.getFieldId().equals("naslov_rada")){
                 sciencePaper.setTitle(dto.getFieldValue());
@@ -69,6 +70,7 @@ public class SciencePaperService {
             Coauthor coauthorTemp = coauthorService.findOneById(coauthor.getId());
             sciencePaper.addCoauthor(coauthorTemp);
         }
+        sciencePaper.setAuthor(author);
         sciencePaper = sciencePaperRepository.save(sciencePaper);
         return sciencePaper;
     }
