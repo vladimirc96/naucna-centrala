@@ -1,0 +1,53 @@
+<div class="wrapper">
+
+    <h2 style="margin-top:70px">Pretraga radova</h2>
+        <form [formGroup]="searchForm">
+            <div class="row form-group">
+              <div class="col">
+                <label> Izaberite parametar: </label>
+                <select class="form-control" formControlName="field" (change)="getId($event.target.value)">
+                    <option>Naziv časopisa</option>
+                    <option>Naslov rada</option>
+                    <option>Ime i prezime autora</option>
+                    <option>Ključni pojam</option>
+                    <option>Sadržaj PDF-a</option>
+                    <option>Naučna oblast</option>
+                </select>
+              </div>
+              <div class="col">
+                  <label>Vrednost:</label>
+                  <input type=text class="form-control" formControlName="value">
+              </div>
+            </div>
+            <div class="row form-group">
+                <div class="col" style="width: 50%;">
+                    <button class="btn btn-primary" id="match" (click)="onSearch($event.target.id)">Pretraži</button>
+                    <button class="btn btn-primary" id="phrase" (click)="onSearch($event.target.id)" style="margin-left:10px">Pretraži vrednost kao frazu</button>
+                </div>
+                <div class="d-flex justify-content-end" style="width: 50%;">
+                    <button class="btn btn-primary" [routerLink]="['/homepage/search/boolean']">Napredna pretraga</button>
+                </div>    
+            </div>
+        </form>
+    
+    <hr>
+    
+    <div *ngIf="searching" class="d-flex justify-content-center">
+        <img src="/assets/searching.gif">
+    </div>
+    <div *ngIf="emptyList">
+        <h4>Ne postoje rezultati pretrage.</h4>
+    </div>
+
+    <div class="card mt-5 mb-5" *ngFor="let sciencePaper of sciencePaperList">
+        <h5 class="card-header">{{sciencePaper.title}}</h5>
+        <div class="card-body">
+          <h5 class="card-title">{{sciencePaper.title}}</h5>
+          <p class="card-text">Abstrakt</p>
+          <h4><strong>{{sciencePaper.price}}</strong> {{sciencePaper.currency}} </h4>
+          <button class="btn btn-primary mt-4" (click)="onBuy()">Kupi</button>
+          <button class="btn btn-primary mt-4 plan" (click)="onDownload()" style="margin-left:10px">Preuzmi</button>
+        </div>
+      </div>
+    
+    </div>

@@ -39,23 +39,23 @@ public class SciencePaperES {
     @Field(type = FieldType.Text, store = true)
     private String filePath;
 
-    @Field(type = FieldType.Nested, store = true)
-    private List<Coauthor> coauthors = new ArrayList<Coauthor>();
+    @Field(type = FieldType.Text, store = true)
+    private String author;
 
     public SciencePaperES() {
     }
 
-    public SciencePaperES(String id, String doi, String title, String magazineName, String keyTerms, String paperAbastract, String scienceField, String text, String filePath, List<Coauthor> coauthors) {
+    public SciencePaperES(String id, String doi, String title, String magazineName, String keyTerms, String paperAbstract, String scienceField, String text, String filePath, String author) {
         this.id = id;
         this.doi = doi;
         this.title = title;
         this.magazineName = magazineName;
         this.keyTerms = keyTerms;
-        this.paperAbstract = paperAbastract;
+        this.paperAbstract = paperAbstract;
         this.scienceField = scienceField;
         this.text = text;
         this.filePath = filePath;
-        this.coauthors = coauthors;
+        this.author = author;
     }
 
     public String getId() {
@@ -114,6 +114,22 @@ public class SciencePaperES {
         this.scienceField = scienceField;
     }
 
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
     public String getText() {
         return text;
     }
@@ -123,21 +139,5 @@ public class SciencePaperES {
             this.text = "";
         }
         this.text = text;
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
-
-    public List<Coauthor> getCoauthors() {
-        return coauthors;
-    }
-
-    public void setCoauthors(List<Coauthor> coauthors) {
-        this.coauthors = coauthors;
     }
 }

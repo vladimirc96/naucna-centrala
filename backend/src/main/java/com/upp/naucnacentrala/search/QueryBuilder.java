@@ -14,9 +14,12 @@ public class QueryBuilder {
 
     public static  org.elasticsearch.index.query.QueryBuilder buildSimpleQuery(SimpleQueryDTO simpleQueryDTO, SearchType searchType){
         processSimpleQuery(simpleQueryDTO);
-
         org.elasticsearch.index.query.QueryBuilder retVal = null;
-        retVal = QueryBuilders.matchPhraseQuery(simpleQueryDTO.getField(), simpleQueryDTO.getValue());
+        if(simpleQueryDTO.getType().equals("phrase")){
+            retVal = QueryBuilders.matchPhraseQuery(simpleQueryDTO.getField(), simpleQueryDTO.getValue());
+        }else{
+            retVal = QueryBuilders.matchQuery(simpleQueryDTO.getField(), simpleQueryDTO.getValue());
+        }
         return retVal;
     }
 

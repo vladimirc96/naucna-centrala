@@ -44,6 +44,8 @@ import { ChiefEditorChoiceComponent } from './homepage/editor/chief-editor-choic
 import { UserProfileComponent } from './homepage/user-profile/user-profile.component';
 import { SubscriptionsComponent } from './homepage/user-profile/subscriptions/subscriptions.component';
 import { SearchComponent } from './homepage/search/search.component';
+import { SimpleComponent } from './homepage/search/simple-search/simple.component';
+import { BooleanComponent } from './homepage/search/boolean-search/boolean.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -82,6 +84,8 @@ import { SearchComponent } from './homepage/search/search.component';
     UserProfileComponent,
     SubscriptionsComponent,
     SearchComponent,
+    SimpleComponent,
+    BooleanComponent,
   ],
   imports: [
     BrowserModule,

@@ -36,11 +36,16 @@ import { UserProfileComponent } from './homepage/user-profile/user-profile.compo
 import { Subscriber } from 'rxjs';
 import { SubscriptionsComponent } from './homepage/user-profile/subscriptions/subscriptions.component';
 import { SearchComponent } from './homepage/search/search.component';
+import { SimpleComponent } from './homepage/search/simple-search/simple.component';
+import { BooleanComponent } from './homepage/search/boolean-search/boolean.component';
 
 const appRoutes: Routes = [
 	{ path: '', redirectTo: 'homepage/magazine-list', pathMatch: 'full'},
 	{ path: 'homepage', component: HomepageComponent, children: [
-		{ path: 'search', component: SearchComponent },
+		{ path: 'search', component: SearchComponent, children: [
+			{ path: '', component: SimpleComponent  },
+			{ path: 'boolean', component: BooleanComponent }
+		] },
 
 		{ path: 'user-profile', component: UserProfileComponent, children: [
 			{ path: '', redirectTo: 'orders', pathMatch: 'full' },

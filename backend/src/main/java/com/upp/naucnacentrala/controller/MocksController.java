@@ -74,16 +74,10 @@ public class MocksController {
     @RequestMapping(value = "/savePaper/{sciencePaperId}", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
     private ResponseEntity<SciencePaperDTO> save(@PathVariable("sciencePaperId") Long id) throws UnsupportedEncodingException {
         SciencePaper sciencePaper = sciencePaperService.findOneById(id);
-        List<Coauthor> coauthorList = new ArrayList<>();
-        for(Coauthor coauthor: sciencePaper.getCoauthors()){
-            coauthorList.add(coauthor);
-        }
-
         // sacuvaj u elastic-u rad
         SciencePaperES sciencePaperES = new SciencePaperES();
         String text = sciencePaperESService.parsePDF(sciencePaper);
         sciencePaperES.setText(text);
-        sciencePaperES.setCoauthors(coauthorList);
         sciencePaperES.setId(sciencePaper.getId().toString());
         sciencePaperES.setKeyTerms(sciencePaper.getKeyTerm());
         sciencePaperES.setTitle(sciencePaper.getTitle());

@@ -4,13 +4,15 @@ public class SimpleQueryDTO {
 
     private String field;
     private String value;
+    private String type;
 
     public SimpleQueryDTO() {
     }
 
-    public SimpleQueryDTO(String field, String value) {
+    public SimpleQueryDTO(String field, String value, String type) {
         this.field = field;
         this.value = value;
+        this.type = type;
     }
 
     public String getField() {
@@ -27,5 +29,13 @@ public class SimpleQueryDTO {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

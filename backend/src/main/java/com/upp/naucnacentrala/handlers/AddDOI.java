@@ -29,16 +29,11 @@ public class AddDOI implements JavaDelegate {
     public void execute(DelegateExecution delegateExecution) throws Exception {
 
         SciencePaper sciencePaper = sciencePaperService.findOneById((Long) delegateExecution.getVariable("sciencePaperId"));
-        List<Coauthor> coauthorList = new ArrayList<>();
-        for(Coauthor coauthor: sciencePaper.getCoauthors()){
-            coauthorList.add(coauthor);
-        }
 
         // sacuvaj u elastic-u rad
         SciencePaperES sciencePaperES = new SciencePaperES();
         String text = sciencePaperESService.parsePDF(sciencePaper);
         sciencePaperES.setText(text);
-        sciencePaperES.setCoauthors(coauthorList);
         sciencePaperES.setId(sciencePaper.getId().toString());
         sciencePaperES.setKeyTerms(sciencePaper.getKeyTerm());
         sciencePaperES.setTitle(sciencePaper.getTitle());
