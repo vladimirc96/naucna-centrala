@@ -3,6 +3,7 @@ package com.upp.naucnacentrala.model;
 import javax.persistence.*;
 import java.sql.Blob;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -161,5 +162,17 @@ public class SciencePaper {
 
     public void setAuthor(Author author) {
         this.author = author;
+    }
+
+    @Override
+    public String toString() {
+        return "SciencePaper{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", keyTerm='" + keyTerm + '\'' +
+                ", paperAbstract='" + paperAbstract + '\'' +
+                ", currency='" + currency + '\'' +
+                ", pdfName='" + pdfName + '\'' +
+                '}';
     }
 }

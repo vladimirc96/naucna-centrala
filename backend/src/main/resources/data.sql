@@ -8,9 +8,9 @@ insert into science_paper (id, title, key_term, paper_abstract, price, currency,
 values (2, 'Kako prihvatiti odgovornost?', 'Ključni pojam', 'Abstrakt', 20, 'USD', 3, 5, 'marko', 'Naucna Centrala.pdf');
 
 insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id, science_field_id, author_id, pdf_name)
-values (3, 'Matematička analiza', 'Kljucni pojam', 'Abstrakt', 20, 'USD', 1, 1, 'dusan', 'Naucna Centrala.pdf');
+values (3, 'Matematička analiza', 'Kljucni pojam', 'Abstrakt', 20, 'USD', 1, 1, 'dusan', 'DIPLOMSKI_RAD_VLADIMIR_CVETANOVIC.pdf');
 insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id, science_field_id, author_id, pdf_name)
-values (4, 'Algoritmi', 'Ključni pojam', 'Abstrakt', 20, 'USD', 1, 1, 'dusan', 'Naucna Centrala.pdf');
+values (4, 'Algoritmi', 'Ključni pojam', 'Abstrakt', 20, 'USD', 1, 1, 'dusan', 'DIPLOMSKI_RAD_VLADIMIR_CVETANOVIC.pdf');
 
 insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id, science_field_id, author_id, pdf_name)
 values (5, 'Prepoznavanja objekata - Python', 'Ključni pojam', 'Abstrakt', 20, 'USD', 2, 2, 'deja', 'Naucna Centrala.pdf');

@@ -17,4 +17,8 @@ export class SearchService {
     return this.httpClient.post('/api/search/boolean', dto);
   }
 
+  geoDistanceQuery(taskId){
+    return this.httpClient.get('/api/search/distance/'.concat(taskId));
+  }
+
 }

@@ -6,11 +6,13 @@ import com.upp.naucnacentrala.dto.SimpleQueryDTO;
 import com.upp.naucnacentrala.model.Location;
 import org.elasticsearch.common.geo.GeoDistance;
 import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.Operator;
+import org.elasticsearch.index.query.MoreLikeThisQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import sun.java2d.pipe.SpanShapeRenderer;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,20 +21,19 @@ public class QueryBuilder {
     @Autowired
     private GoogleClient googleClient;
 
-    public static  org.elasticsearch.index.query.QueryBuilder buildSimpleQuery(SimpleQueryDTO simpleQueryDTO, SearchType searchType){
+    public static  SearchQuery buildSimpleQuery(SimpleQueryDTO simpleQueryDTO){
         processSimpleQuery(simpleQueryDTO);
         org.elasticsearch.index.query.QueryBuilder retVal = null;
         if(simpleQueryDTO.getValue().startsWith("\"") && simpleQueryDTO.getValue().endsWith("\"")){
-            System.out.println("FRAZA");
             retVal = QueryBuilders.matchPhraseQuery(simpleQueryDTO.getField(), simpleQueryDTO.getValue());
         }else{
-            System.out.println("MATCH");
             retVal = QueryBuilders.matchQuery(simpleQueryDTO.getField(), simpleQueryDTO.getValue());
         }
-        return retVal;
+        SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(retVal).withHighlightFields(new HighlightBuilder.Field(simpleQueryDTO.getField())).build();
+        return searchQuery;
     }
 
-    public static BoolQueryBuilder buildBooleanQuery(BooleanQueryDTO booleanQueryDTO) {
+    public static SearchQuery buildBooleanQuery(BooleanQueryDTO booleanQueryDTO) {
         processBooleanQuery(booleanQueryDTO);
 
         BoolQueryBuilder builder = QueryBuilders.boolQuery();
@@ -46,23 +47,42 @@ public class QueryBuilder {
                 builder.should(queryBuilder);
             }
         }
-
-        return builder;
+        SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(builder).build();
+        return searchQuery;
     }
 
     public static BoolQueryBuilder buildGeoQuery(Location location){
-        org.elasticsearch.index.query.QueryBuilder query = QueryBuilders.geoDistanceQuery("location").geoDistance(GeoDistance.ARC).point(location.getLatitude(), location.getLongitude()).distance("100km");
+        org.elasticsearch.index.query.QueryBuilder query = QueryBuilders.geoDistanceQuery("location").geoDistance(GeoDistance.ARC).point(location.getLatitude(),
+                location.getLongitude()).distance("100km");
         BoolQueryBuilder builder = QueryBuilders.boolQuery();
         builder.mustNot(query);
         return builder;
     }
 
+    public static SearchQuery buildMoreLikeThisQuery(String parsedText){
+        MoreLikeThisQueryBuilder query = QueryBuilders.moreLikeThisQuery(new String[] { "text"}, new String[] { parsedText }, null)
+                .minTermFreq(1).maxQueryTerms(12);
+        SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(query).build();
+        return searchQuery;
+    }
+
     public static List<org.elasticsearch.index.query.QueryBuilder> prepareQueryBuilders(List<SimpleQueryDTO> simpleQueryDTOList){
         List<org.elasticsearch.index.query.QueryBuilder> queryBuilders = new ArrayList<>();
         for(SimpleQueryDTO simpleQueryDTO: simpleQueryDTOList){
-            queryBuilders.add(buildSimpleQuery(simpleQueryDTO, null));
+            queryBuilders.add(build(simpleQueryDTO));
         }
         return queryBuilders;
+    }
+
+    public static org.elasticsearch.index.query.QueryBuilder build(SimpleQueryDTO simpleQueryDTO){
+        processSimpleQuery(simpleQueryDTO);
+        org.elasticsearch.index.query.QueryBuilder retVal = null;
+        if(simpleQueryDTO.getValue().startsWith("\"") && simpleQueryDTO.getValue().endsWith("\"")){
+            retVal = QueryBuilders.matchPhraseQuery(simpleQueryDTO.getField(), simpleQueryDTO.getValue());
+        }else{
+            retVal = QueryBuilders.matchQuery(simpleQueryDTO.getField(), simpleQueryDTO.getValue());
+        }
+        return retVal;
     }
 
     private static void processSimpleQuery(SimpleQueryDTO simpleQueryDTO){
@@ -80,7 +100,6 @@ public class QueryBuilder {
             throw new IllegalArgumentException(errorMessage);
         }
     }
-
     private static void processBooleanQuery(BooleanQueryDTO booleanQueryDTO){
         String errorMessage = "";
         for(SimpleQueryDTO simpleQueryDTO: booleanQueryDTO.getSimpleQueryDTOList()){

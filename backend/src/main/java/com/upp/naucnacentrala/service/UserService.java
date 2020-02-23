@@ -89,7 +89,7 @@ public class UserService {
         return userRepo.save(user);
     }
 
-    public User saveAsReviewer(List<FormSubmissionDto> reviewer){
+    public Reviewer saveAsReviewer(List<FormSubmissionDto> reviewer){
         FormSubmissionDto firstName = null;
         FormSubmissionDto lastName = null;
         FormSubmissionDto choice = null;
@@ -108,10 +108,9 @@ public class UserService {
             List<Role> roles = Arrays.asList(role);
             user.setRoles(roles);
             user.setScienceFields(fields);
-            System.out.println("****************************** SIZE:" + fields.size());
             user = userRepo.save(user);
         }
-        return user;
+        return (Reviewer) user;
     }
 
 

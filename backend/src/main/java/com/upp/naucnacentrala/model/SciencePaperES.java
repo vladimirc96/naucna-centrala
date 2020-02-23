@@ -42,10 +42,15 @@ public class SciencePaperES {
     @Field(type = FieldType.Text, store = true)
     private String author;
 
+    @Field(type = FieldType.Text, store = true)
+    private String highlight;
+
+
+
     public SciencePaperES() {
     }
 
-    public SciencePaperES(String id, String doi, String title, String magazineName, String keyTerms, String paperAbstract, String scienceField, String text, String filePath, String author) {
+    public SciencePaperES(String id, String doi, String title, String magazineName, String keyTerms, String paperAbstract, String scienceField, String text, String filePath, String author, String highlight) {
         this.id = id;
         this.doi = doi;
         this.title = title;
@@ -56,6 +61,7 @@ public class SciencePaperES {
         this.text = text;
         this.filePath = filePath;
         this.author = author;
+        this.highlight = highlight;
     }
 
     public String getId() {
@@ -128,6 +134,14 @@ public class SciencePaperES {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public String getHighlight() {
+        return highlight;
+    }
+
+    public void setHighlight(String highlight) {
+        this.highlight = highlight;
     }
 
     public String getText() {
