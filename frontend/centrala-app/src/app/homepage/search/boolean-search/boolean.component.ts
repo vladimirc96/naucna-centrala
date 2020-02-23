@@ -19,6 +19,12 @@ export class BooleanComponent implements OnInit {
 
 
   onSubmit(value, form){
+
+    if(!form.form.valid){
+      alert("Uslovi ispunjenja se mora postaviti.");
+      return;
+    }
+
     this.emptyList = false;
     this.sciencePaperList = [];
     this.searching = true;
@@ -39,7 +45,10 @@ export class BooleanComponent implements OnInit {
             this.emptyList = true;
           }
         },
-        (error) => { alert(error.message) }
+        (error) => {
+           alert(error.message)
+           this.searching = false;
+        }
       )
   
     }, 800)
@@ -59,7 +68,7 @@ export class BooleanComponent implements OnInit {
           }
            
         }else{
-          list.push({field: property, value: value[property], type: "match"});
+          list.push({field: property, value: value[property]});
         }
       }
     }

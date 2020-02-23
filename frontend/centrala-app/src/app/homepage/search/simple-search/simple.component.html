@@ -21,8 +21,7 @@
             </div>
             <div class="row form-group">
                 <div class="col" style="width: 50%;">
-                    <button class="btn btn-primary" id="match" (click)="onSearch($event.target.id)">Pretraži</button>
-                    <button class="btn btn-primary" id="phrase" (click)="onSearch($event.target.id)" style="margin-left:10px">Pretraži vrednost kao frazu</button>
+                    <button class="btn btn-primary" (click)="onSearch()">Pretraži</button>
                 </div>
                 <div class="d-flex justify-content-end" style="width: 50%;">
                     <button class="btn btn-primary" [routerLink]="['/homepage/search/boolean']">Napredna pretraga</button>

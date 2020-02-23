@@ -1,6 +1,7 @@
 package com.upp.naucnacentrala.controller;
 
 import com.upp.naucnacentrala.Utils;
+import com.upp.naucnacentrala.client.GoogleClient;
 import com.upp.naucnacentrala.dto.*;
 import com.upp.naucnacentrala.model.*;
 import com.upp.naucnacentrala.service.SciencePaperService;
@@ -13,6 +14,7 @@ import org.camunda.bpm.engine.form.TaskFormData;
 import org.camunda.bpm.engine.impl.form.type.EnumFormType;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
+import org.elasticsearch.common.geo.GeoPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.origin.SystemEnvironmentOrigin;
 import org.springframework.http.HttpStatus;
@@ -57,6 +59,9 @@ public class MocksController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private GoogleClient googleClient;
+
     @RequestMapping(value = "/payment/{processInstanceId}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<FormFieldsDto> getForm(@PathVariable("processInstanceId") String processInstanceId){
         ProcessInstance subprocess = runtimeService.createProcessInstanceQuery().superProcessInstanceId(processInstanceId).singleResult();
@@ -96,6 +101,7 @@ public class MocksController {
         Author author = (Author) userService.findOneByUsername(sciencePaper.getAuthor().getUsername());
         sciencePaperES.setAuthor(author.getFirstName() + " " + author.getLastName());
 
+
         sciencePaperES = sciencePaperESService.save(sciencePaperES);
         SciencePaperDTO sciencePaperDTO = new SciencePaperDTO();
         sciencePaperDTO.setId(Long.parseLong(sciencePaperES.getId()));
@@ -114,7 +120,8 @@ public class MocksController {
             reviewerES.setEmail(reviewer.getEmail());
             reviewerES.setId(reviewer.getUsername());
             reviewerES.getSciencePapers().add(sciencePaperES);
-            reviewerES.setLocation(null);
+            Location location = googleClient.getCoordinates(reviewer.getCity());
+            reviewerES.setLocation(new GeoPoint(location.getLatitude(), location.getLongitude()));
             reviewerES = reviewerESService.save(reviewerES);
         }
 
@@ -131,5 +138,10 @@ public class MocksController {
         sciencePaperDTO.setPaperAbstract(sciencePaperES.getPaperAbstract());
         return new ResponseEntity<>(sciencePaperDTO, HttpStatus.OK);
     }
+
+//    @RequestMapping(value = "/getCoords", method = RequestMethod.GET, produces = "application/json")
+//    private ResponseEntity getCoords(){
+//        return googleClient.getCoordinates("Novi Sad");
+//    }
 
 }

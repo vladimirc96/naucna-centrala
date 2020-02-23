@@ -24,7 +24,7 @@ export class SimpleComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSearch(type){
+  onSearch(){
     this.emptyList = false;
     this.sciencePaperList = [];
     this.searching = true;
@@ -34,7 +34,6 @@ export class SimpleComponent implements OnInit {
       var simpleQuery = {
         field: this.fieldId,
         value: this.searchForm.value.value,
-        type: type
       }
       
       this.searchService.simpleQuery(simpleQuery).subscribe(
@@ -43,10 +42,12 @@ export class SimpleComponent implements OnInit {
           this.sciencePaperList = response;
           if(this.sciencePaperList.length == 0){
             this.emptyList = true;
-            console.log("empty")
           }
         },
-        (error) => { alert(error.message) }
+        (error) => { 
+          alert(error.message);
+          this.searching = false;
+        }
       )
 
     },800);
