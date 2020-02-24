@@ -78,8 +78,8 @@ public class SearchController {
     }
 
 
-    @PostMapping(value = "/more-like-this/{taskId}", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<List<SearchSciencePaperDTO>> searchMoreLikeThisQuery(@PathVariable("taskId") String taskId){
+    @GetMapping(value = "/more-like-this/{taskId}", produces = "application/json")
+    public ResponseEntity<List<ReviewerDTO>> searchMoreLikeThisQuery(@PathVariable("taskId") String taskId){
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
         ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
         SciencePaper sciencePaper = sciencePaperService.findOneById((Long) runtimeService.getVariable(pi.getId(), "sciencePaperId"));
@@ -91,25 +91,29 @@ public class SearchController {
         }
         SearchQuery searchQuery = com.upp.naucnacentrala.search.QueryBuilder.buildMoreLikeThisQuery(text);
         List<SearchSciencePaperDTO> results = resultRetriever.getSciencePaperResults(searchQuery);
-        return new ResponseEntity<>(results, HttpStatus.OK);
+        org.elasticsearch.index.query.QueryBuilder reviewerQuery = com.upp.naucnacentrala.search.QueryBuilder.buildGetReviewersQuery(results);
+        List<ReviewerDTO> finalres = resultRetriever.getReviewerResults(reviewerQuery);
+        return new ResponseEntity<>(finalres, HttpStatus.OK);
     }
 
 
-//    @GetMapping(value = "/more-like-this/{sciencePaperId}", produces = "application/json")
-//    public ResponseEntity<List<SearchSciencePaperDTO>> searchMoreLikeThisQuery(@PathVariable("sciencePaperId") String id){
-//        SciencePaper sciencePaper = sciencePaperService.findOneById(Long.parseLong(id));
-//        String text = null;
-//        System.out.println("**********************************");
-//        System.out.println("PARSIRANJE: PAPER: " + sciencePaper.toString());
-//        try {
-//            text = sciencePaperESService.parsePDF(sciencePaper);
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-//        MoreLikeThisQueryBuilder moreLikeThisQueryBuilder = com.upp.naucnacentrala.search.QueryBuilder.buildMoreLikeThisQuery(text);
-//        List<SearchSciencePaperDTO> results = resultRetriever.getSciencePaperResults(moreLikeThisQueryBuilder);
-//        System.out.println("**********************************");
-//        return new ResponseEntity<>(results, HttpStatus.OK);
-//    }
+    @GetMapping(value = "/more-like-this-test/{sciencePaperId}", produces = "application/json")
+    public ResponseEntity<List<ReviewerDTO>> searchMoreLikeThisQueryTest(@PathVariable("sciencePaperId") String id){
+        SciencePaper sciencePaper = sciencePaperService.findOneById(Long.parseLong(id));
+        String text = null;
+        System.out.println("**********************************");
+        System.out.println("PARSIRANJE: PAPER: " + sciencePaper.toString());
+        try {
+            text = sciencePaperESService.parsePDF(sciencePaper);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        SearchQuery searchQuery = com.upp.naucnacentrala.search.QueryBuilder.buildMoreLikeThisQuery(text);
+        List<SearchSciencePaperDTO> results = resultRetriever.getSciencePaperResults(searchQuery);
+        org.elasticsearch.index.query.QueryBuilder reviewerQuery = com.upp.naucnacentrala.search.QueryBuilder.buildGetReviewersQuery(results);
+        List<ReviewerDTO> finalres = resultRetriever.getReviewerResults(reviewerQuery);
+        System.out.println("**********************************");
+        return new ResponseEntity<>(finalres, HttpStatus.OK);
+    }
 
 }

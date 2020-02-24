@@ -2,15 +2,19 @@ package com.upp.naucnacentrala.search;
 
 import com.upp.naucnacentrala.client.GoogleClient;
 import com.upp.naucnacentrala.dto.BooleanQueryDTO;
+import com.upp.naucnacentrala.dto.SearchSciencePaperDTO;
 import com.upp.naucnacentrala.dto.SimpleQueryDTO;
 import com.upp.naucnacentrala.model.Location;
+import org.apache.lucene.search.join.ScoreMode;
 import org.elasticsearch.common.geo.GeoDistance;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MoreLikeThisQueryBuilder;
+import org.elasticsearch.index.query.NestedQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import java.util.ArrayList;
@@ -64,6 +68,15 @@ public class QueryBuilder {
                 .minTermFreq(1).maxQueryTerms(12);
         SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(query).build();
         return searchQuery;
+    }
+
+    public static org.elasticsearch.index.query.QueryBuilder buildGetReviewersQuery(List<SearchSciencePaperDTO> sciencePaperDTOList){
+        BoolQueryBuilder builder = QueryBuilders.boolQuery();
+        for(SearchSciencePaperDTO sciencePaperDTO: sciencePaperDTOList){
+            builder.should(QueryBuilders.matchQuery("sciencePapers.title", sciencePaperDTO.getTitle()));
+        }
+        org.elasticsearch.index.query.QueryBuilder queryBuilder = QueryBuilders.nestedQuery("sciencePapers", builder, ScoreMode.Avg);
+        return queryBuilder;
     }
 
     public static List<org.elasticsearch.index.query.QueryBuilder> prepareQueryBuilders(List<SimpleQueryDTO> simpleQueryDTOList){

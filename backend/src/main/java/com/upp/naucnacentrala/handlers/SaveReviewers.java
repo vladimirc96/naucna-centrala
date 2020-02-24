@@ -19,6 +19,7 @@ public class SaveReviewers implements JavaDelegate {
         for(FormSubmissionDto dto: reviewersData){
             reviewerList.add(dto.getFieldValue());
         }
+        // ovde sacuvati recenzenta za casopis
         delegateExecution.setVariable("reviewerList", reviewerList);
     }
 }

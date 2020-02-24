@@ -1,6 +1,8 @@
 package com.upp.naucnacentrala.service;
 
 import com.upp.naucnacentrala.dto.FormSubmissionDto;
+import com.upp.naucnacentrala.dto.ReviewerDTO;
+import com.upp.naucnacentrala.dto.SearchSciencePaperDTO;
 import com.upp.naucnacentrala.model.*;
 import com.upp.naucnacentrala.repository.jpa.UserRepository;
 import org.camunda.bpm.engine.RuntimeService;
@@ -12,9 +14,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,6 +38,9 @@ public class UserService {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private SciencePaperService sciencePaperService;
 
     public User save(User user){
         return userRepo.save(user);
@@ -232,6 +235,20 @@ public class UserService {
             }
         }
         return editors;
+    }
+
+    public List<ReviewerDTO> getBySciencePaper(List<SearchSciencePaperDTO> sciencePaperDTOList){
+        List<ReviewerDTO> reviewerDTOList = new ArrayList<>();
+        for(SearchSciencePaperDTO sciencePaperDTO : sciencePaperDTOList){
+            SciencePaper sciencePaper = sciencePaperService.findOneById(Long.parseLong(sciencePaperDTO.getId()));
+            for(Reviewer reviewer: sciencePaper.getReviewers()){
+                ReviewerDTO reviewerDTO = new ReviewerDTO(reviewer.getFirstName() + " " + reviewer.getLastName());
+                if(!reviewerDTOList.contains(reviewerDTO)){
+                    reviewerDTOList.add(reviewerDTO);
+                }
+            }
+        }
+        return reviewerDTOList;
     }
 
     // * * * UTILS * * *

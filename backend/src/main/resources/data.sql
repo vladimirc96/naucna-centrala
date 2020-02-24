@@ -1,6 +1,9 @@
-insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered, seller_id) values (1, "Naucni kutak", "111", "READERS", true, "milica", true, 3);
-insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered) values (2, "Nauka danas", "222", "AUTHORS", true, "andrijana", false);
-insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered, seller_id) values (3, "Savremena psihologija", "333", "AUTHORS", true, "vukasin", true, 1);
+insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered, seller_id)
+values (1, "Naucni kutak", "111", "READERS", true, "milica", true, 3);
+insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered)
+values (2, "Nauka danas", "222", "AUTHORS", true, "andrijana", false);
+insert into magazine (id, name, issn, billing_type, is_active, editor_id, is_registered, seller_id)
+values (3, "Savremena psihologija", "333", "AUTHORS", true, "vukasin", true, 1);
 
 insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id, science_field_id, author_id, pdf_name)
 values (1, 'Mape uma', 'Ključni pojam', 'Abstrakt', 10, 'USD', 3, 5, 'marko', 'Naucna Centrala.pdf');
@@ -13,9 +16,9 @@ insert into science_paper (id, title, key_term, paper_abstract, price, currency,
 values (4, 'Algoritmi', 'Ključni pojam', 'Abstrakt', 20, 'USD', 1, 1, 'dusan', 'DIPLOMSKI_RAD_VLADIMIR_CVETANOVIC.pdf');
 
 insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id, science_field_id, author_id, pdf_name)
-values (5, 'Prepoznavanja objekata - Python', 'Ključni pojam', 'Abstrakt', 20, 'USD', 2, 2, 'deja', 'Naucna Centrala.pdf');
+values (5, 'Prepoznavanja objekata - Python', 'Ključni pojam', 'Abstrakt', 20, 'USD', 2, 2, 'deja', 'skripta_ekonomija.pdf');
 insert into science_paper (id, title, key_term, paper_abstract, price, currency, magazine_id, science_field_id, author_id, pdf_name)
-values (6, 'Globalno zagrevanje', 'Ključni pojam', 'Abstrakt', 20, 'USD', 2, 4, 'deja', 'Naucna Centrala.pdf');
+values (6, 'Globalno zagrevanje', 'Ključni pojam', 'Abstrakt', 20, 'USD', 2, 4, 'deja', 'skripta_ekonomija.pdf');
 
 
 insert into science_field values (1, 'Matematika');
@@ -67,6 +70,21 @@ insert into user (username, password, first_name, last_name, city, country, emai
 values ("fedor", "$2a$10$IAbZueonfhyWHGKtSCtDtuSkxN6qbiHj4tmCKvMUjSvWi8otZIIQq", "Fedor", "Markovljev", "Novi Sad", "Srbija", "fedor@gmail.com", false, true, "EDITOR", 1);
 insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type)
 values ("aleksa", "$2a$10$nG2PjMA09Mx/L5BiLdIfJ.y1O9B2fi5rBhYl8AfiCh3.lBwrc4ePG", "Aleksandar", "Markovljev", "Novi Sad", "Srbija", "aleksa@gmail.com", false, true, "CUSTOMER");
+
+
+insert into science_paper_reviewers values ('1', 'lazic');
+insert into science_paper_reviewers values ('1', 'malencic');
+insert into science_paper_reviewers values ('2', 'djordjevic');
+insert into science_paper_reviewers values ('3', 'djordjevic');
+insert into science_paper_reviewers values ('3', 'lazic');
+insert into science_paper_reviewers values ('4', 'malencic');
+insert into science_paper_reviewers values ('4', 'lazic');
+insert into science_paper_reviewers values ('5', 'malencic');
+insert into science_paper_reviewers values ('5', 'djordjevic');
+insert into science_paper_reviewers values ('6', 'djordjevic');
+insert into science_paper_reviewers values ('6', 'lazic');
+
+
 
 
 insert into role values (1, 'ROLE_USER');

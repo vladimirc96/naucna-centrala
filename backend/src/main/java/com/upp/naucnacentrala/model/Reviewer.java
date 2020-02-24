@@ -14,6 +14,9 @@ public class Reviewer extends User {
     @ManyToMany(mappedBy = "reviewers", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Magazine> magazines;
 
+    @ManyToMany(mappedBy = "reviewers", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<SciencePaper> sciencePapers;
+
     public Reviewer() {
         super();
     }

@@ -6,6 +6,7 @@ import com.upp.naucnacentrala.model.Reviewer;
 import com.upp.naucnacentrala.model.ReviewerES;
 import com.upp.naucnacentrala.model.SciencePaper;
 import com.upp.naucnacentrala.model.SciencePaperES;
+import com.upp.naucnacentrala.model.enums.BillingType;
 import com.upp.naucnacentrala.repository.elasticsearch.ReviewerESRepository;
 import com.upp.naucnacentrala.repository.elasticsearch.SciencePaperESRepository;
 import com.upp.naucnacentrala.service.SciencePaperService;
@@ -57,8 +58,13 @@ public class ResultRetriever {
         List<SearchSciencePaperDTO> searchSciencePaperDTOList = new ArrayList<>();
         for(SciencePaperES sciencePaperES: results){
             SciencePaper sciencePaper = sciencePaperService.findOneById(Long.parseLong(sciencePaperES.getId()));
-            searchSciencePaperDTOList.add(new SearchSciencePaperDTO(sciencePaperES.getId(), sciencePaperES.getTitle(), sciencePaper.getCurrency(),
-                    sciencePaper.getPrice(), sciencePaperES.getHighlight()));
+            if(sciencePaper.getMagazine().getBillingType().equals(BillingType.AUTHORS)){
+                searchSciencePaperDTOList.add(new SearchSciencePaperDTO(sciencePaperES.getId(), sciencePaperES.getTitle(), sciencePaper.getCurrency(),
+                        sciencePaper.getPrice(), sciencePaperES.getHighlight(), true));
+            }else{
+                searchSciencePaperDTOList.add(new SearchSciencePaperDTO(sciencePaperES.getId(), sciencePaperES.getTitle(), sciencePaper.getCurrency(),
+                        sciencePaper.getPrice(), sciencePaperES.getHighlight(), false));
+            }
         }
         return searchSciencePaperDTOList;
     }
@@ -67,8 +73,13 @@ public class ResultRetriever {
         List<SearchSciencePaperDTO> searchSciencePaperDTOList = new ArrayList<>();
         for(SciencePaperES sciencePaperES: sciencePaperESRepository.search(searchQuery)){
             SciencePaper sciencePaper = sciencePaperService.findOneById(Long.parseLong(sciencePaperES.getId()));
-            searchSciencePaperDTOList.add(new SearchSciencePaperDTO(sciencePaperES.getId(), sciencePaperES.getTitle(), sciencePaper.getCurrency(),
-                    sciencePaper.getPrice(), ""));
+            if(sciencePaper.getMagazine().getBillingType().equals(BillingType.AUTHORS)){
+                searchSciencePaperDTOList.add(new SearchSciencePaperDTO(sciencePaperES.getId(), sciencePaperES.getTitle(), sciencePaper.getCurrency(),
+                        sciencePaper.getPrice(), sciencePaperES.getHighlight(), true));
+            }else{
+                searchSciencePaperDTOList.add(new SearchSciencePaperDTO(sciencePaperES.getId(), sciencePaperES.getTitle(), sciencePaper.getCurrency(),
+                        sciencePaper.getPrice(), sciencePaperES.getHighlight(), false));
+            }
         }
         return searchSciencePaperDTOList;
     }

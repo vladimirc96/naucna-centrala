@@ -21,4 +21,8 @@ export class SearchService {
     return this.httpClient.get('/api/search/distance/'.concat(taskId));
   }
 
+  moreLikeThisQuery(taskId){
+    return this.httpClient.get('/api/search/more-like-this/'.concat(taskId));
+  }
+
 }

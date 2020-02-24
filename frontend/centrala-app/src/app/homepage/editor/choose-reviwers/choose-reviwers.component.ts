@@ -71,9 +71,15 @@ export class ChooseReviwersComponent implements OnInit {
   }
 
   onChange(value){
-    console.log(value)
     if(value == "Recenzenti koji su recenzirali slične radove"){
-      console.log("nista");
+      this.searchService.moreLikeThisQuery(this.taskId).subscribe(
+        (response: any) => {
+          this.changed = true;
+          this.recenzenti = response;
+        },
+        (error) => { alert(error.message) }
+      );
+      
     }else if(value == "Recenzenti koji su udaljeni 100km od autora"){
       this.searchService.geoDistanceQuery(this.taskId).subscribe(
         (response: any) => {

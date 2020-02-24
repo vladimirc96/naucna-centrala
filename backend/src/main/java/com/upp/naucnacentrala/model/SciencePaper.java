@@ -51,6 +51,12 @@ public class SciencePaper {
     @OneToMany(mappedBy = "sciencePaper", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Coauthor> coauthors = new ArrayList<>();
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "science_paper_reviewers",
+            joinColumns = @JoinColumn(name = "science_paper_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "reviewer_id", referencedColumnName = "username"))
+    private List<Reviewer> reviewers;
+
     public SciencePaper() {
     }
 
@@ -162,6 +168,14 @@ public class SciencePaper {
 
     public void setAuthor(Author author) {
         this.author = author;
+    }
+
+    public List<Reviewer> getReviewers() {
+        return reviewers;
+    }
+
+    public void setReviewers(List<Reviewer> reviewers) {
+        this.reviewers = reviewers;
     }
 
     @Override

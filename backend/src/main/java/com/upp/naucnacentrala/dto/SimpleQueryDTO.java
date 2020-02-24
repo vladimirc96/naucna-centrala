@@ -8,7 +8,7 @@ public class SimpleQueryDTO {
     public SimpleQueryDTO() {
     }
 
-    public SimpleQueryDTO(String field, String value, String type) {
+    public SimpleQueryDTO(String field, String value) {
         this.field = field;
         this.value = value;
     }

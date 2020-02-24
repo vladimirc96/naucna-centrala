@@ -110,19 +110,24 @@ public class MocksController {
         sciencePaperDTO.setKeyTerm(sciencePaperES.getKeyTerms());
         sciencePaperDTO.setPaperAbstract(sciencePaperES.getPaperAbstract());
 
-        Magazine magazine = sciencePaper.getMagazine();
         List<ReviewerES> reviewerESList = new ArrayList<>();
-        for(Reviewer reviewer: magazine.getReviewers()){
-            ReviewerES reviewerES = new ReviewerES();
-            reviewerES.setScienceFields(reviewer.getScienceFields());
-            reviewerES.setFirstName(reviewer.getFirstName());
-            reviewerES.setLastName(reviewer.getLastName());
-            reviewerES.setEmail(reviewer.getEmail());
-            reviewerES.setId(reviewer.getUsername());
-            reviewerES.getSciencePapers().add(sciencePaperES);
-            Location location = googleClient.getCoordinates(reviewer.getCity());
-            reviewerES.setLocation(new GeoPoint(location.getLatitude(), location.getLongitude()));
-            reviewerES = reviewerESService.save(reviewerES);
+        for(Reviewer reviewer: sciencePaper.getReviewers()){
+            ReviewerES reviewerESTemp = reviewerESService.findOneById(reviewer.getUsername());
+            if(reviewerESTemp == null){
+                ReviewerES reviewerES = new ReviewerES();
+                reviewerES.setScienceFields(reviewer.getScienceFields());
+                reviewerES.setFirstName(reviewer.getFirstName());
+                reviewerES.setLastName(reviewer.getLastName());
+                reviewerES.setEmail(reviewer.getEmail());
+                reviewerES.setId(reviewer.getUsername());
+                reviewerES.getSciencePapers().add(sciencePaperES);
+                Location location = googleClient.getCoordinates(reviewer.getCity());
+                reviewerES.setLocation(new GeoPoint(location.getLatitude(), location.getLongitude()));
+                reviewerES = reviewerESService.save(reviewerES);
+            }else{
+                reviewerESTemp.getSciencePapers().add(sciencePaperES);
+                reviewerESTemp = reviewerESService.save(reviewerESTemp);
+            }
         }
 
         return new ResponseEntity<>(sciencePaperDTO, HttpStatus.OK);
