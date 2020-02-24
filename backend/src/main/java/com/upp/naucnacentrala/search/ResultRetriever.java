@@ -56,6 +56,7 @@ public class ResultRetriever {
         Page<SciencePaperES> results = elasticsearchOperations.queryForPage(query, SciencePaperES.class, resultMapper);
 
         List<SearchSciencePaperDTO> searchSciencePaperDTOList = new ArrayList<>();
+        if(results == null) return searchSciencePaperDTOList;
         for(SciencePaperES sciencePaperES: results){
             SciencePaper sciencePaper = sciencePaperService.findOneById(Long.parseLong(sciencePaperES.getId()));
             if(sciencePaper.getMagazine().getBillingType().equals(BillingType.AUTHORS)){

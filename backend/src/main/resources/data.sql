@@ -35,11 +35,6 @@ insert into magazine_sciencefield values (2,3);
 insert into magazine_sciencefield values (3,5);
 
 
-insert into magazine_reviewers values (3,'lazic');
-insert into magazine_reviewers values (3,'djordjevic');
-insert into magazine_reviewers values (3,'malencic');
-
-
 insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type)
 values ("vlada", "$2a$10$Ybft/Pph5.11ESjhvMCWnuyWliLcGlsKRRTPxbTtwlE00j31OZdf6", "Vladimir", "Cvetanovic", "Novi Sad", "Srbija", "dovla@gmail.com", false, true, "ADMIN");
 insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type)
@@ -51,6 +46,11 @@ insert into user (username, password, first_name, last_name, city, country, emai
 values ("djordjevic", "$2a$10$XbOz9hcDf83PMdfm1JeHRO9JwcMCtalZVC1oiCnbhT/0sVF4A8snC", "Nikola", "Djordjevic", "Temerin", "Srbija", "djordjevic@gmail.com", false, true, "REVIEWER");
 insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type)
 values ("malencic", "$2a$10$B/xUXG0aVTMB5Ppcvx6dO.ZdCYL.nSSNk01KWK2h7Wzo6ph9gJlu2", "Nikola", "Malencic", "Kragujevac", "Srbija", "malencic@gmail.com", false, true, "REVIEWER");
+insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type)
+values ("bane", "$2a$10$GYm5VU824zEUJteQR9EADud2godtRbCSvin/C89454yW7JAq1joaa", "Branislav", "Gamf", "Subotica", "Srbija", "branislav@gmail.com", false, true, "REVIEWER");
+insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type)
+values ("bogdan", "$2a$10$fyIHS6Y08hi6QIa/j4S4zuQrNQcxGCROpA/sd5Vk.6V1hWzqLS7EK", "Bogdan", "Stankovski", "Pirot", "Srbija", "bogdan@gmail.com", false, true, "REVIEWER");
+
 
 insert into user (username, password, first_name, last_name, city, country, email, is_reviewer, is_active, type)
 values ("milica", "$2a$10$iHLUEnk5gYMa50EclC.cEu0UTBIM2wyNAloS/59yC.MN/cAe88NeS", "Milica", "Makaric", "Novi Sad", "Srbija", "milica@gmail.com", false, true, "EDITOR");
@@ -74,18 +74,24 @@ values ("aleksa", "$2a$10$nG2PjMA09Mx/L5BiLdIfJ.y1O9B2fi5rBhYl8AfiCh3.lBwrc4ePG"
 
 insert into science_paper_reviewers values ('1', 'lazic');
 insert into science_paper_reviewers values ('1', 'malencic');
+insert into science_paper_reviewers values ('2', 'malencic');
 insert into science_paper_reviewers values ('2', 'djordjevic');
-insert into science_paper_reviewers values ('3', 'djordjevic');
+insert into science_paper_reviewers values ('3', 'bogdan');
 insert into science_paper_reviewers values ('3', 'lazic');
-insert into science_paper_reviewers values ('4', 'malencic');
-insert into science_paper_reviewers values ('4', 'lazic');
-insert into science_paper_reviewers values ('5', 'malencic');
+insert into science_paper_reviewers values ('4', 'bane');
+insert into science_paper_reviewers values ('4', 'djordjevic');
+insert into science_paper_reviewers values ('5', 'bogdan');
 insert into science_paper_reviewers values ('5', 'djordjevic');
-insert into science_paper_reviewers values ('6', 'djordjevic');
-insert into science_paper_reviewers values ('6', 'lazic');
+insert into science_paper_reviewers values ('6', 'malenicic');
+insert into science_paper_reviewers values ('6', 'bane');
 
 
-
+insert into magazine_reviewers values (3,'lazic');
+insert into magazine_reviewers values (3,'djordjevic');
+insert into magazine_reviewers values (2,'bane');
+insert into magazine_reviewers values (2,'bogdan');
+insert into magazine_reviewers values (1,'lazic');
+insert into magazine_reviewers values (1,'malencic');
 
 insert into role values (1, 'ROLE_USER');
 insert into role values (2, 'ROLE_ADMIN');
