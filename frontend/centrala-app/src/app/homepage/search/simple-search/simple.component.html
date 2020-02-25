@@ -41,8 +41,7 @@
     <div class="card mt-5 mb-5" *ngFor="let sciencePaper of sciencePaperList">
         <h5 class="card-header">{{sciencePaper.title}}</h5>
         <div class="card-body">
-          <!-- <h5 class="card-title">{{sciencePaper.title}}</h5> -->
-          <p class="card-text">Abstrakt</p>
+            <p class="card-text">{{sciencePaper.author}}</p>
           <h4><strong>{{sciencePaper.price}}</strong> {{sciencePaper.currency}} </h4>
           <p [innerHtml]="sciencePaper.highlight"> </p>
           <button class="btn btn-primary mt-4" (click)="onBuy()" *ngIf="!sciencePaper.openAccess">Kupi</button>

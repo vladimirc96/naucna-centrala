@@ -51,7 +51,12 @@ public class QueryBuilder {
                 builder.should(queryBuilder);
             }
         }
-        SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(builder).build();
+
+        SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(builder)
+                .withHighlightFields(new HighlightBuilder.Field("magazineName"), new HighlightBuilder.Field("title"), new HighlightBuilder.Field("author")
+                        ,new HighlightBuilder.Field("keyTerms"), new HighlightBuilder.Field("text"),
+                        new HighlightBuilder.Field("scienceField")).build();
+
         return searchQuery;
     }
 

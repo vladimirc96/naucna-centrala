@@ -8,17 +8,19 @@ public class SearchSciencePaperDTO {
     private double price;
     private String highlight;
     private boolean openAccess;
+    private String author;
 
     public SearchSciencePaperDTO() {
     }
 
-    public SearchSciencePaperDTO(String id, String title, String currency, double price, String highlight, boolean openAccess) {
+    public SearchSciencePaperDTO(String id, String title, String currency, double price, String highlight, boolean openAccess, String author) {
         this.id = id;
         this.title = title;
         this.currency = currency;
         this.price = price;
         this.highlight = highlight;
         this.openAccess = openAccess;
+        this.author = author;
     }
 
     public String getId() {
@@ -67,5 +69,13 @@ public class SearchSciencePaperDTO {
 
     public void setOpenAccess(boolean openAccess) {
         this.openAccess = openAccess;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }

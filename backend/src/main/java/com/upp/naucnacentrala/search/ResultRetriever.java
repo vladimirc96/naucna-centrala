@@ -11,9 +11,11 @@ import com.upp.naucnacentrala.repository.elasticsearch.ReviewerESRepository;
 import com.upp.naucnacentrala.repository.elasticsearch.SciencePaperESRepository;
 import com.upp.naucnacentrala.service.SciencePaperService;
 import com.upp.naucnacentrala.service.UserService;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.query.Field;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 
@@ -46,13 +48,12 @@ public class ResultRetriever {
             return getWithoutHighlights(query);
         }
 
-        final String field = query.getHighlightFields()[0].name();
-        return getWithHighlights(query, field);
+        return getWithHighlights(query, query.getHighlightFields());
     }
 
-    private List<SearchSciencePaperDTO> getWithHighlights(SearchQuery query, String field){
+    private List<SearchSciencePaperDTO> getWithHighlights(SearchQuery query, HighlightBuilder.Field[] fields){
         ResultMapper resultMapper = new ResultMapper();
-        resultMapper.setField(field);
+        resultMapper.setFields(fields);
         Page<SciencePaperES> results = elasticsearchOperations.queryForPage(query, SciencePaperES.class, resultMapper);
 
         List<SearchSciencePaperDTO> searchSciencePaperDTOList = new ArrayList<>();
@@ -61,10 +62,12 @@ public class ResultRetriever {
             SciencePaper sciencePaper = sciencePaperService.findOneById(Long.parseLong(sciencePaperES.getId()));
             if(sciencePaper.getMagazine().getBillingType().equals(BillingType.AUTHORS)){
                 searchSciencePaperDTOList.add(new SearchSciencePaperDTO(sciencePaperES.getId(), sciencePaperES.getTitle(), sciencePaper.getCurrency(),
-                        sciencePaper.getPrice(), sciencePaperES.getHighlight(), true));
+                        sciencePaper.getPrice(), sciencePaperES.getHighlight(),
+                        true,sciencePaper.getAuthor().getFirstName() + " " + sciencePaper.getAuthor().getLastName()));
             }else{
                 searchSciencePaperDTOList.add(new SearchSciencePaperDTO(sciencePaperES.getId(), sciencePaperES.getTitle(), sciencePaper.getCurrency(),
-                        sciencePaper.getPrice(), sciencePaperES.getHighlight(), false));
+                        sciencePaper.getPrice(), sciencePaperES.getHighlight(),
+                        false, sciencePaper.getAuthor().getFirstName() + " " + sciencePaper.getAuthor().getLastName()));
             }
         }
         return searchSciencePaperDTOList;
@@ -76,10 +79,12 @@ public class ResultRetriever {
             SciencePaper sciencePaper = sciencePaperService.findOneById(Long.parseLong(sciencePaperES.getId()));
             if(sciencePaper.getMagazine().getBillingType().equals(BillingType.AUTHORS)){
                 searchSciencePaperDTOList.add(new SearchSciencePaperDTO(sciencePaperES.getId(), sciencePaperES.getTitle(), sciencePaper.getCurrency(),
-                        sciencePaper.getPrice(), sciencePaperES.getHighlight(), true));
+                        sciencePaper.getPrice(), sciencePaperES.getHighlight(),
+                        true,sciencePaper.getAuthor().getFirstName() + " " + sciencePaper.getAuthor().getLastName()));
             }else{
                 searchSciencePaperDTOList.add(new SearchSciencePaperDTO(sciencePaperES.getId(), sciencePaperES.getTitle(), sciencePaper.getCurrency(),
-                        sciencePaper.getPrice(), sciencePaperES.getHighlight(), false));
+                        sciencePaper.getPrice(), sciencePaperES.getHighlight(),
+                        false, sciencePaper.getAuthor().getFirstName() + " " + sciencePaper.getAuthor().getLastName()));
             }
         }
         return searchSciencePaperDTOList;
